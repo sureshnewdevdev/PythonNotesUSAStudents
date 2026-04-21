@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Syntax Basics - Professional Training Notes</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --ink:#1f2937;
+      --muted:#5b6472;
+      --brand:#1d4ed8;
+      --brand-soft:#dbeafe;
+      --tip:#065f46;
+      --tip-bg:#ecfdf5;
+      --warn:#92400e;
+      --warn-bg:#fff7ed;
+      --danger:#991b1b;
+      --danger-bg:#fef2f2;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Segoe UI, Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#eef4ff 0%, var(--bg) 100%);
+      color:var(--ink);
+      line-height:1.7;
+    }
+    .container{width:min(1180px,92%);margin:0 auto;padding:28px 0 60px;}
+    .hero{
+      background:linear-gradient(135deg,#1e3a8a 0%, #2563eb 55%, #0ea5e9 100%);
+      color:#fff;border-radius:28px;padding:42px 32px;box-shadow:var(--shadow);margin-top:22px;
+    }
+    .hero h1{margin:0 0 10px;font-size:clamp(2rem,4vw,3rem);line-height:1.2;}
+    .hero h2{margin:0 0 14px;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:600;opacity:.96;}
+    .hero p{margin:10px 0 0;font-size:1.05rem;max-width:930px;}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+    .pill{
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);
+      padding:8px 14px;border-radius:999px;font-size:.95rem;
+    }
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:24px;}
+    .card{
+      grid-column:span 12;background:var(--card);border-radius:var(--radius);
+      padding:26px;box-shadow:var(--shadow);
+    }
+    .card h3{margin-top:0;font-size:1.55rem;color:#0f172a;}
+    .card h4{margin:22px 0 10px;font-size:1.18rem;color:#0b3b8f;}
+    .two-col{grid-column:span 6;}
+    @media (max-width:900px){
+      .two-col{grid-column:span 12;}
+      .hero{padding:30px 22px;}
+    }
+    p{margin:10px 0;}
+    ul,ol{padding-left:22px;}
+    li{margin:8px 0;}
+    .note{
+      border-left:6px solid var(--brand);background:var(--brand-soft);
+      padding:16px 18px;border-radius:12px;margin:16px 0;
+    }
+    .note.tip{border-left-color:var(--tip);background:var(--tip-bg);}
+    .note.warn{border-left-color:var(--warn);background:var(--warn-bg);}
+    .note.danger{border-left-color:var(--danger);background:var(--danger-bg);}
+    code{font-family:Consolas,"Courier New",monospace;font-size:.96rem;}
+    pre{
+      background:#0f172a;color:#e5eefc;padding:18px;border-radius:16px;
+      overflow:auto;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+    }
+    .output{
+      background:#f8fafc;border:1px solid #dbe3ef;padding:14px 16px;border-radius:14px;
+      margin:12px 0 18px;font-family:Consolas,"Courier New",monospace;white-space:pre-wrap;
+    }
+    table{width:100%;border-collapse:collapse;margin:14px 0;}
+    th,td{border:1px solid #dbe3ef;padding:12px 14px;text-align:left;vertical-align:top;}
+    th{background:#e8f0ff;color:#0b3b8f;}
+    .qa,.mcq{
+      border:1px solid #d9e3f3;background:#fcfdff;border-radius:16px;padding:18px;margin:14px 0;
+    }
+    .qa h5,.mcq h5{margin:0 0 8px;font-size:1.02rem;color:#0f172a;}
+    .label{
+      display:inline-block;font-size:.82rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
+      color:#0b3b8f;background:#e8f0ff;padding:6px 10px;border-radius:999px;margin-bottom:10px;
+    }
+    .checklist li{
+      list-style:none;margin:10px 0;padding-left:34px;position:relative;
+    }
+    .checklist li::before{
+      content:"✓";position:absolute;left:0;top:0;color:#0f766e;font-weight:700;font-size:1.1rem;
+    }
+    .footer{text-align:center;color:var(--muted);margin-top:24px;font-size:.95rem;}
+    .mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+    @media (max-width:800px){.mini-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Python for Beginners – Professional Training Notes</h1>
+      <h2>Python Syntax Basics</h2>
+      <p>Professional beginner notes to explain the basic writing rules of Python, how code is structured, and how to avoid simple syntax mistakes that usually trouble freshers and new learners.</p>
+      <div class="pill-row">
+        <span class="pill">Beginner-Friendly</span>
+        <span class="pill">Syntax Rules</span>
+        <span class="pill">Interview Ready</span>
+        <span class="pill">MCQs + Practice</span>
+        <span class="pill">Human-Like Notes</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card two-col">
+        <h3>1. Introduction</h3>
+        <p><strong>Python syntax basics</strong> means the simple rules used to write Python code correctly. Just like English has grammar rules, Python also has writing rules. If the rules are followed, Python understands the code. If the rules are broken, Python shows an error.</p>
+        <p>This topic is very important because syntax is the starting point of all programming. Before learning variables, loops, conditions, or functions, a learner must first understand how Python code should be written. A small syntax mistake can stop a full program from running.</p>
+        <p>For beginners and job seekers, syntax basics are especially important because many interview questions, coding tests, and practice tasks fail not due to logic, but due to small syntax errors. So, this topic builds a strong foundation for everything that comes next.</p>
+        <div class="note">
+          <strong>Remember:</strong> Syntax is not the full logic of programming, but without correct syntax, even a good idea cannot run as a program.
+        </div>
+      </section>
+
+      <section class="card two-col">
+        <h3>2. Learning Objectives</h3>
+        <ul>
+          <li>Understand what syntax means in Python.</li>
+          <li>Learn the basic writing rules of Python code.</li>
+          <li>Understand indentation and why it matters.</li>
+          <li>Know how statements, quotes, brackets, and case sensitivity work.</li>
+          <li>Avoid common beginner syntax errors.</li>
+          <li>Write small Python statements correctly.</li>
+          <li>Prepare for beginner interview questions on Python syntax.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>3. Why This Topic Matters</h3>
+        <div class="mini-grid">
+          <div>
+            <h4>Why this topic matters in programming</h4>
+            <p>Syntax is the basic format of code. If syntax is wrong, the program often stops immediately. So syntax basics help you write clean, valid, and executable Python code.</p>
+          </div>
+          <div>
+            <h4>Why this topic matters in interviews</h4>
+            <p>Interviewers often check whether freshers understand basic syntax rules such as indentation, case sensitivity, quotes, and brackets. These are small but very important checks.</p>
+          </div>
+        </div>
+        <div class="note tip">
+          <strong>Interview Tip:</strong> When asked about syntax, explain both the rule and why it matters. That makes your answer sound practical, not memorized.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>4. Beginner-Friendly Explanation</h3>
+        <p>Let us understand syntax in the simplest way. Suppose you want to write a correct sentence in English. You need proper spelling, punctuation, and sentence structure. In the same way, Python also expects code to follow certain rules.</p>
+        <p>For example, Python is very particular about indentation. This means spaces at the beginning of a line matter. Python also cares about correct brackets, correct quotes, correct spelling of keywords and functions, and correct letter case in many places.</p>
+        <p>The good news is that Python syntax is considered simple compared to many other languages. That is one reason beginners like Python. But “simple” does not mean “no rules.” It only means the rules are cleaner and easier to follow.</p>
+        <p>A simple analogy is this: syntax is like driving rules. The road may be easy, but you still need to follow signals and lanes. In Python, those signals and lanes are things like indentation, quotes, and brackets.</p>
+        <div class="note warn">
+          <strong>Common Confusion:</strong> Many beginners think “simple language” means they can type anything freely. Python is simple, but it still follows strict syntax rules.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>5. Syntax Section</h3>
+        <p>Here are a few basic syntax examples:</p>
+        <pre><code>print("Hello")
+
+name = "Ravi"
+
+if 5 &gt; 2:
+    print("Five is greater than two")</code></pre>
+
+        <h4>Syntax Explanation</h4>
+        <ul>
+          <li><code>print("Hello")</code> is a valid Python statement.</li>
+          <li><code>name = "Ravi"</code> assigns a string value to a variable.</li>
+          <li>The <code>if</code> statement ends with a colon <code>:</code>.</li>
+          <li>The line inside the <code>if</code> block is indented.</li>
+          <li>Quotes are used for text values.</li>
+        </ul>
+
+        <div class="note tip">
+          <strong>Tip:</strong> One of the most important Python syntax rules is indentation. Python uses indentation to show code blocks instead of curly braces.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>6. Core Python Syntax Rules</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Rule</th>
+              <th>Meaning</th>
+              <th>Simple Understanding</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Case Sensitivity</td>
+              <td>Uppercase and lowercase are treated differently.</td>
+              <td><code>print</code> and <code>Print</code> are not the same.</td>
+            </tr>
+            <tr>
+              <td>Indentation</td>
+              <td>Spaces at the start of a line matter in blocks.</td>
+              <td>Python uses spaces to show structure.</td>
+            </tr>
+            <tr>
+              <td>Quotes</td>
+              <td>Text should be written inside quotes.</td>
+              <td><code>"Hello"</code> is a string.</td>
+            </tr>
+            <tr>
+              <td>Colon in Blocks</td>
+              <td>Statements like <code>if</code>, <code>for</code>, <code>while</code>, and <code>def</code> usually end with a colon.</td>
+              <td>The colon signals the start of a block.</td>
+            </tr>
+            <tr>
+              <td>Brackets</td>
+              <td>Opening and closing brackets must match.</td>
+              <td>Do not leave a bracket incomplete.</td>
+            </tr>
+            <tr>
+              <td>Statements</td>
+              <td>Python code is written in statements.</td>
+              <td>Each statement tells Python to do something.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>7. Detailed Examples Section</h3>
+
+        <h4>Example 1: Basic Example</h4>
+        <pre><code>print("Python syntax is simple")</code></pre>
+        <div class="output">Python syntax is simple</div>
+        <p><strong>Explanation:</strong> This example shows a valid print statement with correct function name, quotes, and brackets.</p>
+
+        <h4>Example 2: Beginner-Friendly Example</h4>
+        <pre><code>age = 20
+print(age)</code></pre>
+        <div class="output">20</div>
+        <p><strong>Explanation:</strong> A value is stored in a variable and then printed using correct syntax.</p>
+
+        <h4>Example 3: Real-World Style Example</h4>
+        <pre><code>user_name = "Amit"
+print("Welcome", user_name)</code></pre>
+        <div class="output">Welcome Amit</div>
+        <p><strong>Why this matters:</strong> Real programs often store values and then display messages using those values.</p>
+
+        <h4>Example 4: Interview-Oriented Example</h4>
+        <pre><code>if 10 &gt; 5:
+    print("Correct syntax with indentation")</code></pre>
+        <div class="output">Correct syntax with indentation</div>
+        <p><strong>Explanation:</strong> This shows how colon and indentation work together in Python blocks.</p>
+
+        <h4>Example 5: Practical Scenario Example</h4>
+        <pre><code>status = "Success"
+print("Operation:", status)</code></pre>
+        <div class="output">Operation: Success</div>
+        <p><strong>Why this matters:</strong> Business and application programs use similar structured syntax while showing status messages.</p>
+      </section>
+
+      <section class="card">
+        <h3>8. Code Output Section</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Output</th>
+              <th>Syntax Point Observed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>print("Hi")</code></td>
+              <td>Hi</td>
+              <td>Correct use of print, quotes, and brackets</td>
+            </tr>
+            <tr>
+              <td><code>x = 5<br>print(x)</code></td>
+              <td>5</td>
+              <td>Valid assignment and variable printing</td>
+            </tr>
+            <tr>
+              <td><code>if 2 &lt; 4:<br>&nbsp;&nbsp;&nbsp;&nbsp;print("Yes")</code></td>
+              <td>Yes</td>
+              <td>Colon and indentation are required</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card two-col">
+        <h3>9. Key Points to Remember</h3>
+        <ul>
+          <li>Python syntax means the rules of writing valid Python code.</li>
+          <li>Python is case-sensitive.</li>
+          <li>Indentation is very important in Python.</li>
+          <li>Text values must be written inside quotes.</li>
+          <li>Brackets and colons must be used correctly.</li>
+          <li>Even small syntax mistakes can stop program execution.</li>
+        </ul>
+      </section>
+
+      <section class="card two-col">
+        <h3>10. Common Beginner Mistakes</h3>
+        <ul>
+          <li><strong>Writing <code>Print()</code> instead of <code>print()</code>:</strong> Wrong because Python is case-sensitive.</li>
+          <li><strong>Forgetting indentation after <code>if</code>:</strong> Python expects an indented block.</li>
+          <li><strong>Missing colon after block statements:</strong> <code>if x &gt; 5</code> is incomplete without <code>:</code>.</li>
+          <li><strong>Forgetting quotes for text:</strong> <code>print(Hello)</code> causes problems if <code>Hello</code> is not defined.</li>
+          <li><strong>Unclosed brackets or quotes:</strong> Python will show syntax errors.</li>
+        </ul>
+        <div class="note danger">
+          <strong>Common Mistake:</strong> Many freshers understand the logic but still get errors because of missing colon, wrong indentation, or spelling mistakes in function names.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>11. Best Practices</h3>
+        <ul>
+          <li>Write code slowly and clearly in the beginning.</li>
+          <li>Check indentation after every block statement like <code>if</code>, <code>for</code>, and <code>while</code>.</li>
+          <li>Always close brackets and quotes properly.</li>
+          <li>Use lowercase correctly for built-in functions like <code>print()</code>.</li>
+          <li>Run small examples often to build confidence in syntax.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>12. Real-World Use Cases</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Use Case</th>
+              <th>Why Syntax Basics Matter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Writing scripts</td>
+              <td>Even simple automation scripts fail if syntax is incorrect.</td>
+            </tr>
+            <tr>
+              <td>Developing applications</td>
+              <td>Correct syntax is required before any logic can run.</td>
+            </tr>
+            <tr>
+              <td>Interview coding tests</td>
+              <td>Small syntax mistakes can waste time or produce errors.</td>
+            </tr>
+            <tr>
+              <td>Learning future Python topics</td>
+              <td>Every advanced topic depends on basic syntax knowledge.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>13. Comparison Table</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Correct Syntax</th>
+              <th>Incorrect Syntax</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>print("Hello")</code></td>
+              <td><code>Print("Hello")</code></td>
+              <td>Python is case-sensitive</td>
+            </tr>
+            <tr>
+              <td><code>if x &gt; 5:</code></td>
+              <td><code>if x &gt; 5</code></td>
+              <td>Colon is required</td>
+            </tr>
+            <tr>
+              <td><code>print("Hi")</code></td>
+              <td><code>print("Hi"</code></td>
+              <td>Bracket is missing</td>
+            </tr>
+            <tr>
+              <td><code>print("Text")</code></td>
+              <td><code>print(Text)</code></td>
+              <td>Quotes are required for string literal text</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>14. Interview Questions and Answers</h3>
+
+        <div class="qa">
+          <span class="label">Q1</span>
+          <h5>What is syntax in Python?</h5>
+          <p>Syntax in Python means the set of rules used to write valid Python code correctly.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q2</span>
+          <h5>Why is syntax important in Python?</h5>
+          <p>Syntax is important because Python cannot run code if the writing rules are broken.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q3</span>
+          <h5>Is Python case-sensitive?</h5>
+          <p>Yes, Python is case-sensitive. For example, <code>print</code> and <code>Print</code> are treated differently.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q4</span>
+          <h5>Why is indentation important in Python?</h5>
+          <p>Indentation is used to define blocks of code in Python, such as inside <code>if</code>, <code>for</code>, and <code>while</code> statements.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q5</span>
+          <h5>What happens if a colon is missing after an <code>if</code> statement?</h5>
+          <p>Python will show a syntax error because block-starting statements normally require a colon.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q6</span>
+          <h5>Why should strings be written in quotes?</h5>
+          <p>Quotes tell Python that the value is text. Without quotes, Python may treat it as a variable or identifier.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q7</span>
+          <h5>What is a common beginner syntax mistake in Python?</h5>
+          <p>A common mistake is wrong indentation or forgetting the colon after a block statement.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q8</span>
+          <h5>Does Python use curly braces for blocks like some other languages?</h5>
+          <p>No. Python mainly uses indentation to define code blocks.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q9</span>
+          <h5>Can one small syntax error stop the full program?</h5>
+          <p>Yes. Even a small syntax mistake can prevent Python from running the program.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q10</span>
+          <h5>How can beginners improve in Python syntax?</h5>
+          <p>By writing small examples, practicing regularly, reading code carefully, and checking indentation, quotes, and brackets.</p>
+        </div>
+
+        <div class="note tip">
+          <strong>Interview Tip:</strong> A good answer is: “Python syntax is simple, but it is strict about indentation, colons, quotes, and letter case.”
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>15. MCQs for Practice</h3>
+
+        <div class="mcq">
+          <h5>1. What does syntax mean in Python?</h5>
+          <p>A. Program output only<br>B. Writing rules of Python code<br>C. Hardware settings<br>D. Internet connection</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Syntax means the rules used to write valid Python statements.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>2. Python is:</h5>
+          <p>A. not case-sensitive<br>B. always uppercase<br>C. case-sensitive<br>D. only numeric</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> Python treats uppercase and lowercase differently.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>3. Which of the following is correct?</h5>
+          <p>A. <code>Print("Hi")</code><br>B. <code>print("Hi")</code><br>C. <code>PRINT("Hi")</code><br>D. <code>prInt("Hi")</code></p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> The correct built-in function name is <code>print()</code>.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>4. Why is indentation used in Python?</h5>
+          <p>A. To color the code<br>B. To define code blocks<br>C. To save internet data<br>D. To replace variables</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Python uses indentation to group related statements in blocks.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>5. Which sign is usually required after an <code>if</code> statement?</h5>
+          <p>A. ;<br>B. ,<br>C. :<br>D. ?</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> A colon is required to start the block after <code>if</code>.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>6. Strings in Python are usually written inside:</h5>
+          <p>A. brackets only<br>B. quotes<br>C. slashes<br>D. spaces</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Quotes tell Python that the value is text.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>7. Which is incorrect?</h5>
+          <p>A. <code>print("Hello")</code><br>B. <code>if 2 &lt; 3:</code><br>C. <code>if 2 &lt; 3</code><br>D. <code>x = 5</code></p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> The colon is missing in option C.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>8. Missing a bracket in Python will usually cause:</h5>
+          <p>A. better formatting<br>B. syntax error<br>C. auto correction<br>D. variable creation</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Incomplete brackets are a syntax problem.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>9. What is a valid Python assignment statement?</h5>
+          <p>A. <code>name = "Rahul"</code><br>B. <code>name == "Rahul"</code><br>C. <code>"Rahul" = name</code><br>D. <code>name :=</code></p>
+          <p><strong>Correct Answer:</strong> A</p>
+          <p><strong>Explanation:</strong> Assignment uses the <code>=</code> operator in this form.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>10. A syntax error mainly means:</h5>
+          <p>A. the logic is too strong<br>B. the code breaks Python writing rules<br>C. the monitor is off<br>D. the file is colorful</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Syntax errors happen when the code does not follow the required format rules.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>16. Practice Exercise Section</h3>
+        <h4>Small Exercise</h4>
+        <p>Write three correct Python statements: one using <code>print()</code>, one variable assignment, and one <code>if</code> statement with indentation.</p>
+
+        <h4>Practical Task</h4>
+        <p>Write a small Python file that uses correct syntax to print your name and then uses an <code>if</code> block to print a message.</p>
+
+        <h4>Mini Assignment</h4>
+        <p>Prepare a short note listing five important Python syntax rules and one common error for each.</p>
+      </section>
+
+      <section class="card">
+        <h3>17. Practice Exercise Solutions</h3>
+
+        <h4>Solution Idea for Small Exercise</h4>
+        <pre><code>print("Hello")
+name = "Kiran"
+if 4 &gt; 2:
+    print("Correct syntax")</code></pre>
+        <div class="output">Hello
+Correct syntax</div>
+
+        <h4>Solution Idea for Practical Task</h4>
+        <pre><code>name = "Kiran"
+print(name)
+
+if 5 &gt; 1:
+    print("Python syntax is working")</code></pre>
+        <div class="output">Kiran
+Python syntax is working</div>
+
+        <h4>Solution Idea for Mini Assignment</h4>
+        <p>Some important syntax rules are: correct indentation, correct case, proper quotes for strings, matching brackets, and colon after block statements like <code>if</code>. Common errors include wrong spacing, missing colon, wrong function name, and unclosed quotes.</p>
+      </section>
+
+      <section class="card">
+        <h3>18. Revision Checklist</h3>
+        <ul class="checklist">
+          <li>I understand what Python syntax means.</li>
+          <li>I know Python is case-sensitive.</li>
+          <li>I understand why indentation matters.</li>
+          <li>I know where quotes are used.</li>
+          <li>I can write a basic <code>if</code> statement with a colon and indentation.</li>
+          <li>I can identify common beginner syntax mistakes.</li>
+          <li>I can explain Python syntax basics in an interview.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>19. Summary</h3>
+        <p>In this topic, we learned that Python syntax basics are the core writing rules of Python. We understood important rules like case sensitivity, indentation, use of quotes, brackets, and colon after block statements. We also saw that even a small syntax mistake can stop a program from running.</p>
+        <p>The biggest takeaway is this: Python syntax is simple, but it must be followed carefully. Once syntax basics are strong, learning future Python topics becomes much smoother and more confident.</p>
+        <div class="note tip">
+          <strong>Confidence Booster:</strong> If you can write small Python statements correctly and understand why they are correct, your foundation is already becoming strong.
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">End of Notes – Python Syntax Basics</div>
+  </div>
+</body>
+</html>

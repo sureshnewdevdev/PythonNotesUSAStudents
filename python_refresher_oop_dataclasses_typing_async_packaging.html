@@ -1,0 +1,869 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Refresher - OOP, Dataclasses, Typing, Async, Packaging</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#121933;
+      --panel-2:#182246;
+      --text:#eaf0ff;
+      --muted:#b9c3e6;
+      --accent:#7cc7ff;
+      --accent-2:#9cffd0;
+      --warn:#ffd27c;
+      --border:#2b396d;
+      --code:#0a0f1f;
+      --good:#b7ffb8;
+      --shadow:0 14px 34px rgba(0,0,0,.28);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Segoe UI, Roboto, Arial, sans-serif;
+      background:linear-gradient(180deg,#09101f 0%, #0f1730 100%);
+      color:var(--text);
+      line-height:1.65;
+    }
+    .wrap{max-width:1200px;margin:auto;padding:24px}
+    .hero{
+      background:linear-gradient(135deg, rgba(124,199,255,.14), rgba(156,255,208,.08));
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:34px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      width:420px;height:420px;
+      right:-120px;top:-120px;
+      background:radial-gradient(circle, rgba(124,199,255,.18), transparent 65%);
+      pointer-events:none;
+    }
+    h1,h2,h3,h4{line-height:1.2;margin:0 0 12px}
+    h1{font-size:2.4rem}
+    h2{font-size:1.75rem;color:var(--accent)}
+    h3{font-size:1.25rem;color:var(--accent-2)}
+    p,li{color:var(--muted)}
+    .pill{
+      display:inline-block;
+      padding:7px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      margin:4px 6px 0 0;
+      font-size:.92rem;
+      color:var(--text);
+      background:rgba(255,255,255,.03);
+    }
+    .grid{display:grid;gap:20px}
+    .g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+    .g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      margin-top:22px;
+    }
+    .toc a{
+      display:block;
+      color:var(--text);
+      text-decoration:none;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid transparent;
+      margin:6px 0;
+      background:rgba(255,255,255,.02);
+    }
+    .toc a:hover,.section:hover{
+      border-color:var(--accent);
+      background:rgba(124,199,255,.08);
+      transition:.25s ease;
+    }
+    .section{
+      margin-top:26px;
+      padding:24px;
+      border:1px solid var(--border);
+      border-radius:22px;
+      background:rgba(255,255,255,.02);
+    }
+    pre{
+      background:var(--code);
+      color:#e8efff;
+      padding:18px;
+      border-radius:16px;
+      border:1px solid #22315f;
+      overflow:auto;
+      font-size:.95rem;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.02);
+    }
+    code{
+      font-family:Consolas, "Courier New", monospace;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:12px;
+      overflow:hidden;
+      border-radius:14px;
+    }
+    th,td{
+      border:1px solid var(--border);
+      padding:12px;
+      vertical-align:top;
+      text-align:left;
+    }
+    th{background:#17224a;color:var(--text)}
+    .note,.tip,.warning{
+      border-left:5px solid var(--accent);
+      padding:12px 14px;
+      border-radius:12px;
+      margin:14px 0;
+      background:rgba(124,199,255,.08);
+      color:var(--text);
+    }
+    .tip{border-left-color:var(--accent-2);background:rgba(156,255,208,.08)}
+    .warning{border-left-color:var(--warn);background:rgba(255,210,124,.09)}
+    .diagram{
+      background:#0c1226;
+      border:1px dashed #3b4d8f;
+      border-radius:18px;
+      padding:18px;
+      overflow:auto;
+      white-space:pre;
+      font-family:Consolas, monospace;
+      color:#d8e7ff;
+      margin:14px 0;
+    }
+    .mcq, .qa{
+      padding:16px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.02);
+      margin:14px 0;
+    }
+    .answer{
+      margin-top:10px;
+      padding:12px;
+      border-radius:12px;
+      background:rgba(156,255,208,.08);
+      color:var(--text);
+      display:none;
+    }
+    button.toggle{
+      background:linear-gradient(135deg,#6cbfff,#77f0d6);
+      border:none;
+      color:#001120;
+      padding:10px 14px;
+      border-radius:12px;
+      font-weight:700;
+      cursor:pointer;
+      margin-top:8px;
+    }
+    .footer{
+      text-align:center;
+      color:#9fb0dd;
+      padding:30px 0 50px;
+    }
+    .small{font-size:.95rem}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Python Refresher</h1>
+      <p><strong>Corporate trainer classroom notes</strong> covering <strong>OOP first</strong>, then <strong>dataclasses</strong>, <strong>typing</strong>, <strong>async patterns</strong>, and <strong>packaging for reuse</strong>. This note is written for learners who want detailed, real teaching-style explanations instead of short definitions.</p>
+      <div>
+        <span class="pill">Object-Oriented Programming</span>
+        <span class="pill">Dataclasses</span>
+        <span class="pill">Typing</span>
+        <span class="pill">Async / Await</span>
+        <span class="pill">Reusable Packaging</span>
+      </div>
+    </section>
+
+    <section class="card toc">
+      <h2>Table of Contents</h2>
+      <a href="#oop">1. OOP Foundations</a>
+      <a href="#pillars">2. Four Pillars of OOP</a>
+      <a href="#dataclasses">3. Dataclasses</a>
+      <a href="#typing">4. Typing in Python</a>
+      <a href="#async">5. Async Patterns</a>
+      <a href="#packaging">6. Packaging for Reuse</a>
+      <a href="#bestpractices">7. Best Practices</a>
+      <a href="#mcq">8. MCQs</a>
+      <a href="#interview">9. Interview Questions</a>
+      <a href="#summary">10. Summary</a>
+    </section>
+
+    <section id="oop" class="section">
+      <h2>1. OOP Foundations</h2>
+      <p>Before moving into modern Python topics like dataclasses and async programming, we should refresh the <strong>object-oriented foundation</strong>. In most corporate projects, OOP helps us organize code into manageable units. Instead of keeping everything in loose functions and variables, we model the business using <strong>classes</strong> and <strong>objects</strong>.</p>
+
+      <h3>What is a Class?</h3>
+      <p>A <strong>class</strong> is a blueprint. It defines the structure and behavior that objects created from it should have.</p>
+
+      <h3>What is an Object?</h3>
+      <p>An <strong>object</strong> is the actual instance created from a class. If <code>Employee</code> is a class, then <code>emp1</code> and <code>emp2</code> are objects.</p>
+
+      <div class="diagram">               CLASS
+         +----------------------+
+         |      Employee        |
+         +----------------------+
+         | name                 |
+         | employee_id          |
+         | department           |
+         +----------------------+
+         | work()               |
+         | display_details()    |
+         +----------------------+
+
+             |             |
+             | creates     | creates
+             v             v
+
+      +---------------+   +---------------+
+      |   emp1        |   |   emp2        |
+      +---------------+   +---------------+
+      | name = Ravi   |   | name = Meera  |
+      | id = 101      |   | id = 102      |
+      +---------------+   +---------------+</div>
+
+      <div class="tip"><strong>Trainer note:</strong> Think of a class as an application form format, and an object as a filled application for one specific person.</div>
+
+      <h3>Basic Example</h3>
+      <pre><code>class Employee:
+    def __init__(self, name, employee_id, department):
+        self.name = name
+        self.employee_id = employee_id
+        self.department = department
+
+    def work(self):
+        print(f"{self.name} is working in {self.department} department.")
+
+    def display_details(self):
+        print("Employee Details")
+        print("Name:", self.name)
+        print("ID:", self.employee_id)
+        print("Department:", self.department)
+
+
+emp1 = Employee("Ravi", 101, "Finance")
+emp2 = Employee("Meera", 102, "Technology")
+
+emp1.work()
+emp2.display_details()</code></pre>
+
+      <h3>How to Read This Example</h3>
+      <ul>
+        <li><code>class Employee:</code> creates a class definition.</li>
+        <li><code>__init__</code> is the constructor. It runs when an object is created.</li>
+        <li><code>self</code> refers to the current object.</li>
+        <li><code>self.name</code>, <code>self.employee_id</code>, and <code>self.department</code> are instance variables.</li>
+        <li><code>work()</code> and <code>display_details()</code> are methods.</li>
+      </ul>
+
+      <div class="warning"><strong>Common beginner confusion:</strong> A class is not the same as an object. The class describes. The object lives.</div>
+
+      <h3>Real-World Corporate Example</h3>
+      <p>Suppose we are building an HR application. We might model employees, managers, payroll processors, and departments as classes. This improves readability and makes the system easier to extend later.</p>
+    </section>
+
+    <section id="pillars" class="section">
+      <h2>2. Four Pillars of OOP</h2>
+
+      <h3>2.1 Encapsulation</h3>
+      <p>Encapsulation means keeping data and the related behavior together in one unit, and controlling access to sensitive values.</p>
+
+      <pre><code>class BankAccount:
+    def __init__(self, holder_name, balance):
+        self.holder_name = holder_name
+        self.__balance = balance   # private-like variable
+
+    def deposit(self, amount):
+        if amount &gt; 0:
+            self.__balance += amount
+
+    def withdraw(self, amount):
+        if 0 &lt; amount &lt;= self.__balance:
+            self.__balance -= amount
+        else:
+            print("Insufficient balance or invalid amount")
+
+    def get_balance(self):
+        return self.__balance
+
+
+account = BankAccount("Anita", 5000)
+account.deposit(2000)
+account.withdraw(1000)
+print("Available Balance:", account.get_balance())</code></pre>
+
+      <div class="diagram">Encapsulation Idea
++--------------------------------------+
+| BankAccount                          |
++--------------------------------------+
+| holder_name                          |
+| __balance   &lt;-- protected internally |
++--------------------------------------+
+| deposit()                            |
+| withdraw()                           |
+| get_balance()                        |
++--------------------------------------+</div>
+
+      <p>Here, users do not manipulate <code>__balance</code> directly. They go through methods such as <code>deposit()</code> and <code>withdraw()</code>.</p>
+
+      <h3>2.2 Inheritance</h3>
+      <p>Inheritance allows one class to reuse the features of another class.</p>
+
+      <pre><code>class Employee:
+    def __init__(self, name):
+        self.name = name
+
+    def show_role(self):
+        print(f"{self.name} is an employee")
+
+
+class Manager(Employee):
+    def approve_leave(self):
+        print(f"{self.name} can approve leave requests")
+
+
+mgr = Manager("Suresh")
+mgr.show_role()
+mgr.approve_leave()</code></pre>
+
+      <div class="diagram">             +----------------+
+             |   Employee     |
+             +----------------+
+             | name           |
+             +----------------+
+             | show_role()    |
+             +----------------+
+                     ^
+                     |
+                     |
+             +----------------+
+             |    Manager     |
+             +----------------+
+             | approve_leave()|
+             +----------------+</div>
+
+      <p>The <code>Manager</code> class inherits from <code>Employee</code>, so it gets <code>show_role()</code> without rewriting it.</p>
+
+      <h3>2.3 Polymorphism</h3>
+      <p>Polymorphism means one interface, many forms. The same method name can behave differently depending on the object.</p>
+
+      <pre><code>class EmailNotifier:
+    def send(self):
+        print("Sending email notification")
+
+
+class SMSNotifier:
+    def send(self):
+        print("Sending SMS notification")
+
+
+def trigger_notification(notifier):
+    notifier.send()
+
+
+trigger_notification(EmailNotifier())
+trigger_notification(SMSNotifier())</code></pre>
+
+      <p>The function <code>trigger_notification()</code> works with any object that provides a <code>send()</code> method.</p>
+
+      <h3>2.4 Abstraction</h3>
+      <p>Abstraction means exposing only the essential features and hiding complex implementation details.</p>
+
+      <pre><code>from abc import ABC, abstractmethod
+
+class PaymentProcessor(ABC):
+    @abstractmethod
+    def pay(self, amount):
+        pass
+
+
+class CreditCardPayment(PaymentProcessor):
+    def pay(self, amount):
+        print(f"Paid {amount} using credit card")
+
+
+class UpiPayment(PaymentProcessor):
+    def pay(self, amount):
+        print(f"Paid {amount} using UPI")
+
+
+payment1 = CreditCardPayment()
+payment2 = UpiPayment()
+
+payment1.pay(2500)
+payment2.pay(900)</code></pre>
+
+      <div class="note"><strong>Why abstraction matters in projects:</strong> Your application can depend on a common contract like <code>PaymentProcessor</code> without caring about whether the actual payment happens through UPI, card, or net banking.</div>
+    </section>
+
+    <section id="dataclasses" class="section">
+      <h2>3. Dataclasses</h2>
+      <p>In many applications, we create classes mainly to store data. Writing constructors, string methods, and comparisons repeatedly becomes tedious. Python provides <strong>dataclasses</strong> to reduce that boilerplate.</p>
+
+      <h3>Without Dataclass</h3>
+      <pre><code>class Product:
+    def __init__(self, product_id, name, price):
+        self.product_id = product_id
+        self.name = name
+        self.price = price
+
+    def __repr__(self):
+        return f"Product(product_id={self.product_id}, name='{self.name}', price={self.price})"</code></pre>
+
+      <h3>With Dataclass</h3>
+      <pre><code>from dataclasses import dataclass
+
+@dataclass
+class Product:
+    product_id: int
+    name: str
+    price: float
+
+
+p1 = Product(101, "Laptop", 55000.0)
+print(p1)</code></pre>
+
+      <p>The <code>@dataclass</code> decorator automatically generates useful methods like <code>__init__</code>, <code>__repr__</code>, and sometimes <code>__eq__</code>.</p>
+
+      <h3>Detailed Example with Business Logic</h3>
+      <pre><code>from dataclasses import dataclass, field
+
+@dataclass
+class EmployeeRecord:
+    employee_id: int
+    name: str
+    basic_salary: float
+    allowances: float = 0.0
+    deductions: float = 0.0
+    department: str = "General"
+    email: str = field(default="not-set@company.com")
+
+    def net_salary(self) -&gt; float:
+        return self.basic_salary + self.allowances - self.deductions
+
+
+emp = EmployeeRecord(
+    employee_id=1001,
+    name="Karthik",
+    basic_salary=50000,
+    allowances=5000,
+    deductions=2000,
+    department="IT",
+    email="karthik@company.com"
+)
+
+print(emp)
+print("Net Salary:", emp.net_salary())</code></pre>
+
+      <h3>Why Dataclasses Are Useful</h3>
+      <ul>
+        <li>Less boilerplate code</li>
+        <li>Cleaner models for API requests/responses</li>
+        <li>Useful for configuration objects and DTO-like structures</li>
+        <li>Easy readability for teams</li>
+      </ul>
+
+      <h3>Advanced Dataclass Features</h3>
+      <table>
+        <tr><th>Feature</th><th>Meaning</th><th>Example Idea</th></tr>
+        <tr><td><code>default</code></td><td>Set a fixed default value</td><td>Status = "Active"</td></tr>
+        <tr><td><code>default_factory</code></td><td>Generate a new default value each time</td><td>Empty list per object</td></tr>
+        <tr><td><code>frozen=True</code></td><td>Makes object immutable-like</td><td>Safe config object</td></tr>
+        <tr><td><code>order=True</code></td><td>Adds comparison support</td><td>Sort records by fields</td></tr>
+      </table>
+
+      <pre><code>from dataclasses import dataclass, field
+
+@dataclass(frozen=True)
+class AppConfig:
+    app_name: str
+    supported_regions: list[str] = field(default_factory=list)
+
+config = AppConfig("PayrollSystem", ["India", "UAE"])
+print(config)</code></pre>
+
+      <div class="warning"><strong>Important:</strong> Use <code>default_factory</code> for mutable defaults like lists and dictionaries. Do not write <code>items=[]</code> directly in dataclass fields.</div>
+    </section>
+
+    <section id="typing" class="section">
+      <h2>4. Typing in Python</h2>
+      <p>Python is dynamically typed, but modern Python projects strongly benefit from <strong>type hints</strong>. They improve readability, IDE support, refactoring, and team communication.</p>
+
+      <h3>Basic Type Hints</h3>
+      <pre><code>def calculate_bonus(salary: float, percentage: float) -&gt; float:
+    return salary * percentage / 100
+
+
+bonus = calculate_bonus(60000, 10)
+print(bonus)</code></pre>
+
+      <h3>Common Type Hint Patterns</h3>
+      <pre><code>from typing import List, Dict, Tuple, Optional
+
+def get_employee_names() -&gt; List[str]:
+    return ["Asha", "Rohan", "Divya"]
+
+def get_department_map() -&gt; Dict[int, str]:
+    return {101: "HR", 102: "IT"}
+
+def get_coordinates() -&gt; Tuple[float, float]:
+    return (12.97, 77.59)
+
+def find_manager(employee_id: int) -&gt; Optional[str]:
+    managers = {1: "Prakash"}
+    return managers.get(employee_id)</code></pre>
+
+      <h3>Using Modern Built-In Generic Syntax</h3>
+      <pre><code>def get_sales() -&gt; list[int]:
+    return [100, 200, 300]
+
+def get_settings() -&gt; dict[str, str]:
+    return {"mode": "production", "region": "india"}</code></pre>
+
+      <h3>Type Aliases</h3>
+      <pre><code>type EmployeeData = dict[str, str | int]
+
+def print_employee(data: EmployeeData) -&gt; None:
+    print(data)</code></pre>
+
+      <h3>Protocols and Duck Typing</h3>
+      <p>In real Python design, you often care more about what an object can do than what exact class it belongs to.</p>
+
+      <pre><code>from typing import Protocol
+
+class Printable(Protocol):
+    def print_report(self) -&gt; None:
+        ...
+
+class SalesReport:
+    def print_report(self) -&gt; None:
+        print("Printing sales report")
+
+def export_report(obj: Printable) -&gt; None:
+    obj.print_report()
+
+export_report(SalesReport())</code></pre>
+
+      <div class="tip"><strong>Trainer tip:</strong> Typing is not just for compilers. It is also for humans. When your teammate opens your code after six months, type hints reduce confusion immediately.</div>
+    </section>
+
+    <section id="async" class="section">
+      <h2>5. Async Patterns</h2>
+      <p>Asynchronous programming helps when your application spends time waiting for external work such as APIs, database calls, or file/network operations. While one task is waiting, another task can continue.</p>
+
+      <div class="diagram">Synchronous Style
+Task A ----wait----finish
+Task B ----wait----finish
+Task C ----wait----finish
+
+Total time = A + B + C
+
+Asynchronous Style
+Task A ----wait-----------finish
+Task B ----wait------finish
+Task C ----wait----------------finish
+
+Total time can be closer to the longest task, not the sum of all tasks</div>
+
+      <h3>Basic async / await Example</h3>
+      <pre><code>import asyncio
+
+async def fetch_data(source: str) -&gt; str:
+    print(f"Fetching from {source}...")
+    await asyncio.sleep(2)
+    return f"Data from {source}"
+
+async def main():
+    result1 = await fetch_data("API-1")
+    result2 = await fetch_data("API-2")
+    print(result1)
+    print(result2)
+
+asyncio.run(main())</code></pre>
+
+      <p>This example is async, but still sequential because each call is awaited one after another.</p>
+
+      <h3>Running Tasks Concurrently</h3>
+      <pre><code>import asyncio
+
+async def fetch_data(source: str) -&gt; str:
+    print(f"Start fetching from {source}")
+    await asyncio.sleep(2)
+    return f"Completed {source}"
+
+async def main():
+    task1 = asyncio.create_task(fetch_data("Service-A"))
+    task2 = asyncio.create_task(fetch_data("Service-B"))
+    task3 = asyncio.create_task(fetch_data("Service-C"))
+
+    results = await asyncio.gather(task1, task2, task3)
+    for result in results:
+        print(result)
+
+asyncio.run(main())</code></pre>
+
+      <h3>When to Use Async</h3>
+      <ul>
+        <li>Calling multiple APIs</li>
+        <li>Reading from multiple services</li>
+        <li>Web scraping or concurrent network operations</li>
+        <li>Async web frameworks like FastAPI or aiohttp-based code</li>
+      </ul>
+
+      <h3>When Not to Use Async</h3>
+      <ul>
+        <li>Pure CPU-heavy work such as large mathematical processing</li>
+        <li>Very small scripts where complexity is not worth it</li>
+        <li>Codebases where the libraries you use are fully synchronous</li>
+      </ul>
+
+      <h3>Producer-Consumer Pattern</h3>
+      <pre><code>import asyncio
+
+async def producer(queue: asyncio.Queue):
+    for item in range(1, 6):
+        await asyncio.sleep(1)
+        await queue.put(item)
+        print(f"Produced: {item}")
+    await queue.put(None)
+
+async def consumer(queue: asyncio.Queue):
+    while True:
+        item = await queue.get()
+        if item is None:
+            break
+        print(f"Consumed: {item}")
+
+async def main():
+    queue = asyncio.Queue()
+    await asyncio.gather(producer(queue), consumer(queue))
+
+asyncio.run(main())</code></pre>
+
+      <div class="note"><strong>Corporate use case:</strong> A producer can collect incoming messages, and a consumer can process them for notifications, logging, or transformations.</div>
+    </section>
+
+    <section id="packaging" class="section">
+      <h2>6. Packaging for Reuse</h2>
+      <p>As your Python code grows, you should avoid keeping everything in one file. Packaging helps you organize modules and reuse your code across projects.</p>
+
+      <h3>Module vs Package</h3>
+      <table>
+        <tr><th>Term</th><th>Meaning</th></tr>
+        <tr><td>Module</td><td>A single Python file like <code>salary_utils.py</code></td></tr>
+        <tr><td>Package</td><td>A folder containing Python modules, usually with <code>__init__.py</code></td></tr>
+      </table>
+
+      <div class="diagram">payroll_app/
+|
++-- main.py
++-- payroll/
+|   +-- __init__.py
+|   +-- calculations.py
+|   +-- validators.py
+|   +-- reports.py
+|
++-- tests/
+    +-- test_calculations.py</div>
+
+      <h3>Example Files</h3>
+      <pre><code># payroll/calculations.py
+def calculate_net_salary(basic: float, allowance: float, deduction: float) -&gt; float:
+    return basic + allowance - deduction</code></pre>
+
+      <pre><code># payroll/validators.py
+def is_valid_salary(amount: float) -&gt; bool:
+    return amount &gt;= 0</code></pre>
+
+      <pre><code># main.py
+from payroll.calculations import calculate_net_salary
+from payroll.validators import is_valid_salary
+
+salary = calculate_net_salary(50000, 4000, 2000)
+
+if is_valid_salary(salary):
+    print("Net salary:", salary)</code></pre>
+
+      <h3>Why Packaging Matters</h3>
+      <ul>
+        <li>Improves maintainability</li>
+        <li>Makes code reusable across multiple projects</li>
+        <li>Supports testing and versioning</li>
+        <li>Encourages clean separation of concerns</li>
+      </ul>
+
+      <h3>Basic <code>pyproject.toml</code> Example</h3>
+      <pre><code>[project]
+name = "payroll-utils"
+version = "0.1.0"
+description = "Reusable payroll helper utilities"
+readme = "README.md"
+requires-python = "&gt;=3.11"
+
+[build-system]
+requires = ["setuptools&gt;=61.0"]
+build-backend = "setuptools.build_meta"</code></pre>
+
+      <h3>Typical Reuse Strategy in Teams</h3>
+      <ol>
+        <li>Create a clean package structure.</li>
+        <li>Keep domain models separate from utility helpers.</li>
+        <li>Add type hints and tests.</li>
+        <li>Publish internally or reuse via Git repository / artifact management.</li>
+      </ol>
+
+      <div class="tip"><strong>Trainer insight:</strong> If three applications repeat the same validation or logging logic, that code is a candidate for packaging and reuse.</div>
+    </section>
+
+    <section id="bestpractices" class="section">
+      <h2>7. Best Practices</h2>
+      <div class="grid g2">
+        <div class="card">
+          <h3>For OOP</h3>
+          <ul>
+            <li>Prefer meaningful class names</li>
+            <li>Keep classes focused on one responsibility</li>
+            <li>Use inheritance only where an “is-a” relationship exists</li>
+            <li>Prefer composition when suitable</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>For Dataclasses</h3>
+          <ul>
+            <li>Use for data-heavy models</li>
+            <li>Use <code>default_factory</code> for mutable fields</li>
+            <li>Add methods only when they add domain value</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>For Typing</h3>
+          <ul>
+            <li>Add return types to public functions</li>
+            <li>Use modern generic syntax when possible</li>
+            <li>Keep type hints readable, not overly complex</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>For Async</h3>
+          <ul>
+            <li>Use for I/O-bound tasks</li>
+            <li>Avoid blocking calls inside async functions</li>
+            <li>Use <code>asyncio.gather()</code> carefully and handle failures</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="mcq" class="section">
+      <h2>8. MCQs</h2>
+
+      <div class="mcq">
+        <strong>1. What is the main purpose of a class in OOP?</strong>
+        <p>A. To store only one value<br>B. To act as a blueprint for objects<br>C. To replace functions completely<br>D. To avoid variables</p>
+        <button class="toggle" onclick="toggleAnswer('mcq1')">Show Answer</button>
+        <div id="mcq1" class="answer">Correct answer: <strong>B</strong>. A class acts as a blueprint from which objects are created.</div>
+      </div>
+
+      <div class="mcq">
+        <strong>2. Which OOP concept is demonstrated when a child class reuses a parent class?</strong>
+        <p>A. Abstraction<br>B. Encapsulation<br>C. Inheritance<br>D. Compilation</p>
+        <button class="toggle" onclick="toggleAnswer('mcq2')">Show Answer</button>
+        <div id="mcq2" class="answer">Correct answer: <strong>C</strong>. Inheritance enables reuse of existing behavior from a base class.</div>
+      </div>
+
+      <div class="mcq">
+        <strong>3. Why do we use <code>@dataclass</code>?</strong>
+        <p>A. To make Python static<br>B. To automatically generate boilerplate methods<br>C. To block object creation<br>D. To remove methods from classes</p>
+        <button class="toggle" onclick="toggleAnswer('mcq3')">Show Answer</button>
+        <div id="mcq3" class="answer">Correct answer: <strong>B</strong>. Dataclasses reduce repetitive code such as constructors and representation methods.</div>
+      </div>
+
+      <div class="mcq">
+        <strong>4. Which keyword is used to pause inside an async function until a task completes?</strong>
+        <p>A. yield<br>B. pause<br>C. break<br>D. await</p>
+        <button class="toggle" onclick="toggleAnswer('mcq4')">Show Answer</button>
+        <div id="mcq4" class="answer">Correct answer: <strong>D</strong>. <code>await</code> is used with awaitable operations inside async functions.</div>
+      </div>
+
+      <div class="mcq">
+        <strong>5. What is a package in Python?</strong>
+        <p>A. A comment block<br>B. A database table<br>C. A folder containing Python modules<br>D. A built-in web server</p>
+        <button class="toggle" onclick="toggleAnswer('mcq5')">Show Answer</button>
+        <div id="mcq5" class="answer">Correct answer: <strong>C</strong>. A package is a directory structure used to organize related modules.</div>
+      </div>
+    </section>
+
+    <section id="interview" class="section">
+      <h2>9. Interview Questions and Answers</h2>
+
+      <div class="qa">
+        <strong>Q1. Why is Python considered object-oriented even though it is dynamically typed?</strong>
+        <button class="toggle" onclick="toggleAnswer('qa1')">Show Answer</button>
+        <div id="qa1" class="answer">Python supports classes, objects, inheritance, polymorphism, and encapsulation. Dynamic typing means variable types are resolved at runtime, but that does not reduce Python’s object-oriented capabilities.</div>
+      </div>
+
+      <div class="qa">
+        <strong>Q2. When would you prefer a dataclass over a normal class?</strong>
+        <button class="toggle" onclick="toggleAnswer('qa2')">Show Answer</button>
+        <div id="qa2" class="answer">Use a dataclass when the class is mainly used for storing and transporting data. It reduces boilerplate and makes models cleaner, especially in service layers, configurations, API payloads, and DTO-style objects.</div>
+      </div>
+
+      <div class="qa">
+        <strong>Q3. What problem do type hints solve in real projects?</strong>
+        <button class="toggle" onclick="toggleAnswer('qa3')">Show Answer</button>
+        <div id="qa3" class="answer">Type hints improve readability, tooling support, refactoring confidence, and team communication. They reduce ambiguity and make larger codebases easier to maintain.</div>
+      </div>
+
+      <div class="qa">
+        <strong>Q4. Explain one scenario where async programming is useful.</strong>
+        <button class="toggle" onclick="toggleAnswer('qa4')">Show Answer</button>
+        <div id="qa4" class="answer">Async programming is useful when the application makes multiple network calls, such as fetching data from several microservices. Instead of waiting for each call one by one, the program can handle them concurrently and reduce total waiting time.</div>
+      </div>
+
+      <div class="qa">
+        <strong>Q5. What is the benefit of packaging code for reuse?</strong>
+        <button class="toggle" onclick="toggleAnswer('qa5')">Show Answer</button>
+        <div id="qa5" class="answer">Packaging improves organization, reusability, testing, versioning, and maintainability. Shared logic can be reused across projects rather than duplicated again and again.</div>
+      </div>
+    </section>
+
+    <section id="summary" class="section">
+      <h2>10. Summary</h2>
+      <p>In this refresher, we started with <strong>OOP</strong> because it remains the structural backbone of many Python applications. You saw how classes and objects represent real business entities, and how the four pillars of OOP make systems more maintainable.</p>
+      <p>We then moved to <strong>dataclasses</strong>, which simplify data-oriented class design. After that, we covered <strong>typing</strong>, which improves clarity and maintainability in team environments. Next came <strong>async patterns</strong>, which are important for efficient I/O-bound applications. Finally, we looked at <strong>packaging for reuse</strong>, which is essential when you want to build clean, reusable, professional-grade Python codebases.</p>
+
+      <div class="note"><strong>Final trainer message:</strong> In interviews and real projects, do not treat these topics as isolated chapters. OOP, dataclasses, typing, async design, and packaging often work together in one application.</div>
+    </section>
+
+    <div class="footer small">
+      Prepared as classroom-style Python refresher notes in HTML format.
+    </div>
+  </div>
+
+  <script>
+    function toggleAnswer(id){
+      const el = document.getElementById(id);
+      if(el.style.display === 'block'){
+        el.style.display = 'none';
+      } else {
+        el.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

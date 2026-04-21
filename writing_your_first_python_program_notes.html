@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writing Your First Python Program - Professional Training Notes</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --ink:#1f2937;
+      --muted:#5b6472;
+      --brand:#1d4ed8;
+      --brand-soft:#dbeafe;
+      --tip:#065f46;
+      --tip-bg:#ecfdf5;
+      --warn:#92400e;
+      --warn-bg:#fff7ed;
+      --danger:#991b1b;
+      --danger-bg:#fef2f2;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Segoe UI, Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#eef4ff 0%, var(--bg) 100%);
+      color:var(--ink);
+      line-height:1.7;
+    }
+    .container{width:min(1180px,92%);margin:0 auto;padding:28px 0 60px;}
+    .hero{
+      background:linear-gradient(135deg,#1e3a8a 0%, #2563eb 55%, #0ea5e9 100%);
+      color:#fff;border-radius:28px;padding:42px 32px;box-shadow:var(--shadow);margin-top:22px;
+    }
+    .hero h1{margin:0 0 10px;font-size:clamp(2rem,4vw,3rem);line-height:1.2;}
+    .hero h2{margin:0 0 14px;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:600;opacity:.96;}
+    .hero p{margin:10px 0 0;font-size:1.05rem;max-width:930px;}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+    .pill{
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);
+      padding:8px 14px;border-radius:999px;font-size:.95rem;
+    }
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:24px;}
+    .card{
+      grid-column:span 12;background:var(--card);border-radius:var(--radius);
+      padding:26px;box-shadow:var(--shadow);
+    }
+    .card h3{margin-top:0;font-size:1.55rem;color:#0f172a;}
+    .card h4{margin:22px 0 10px;font-size:1.18rem;color:#0b3b8f;}
+    .two-col{grid-column:span 6;}
+    @media (max-width:900px){
+      .two-col{grid-column:span 12;}
+      .hero{padding:30px 22px;}
+    }
+    p{margin:10px 0;}
+    ul,ol{padding-left:22px;}
+    li{margin:8px 0;}
+    .note{
+      border-left:6px solid var(--brand);background:var(--brand-soft);
+      padding:16px 18px;border-radius:12px;margin:16px 0;
+    }
+    .note.tip{border-left-color:var(--tip);background:var(--tip-bg);}
+    .note.warn{border-left-color:var(--warn);background:var(--warn-bg);}
+    .note.danger{border-left-color:var(--danger);background:var(--danger-bg);}
+    code{font-family:Consolas,"Courier New",monospace;font-size:.96rem;}
+    pre{
+      background:#0f172a;color:#e5eefc;padding:18px;border-radius:16px;
+      overflow:auto;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+    }
+    .output{
+      background:#f8fafc;border:1px solid #dbe3ef;padding:14px 16px;border-radius:14px;
+      margin:12px 0 18px;font-family:Consolas,"Courier New",monospace;white-space:pre-wrap;
+    }
+    table{width:100%;border-collapse:collapse;margin:14px 0;}
+    th,td{border:1px solid #dbe3ef;padding:12px 14px;text-align:left;vertical-align:top;}
+    th{background:#e8f0ff;color:#0b3b8f;}
+    .qa,.mcq{
+      border:1px solid #d9e3f3;background:#fcfdff;border-radius:16px;padding:18px;margin:14px 0;
+    }
+    .qa h5,.mcq h5{margin:0 0 8px;font-size:1.02rem;color:#0f172a;}
+    .label{
+      display:inline-block;font-size:.82rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
+      color:#0b3b8f;background:#e8f0ff;padding:6px 10px;border-radius:999px;margin-bottom:10px;
+    }
+    .checklist li{
+      list-style:none;margin:10px 0;padding-left:34px;position:relative;
+    }
+    .checklist li::before{
+      content:"✓";position:absolute;left:0;top:0;color:#0f766e;font-weight:700;font-size:1.1rem;
+    }
+    .footer{text-align:center;color:var(--muted);margin-top:24px;font-size:.95rem;}
+    .mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+    @media (max-width:800px){.mini-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Python for Beginners – Professional Training Notes</h1>
+      <h2>Writing Your First Python Program</h2>
+      <p>Beginner-friendly classroom notes to help freshers and job seekers understand how to write, save, run, and explain their very first Python program with confidence.</p>
+      <div class="pill-row">
+        <span class="pill">Absolute Beginners</span>
+        <span class="pill">First Program</span>
+        <span class="pill">Hands-on Practice</span>
+        <span class="pill">Interview Ready</span>
+        <span class="pill">MCQs + Exercises</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card two-col">
+        <h3>1. Introduction</h3>
+        <p>Writing your first Python program is a very important milestone in your programming journey. This is the moment where learning stops being only theory and starts becoming practical. You move from reading about Python to actually making the computer do something.</p>
+        <p>For most beginners, the first program is very small, often just a simple <code>print()</code> statement. Even though it looks tiny, it teaches many important beginner ideas such as writing code correctly, saving the file, running the program, and understanding output.</p>
+        <p>This topic is important for students, freshers, and job seekers because it builds confidence. Once a learner writes and runs the first working program, programming starts feeling real and achievable.</p>
+        <div class="note">
+          <strong>Remember:</strong> Your first program may be small, but it is a big first step in becoming a programmer.
+        </div>
+      </section>
+
+      <section class="card two-col">
+        <h3>2. Learning Objectives</h3>
+        <ul>
+          <li>Understand what a first Python program means.</li>
+          <li>Learn how to write a simple Python statement.</li>
+          <li>Know how to save a Python file correctly.</li>
+          <li>Learn how to run the first Python program.</li>
+          <li>Understand the output produced by the program.</li>
+          <li>Gain confidence in starting practical Python coding.</li>
+          <li>Prepare for basic interview questions on beginner Python coding.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>3. Why This Topic Matters</h3>
+        <div class="mini-grid">
+          <div>
+            <h4>Why this topic matters in programming</h4>
+            <p>This topic turns theory into action. It teaches the first real interaction between the learner and the programming language. It helps learners understand how a program is written and executed.</p>
+          </div>
+          <div>
+            <h4>Why this topic matters in interviews</h4>
+            <p>Interviewers often ask basic questions such as “What was your first program?”, “How do you print output in Python?”, or “How do you run a Python file?” These are simple but important fresher-level questions.</p>
+          </div>
+        </div>
+        <div class="note tip">
+          <strong>Interview Tip:</strong> When discussing your first program, explain the code, the output, and how you executed it. That shows practical understanding.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>4. Beginner-Friendly Explanation</h3>
+        <p>Imagine you have just learned the alphabet of a new language. The first time you use it to make a complete sentence, you feel excited. Writing your first Python program is very similar. It is your first complete communication with the computer in Python language.</p>
+        <p>Most first programs are very simple because the goal is not to build a big system. The goal is to understand the process: write code, save it, run it, and see the output. Once that cycle becomes clear, learning becomes much easier.</p>
+        <p>In Python, the first program is often a message displayed on the screen. This is done using <code>print()</code>. The computer reads your Python code and shows the message back to you as output.</p>
+        <p>A simple analogy is this: your first Python program is like saying “Hello” when meeting someone for the first time. It is short, simple, and foundational—but very important.</p>
+        <div class="note warn">
+          <strong>Common Confusion:</strong> Beginners sometimes think the first program is too small to matter. Actually, it teaches the complete basic flow of coding.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>5. Syntax Section</h3>
+        <p>The most common first Python program is:</p>
+        <pre><code>print("Hello, World!")</code></pre>
+        <h4>Syntax Explanation</h4>
+        <ul>
+          <li><code>print()</code> is a built-in Python function used to display output.</li>
+          <li><code>"Hello, World!"</code> is a string value.</li>
+          <li>The text inside the quotes is what will appear on the screen.</li>
+          <li>Parentheses are used to pass the value into the function.</li>
+        </ul>
+        <p>This line tells Python: “Display the text Hello, World! on the screen.”</p>
+      </section>
+
+      <section class="card">
+        <h3>6. Step-by-Step Process to Write Your First Program</h3>
+        <ol>
+          <li>Open your coding environment such as IDLE or VS Code.</li>
+          <li>Create a new file.</li>
+          <li>Type <code>print("Hello, World!")</code>.</li>
+          <li>Save the file with a name like <code>first_program.py</code>.</li>
+          <li>Run the file.</li>
+          <li>Observe the output on the screen.</li>
+        </ol>
+        <div class="note tip">
+          <strong>Tip:</strong> Always save the file with the <code>.py</code> extension. That tells the system the file contains Python code.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>7. Detailed Examples Section</h3>
+
+        <h4>Example 1: Basic Example</h4>
+        <pre><code>print("Hello, World!")</code></pre>
+        <div class="output">Hello, World!</div>
+        <p><strong>Explanation:</strong> This is the most common first Python program used by beginners.</p>
+
+        <h4>Example 2: Beginner-Friendly Example</h4>
+        <pre><code>print("My first Python program")</code></pre>
+        <div class="output">My first Python program</div>
+        <p><strong>Explanation:</strong> This helps the learner understand that any text inside quotes can be shown as output.</p>
+
+        <h4>Example 3: Real-World Style Example</h4>
+        <pre><code>print("Welcome to Employee Training Portal")</code></pre>
+        <div class="output">Welcome to Employee Training Portal</div>
+        <p><strong>Why this matters:</strong> Real systems often display messages to users after starting an application.</p>
+
+        <h4>Example 4: Interview-Oriented Example</h4>
+        <pre><code>print("Python is easy to start")</code></pre>
+        <div class="output">Python is easy to start</div>
+        <p><strong>Explanation:</strong> This example is useful to show understanding of output and Python syntax in a simple interview discussion.</p>
+
+        <h4>Example 5: Practical Scenario Example</h4>
+        <pre><code>name = "Rohit"
+print("Welcome", name)</code></pre>
+        <div class="output">Welcome Rohit</div>
+        <p><strong>Why this matters:</strong> This shows a small step forward from a fixed message to a program using data.</p>
+      </section>
+
+      <section class="card">
+        <h3>8. Code Output Section</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Expected Output</th>
+              <th>What Learner Should Notice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>print("Hello")</code></td>
+              <td>Hello</td>
+              <td>Text inside quotes gets printed.</td>
+            </tr>
+            <tr>
+              <td><code>print("My first program")</code></td>
+              <td>My first program</td>
+              <td>Python displays the exact string.</td>
+            </tr>
+            <tr>
+              <td><code>print(100)</code></td>
+              <td>100</td>
+              <td>Python can print numbers too.</td>
+            </tr>
+            <tr>
+              <td><code>name = "Asha"<br>print(name)</code></td>
+              <td>Asha</td>
+              <td>Python can print values stored in variables.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card two-col">
+        <h3>9. Key Points to Remember</h3>
+        <ul>
+          <li>The first Python program is often written using <code>print()</code>.</li>
+          <li>Python programs are saved using the <code>.py</code> extension.</li>
+          <li>The output appears after the program is executed.</li>
+          <li>Strings are written inside quotes.</li>
+          <li>A small program can teach a big programming process.</li>
+        </ul>
+      </section>
+
+      <section class="card two-col">
+        <h3>10. Common Beginner Mistakes</h3>
+        <ul>
+          <li><strong>Forgetting quotes around text:</strong> <code>print(Hello)</code> causes an error if <code>Hello</code> is not defined.</li>
+          <li><strong>Using wrong brackets:</strong> <code>print["Hello"]</code> is incorrect syntax.</li>
+          <li><strong>Not saving the file as .py:</strong> The system may not treat it as a Python script.</li>
+          <li><strong>Typing <code>Print()</code> instead of <code>print()</code>:</strong> Python is case-sensitive.</li>
+          <li><strong>Not running the file correctly:</strong> Beginners sometimes write code but do not execute it.</li>
+        </ul>
+        <div class="note danger">
+          <strong>Common Mistake:</strong> Small syntax errors are normal at the beginning. Read each symbol carefully: quotes, brackets, and spelling all matter.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>11. Best Practices</h3>
+        <ul>
+          <li>Start with small programs and understand each line.</li>
+          <li>Save files with meaningful names such as <code>first_program.py</code>.</li>
+          <li>Run the program immediately after writing it.</li>
+          <li>Compare the code with the output to build understanding.</li>
+          <li>Practice multiple small <code>print()</code> examples before moving to bigger concepts.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>12. Real-World Use Cases</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Use Case</th>
+              <th>How It Connects to the First Program</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Application Welcome Messages</td>
+              <td>Programs often display messages when they start.</td>
+            </tr>
+            <tr>
+              <td>Status Messages</td>
+              <td>Applications print progress or success messages.</td>
+            </tr>
+            <tr>
+              <td>Testing Setup</td>
+              <td>A simple print statement confirms the environment is working.</td>
+            </tr>
+            <tr>
+              <td>Learning Output</td>
+              <td>The first program teaches how output appears in Python.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>13. Comparison Table</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Point</th>
+              <th>Small First Program</th>
+              <th>Larger Future Program</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Code Size</td>
+              <td>Very short</td>
+              <td>Longer and more structured</td>
+            </tr>
+            <tr>
+              <td>Purpose</td>
+              <td>Understand basics</td>
+              <td>Solve real problems</td>
+            </tr>
+            <tr>
+              <td>Concept Focus</td>
+              <td>Syntax, saving, running, output</td>
+              <td>Logic, conditions, loops, functions, files</td>
+            </tr>
+            <tr>
+              <td>Difficulty</td>
+              <td>Very easy</td>
+              <td>Gradually increases</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>14. Interview Questions and Answers</h3>
+
+        <div class="qa">
+          <span class="label">Q1</span>
+          <h5>What is usually the first Python program beginners write?</h5>
+          <p>Most beginners start with a simple <code>print("Hello, World!")</code> program.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q2</span>
+          <h5>What is the use of the <code>print()</code> function?</h5>
+          <p>The <code>print()</code> function is used to display output on the screen.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q3</span>
+          <h5>Why is the first Python program important?</h5>
+          <p>It helps learners understand the complete basic workflow of writing, saving, running, and checking output.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q4</span>
+          <h5>How should a Python program file be saved?</h5>
+          <p>A Python program file should be saved with the <code>.py</code> extension.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q5</span>
+          <h5>What happens if text is written without quotes in a print statement?</h5>
+          <p>Python may treat it as a variable name, which can cause an error if it is not defined.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q6</span>
+          <h5>Can Python print numbers as well as text?</h5>
+          <p>Yes. Python can print numbers, strings, variables, and other values.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q7</span>
+          <h5>What does output mean in Python?</h5>
+          <p>Output is the result shown on the screen after running the program.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q8</span>
+          <h5>Why is <code>Hello, World!</code> commonly used?</h5>
+          <p>It is a simple, traditional beginner program used to check that the programming environment is working.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q9</span>
+          <h5>Is Python case-sensitive when writing functions like print?</h5>
+          <p>Yes. <code>print()</code> is correct, but <code>Print()</code> is different and usually incorrect in this context.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q10</span>
+          <h5>What is the best way to practice the first program topic?</h5>
+          <p>Write many small print-based examples, run them, and compare the code with the output.</p>
+        </div>
+
+        <div class="note tip">
+          <strong>Interview Tip:</strong> A clear beginner answer sounds strong: “My first Python program used print() to display a message and helped me understand how Python code runs.”
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>15. MCQs for Practice</h3>
+
+        <div class="mcq">
+          <h5>1. What is the most common first Python program?</h5>
+          <p>A. <code>print("Hello, World!")</code><br>B. <code>start("Hello")</code><br>C. <code>display("Hello")</code><br>D. <code>show("Hello")</code></p>
+          <p><strong>Correct Answer:</strong> A</p>
+          <p><strong>Explanation:</strong> The traditional first Python program uses <code>print("Hello, World!")</code>.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>2. Which function is used to show output in Python?</h5>
+          <p>A. show()<br>B. print()<br>C. output()<br>D. write()</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> <code>print()</code> is the standard function for displaying output.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>3. Python files are usually saved with which extension?</h5>
+          <p>A. .java<br>B. .html<br>C. .py<br>D. .txt</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> Python scripts use the <code>.py</code> extension.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>4. What will <code>print("Hi")</code> display?</h5>
+          <p>A. print("Hi")<br>B. Hi<br>C. "Hi"<br>D. Error always</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Python prints the text value without the function name and quotes.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>5. Which of the following is incorrect?</h5>
+          <p>A. <code>print("Hello")</code><br>B. <code>Print("Hello")</code><br>C. <code>print("Python")</code><br>D. <code>print(10)</code></p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Python is case-sensitive. The standard function name is <code>print()</code>.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>6. Why is the first program important?</h5>
+          <p>A. It teaches hardware repair<br>B. It shows the full basic coding process<br>C. It removes all future errors<br>D. It is used only for decoration</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> The first program teaches writing, saving, running, and reading output.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>7. What happens if text is written without quotes in a print statement?</h5>
+          <p>A. It becomes colorful<br>B. It may be treated as a variable name<br>C. It is always accepted as text<br>D. It is stored automatically</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Python treats unquoted words as identifiers, not strings.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>8. Which of the following can Python print?</h5>
+          <p>A. Text only<br>B. Numbers only<br>C. Text and numbers<br>D. None of these</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> Python can print both strings and numeric values.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>9. Output is:</h5>
+          <p>A. the code file name<br>B. the result shown after running the program<br>C. the operating system<br>D. the keyboard input only</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Output is what the user sees after program execution.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>10. Which statement is correct?</h5>
+          <p>A. Small programs are useless<br>B. First programs are only for decoration<br>C. First programs help build coding confidence<br>D. Python cannot print strings</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> The first working program builds practical understanding and confidence.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>16. Practice Exercise Section</h3>
+        <h4>Small Exercise</h4>
+        <p>Write a Python program that prints your name and a welcome message.</p>
+
+        <h4>Practical Task</h4>
+        <p>Create a file named <code>my_first_program.py</code>, write a simple <code>print()</code> statement, save it, and run it successfully.</p>
+
+        <h4>Mini Assignment</h4>
+        <p>Write three different first-program style examples: one with text, one with a number, and one using a variable.</p>
+      </section>
+
+      <section class="card">
+        <h3>17. Practice Exercise Solutions</h3>
+        <h4>Solution for Small Exercise</h4>
+        <pre><code>print("My name is Neha")
+print("Welcome to Python learning")</code></pre>
+        <div class="output">My name is Neha
+Welcome to Python learning</div>
+
+        <h4>Solution Idea for Practical Task</h4>
+        <pre><code>print("This is my first Python file")</code></pre>
+        <div class="output">This is my first Python file</div>
+
+        <h4>Solution Idea for Mini Assignment</h4>
+        <pre><code>print("Hello")
+print(25)
+name = "Arjun"
+print(name)</code></pre>
+        <div class="output">Hello
+25
+Arjun</div>
+      </section>
+
+      <section class="card">
+        <h3>18. Revision Checklist</h3>
+        <ul class="checklist">
+          <li>I understand what the first Python program is.</li>
+          <li>I can write a simple print statement.</li>
+          <li>I know how to save a Python file with the .py extension.</li>
+          <li>I can run a Python file successfully.</li>
+          <li>I can explain the output produced by my first program.</li>
+          <li>I can avoid common beginner syntax mistakes.</li>
+          <li>I can talk about my first Python program in a basic interview.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>19. Summary</h3>
+        <p>In this topic, we learned how to write and run the first Python program. We understood the role of <code>print()</code>, how to save a Python file, how to execute it, and how to read the output. Even though the first program is small, it teaches a complete beginner workflow.</p>
+        <p>The biggest takeaway is simple: your first Python program is not just one line of code—it is your first successful conversation with the computer using Python.</p>
+        <div class="note tip">
+          <strong>Confidence Booster:</strong> If you can write, save, run, and explain one small Python program, you have already started your real programming journey.
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">End of Notes – Writing Your First Python Program</div>
+  </div>
+</body>
+</html>

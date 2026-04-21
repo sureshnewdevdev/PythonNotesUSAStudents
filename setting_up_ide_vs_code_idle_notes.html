@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setting Up IDE / VS Code / IDLE - Professional Training Notes</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --ink:#1f2937;
+      --muted:#5b6472;
+      --brand:#1d4ed8;
+      --brand-soft:#dbeafe;
+      --tip:#065f46;
+      --tip-bg:#ecfdf5;
+      --warn:#92400e;
+      --warn-bg:#fff7ed;
+      --danger:#991b1b;
+      --danger-bg:#fef2f2;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Segoe UI, Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#eef4ff 0%, var(--bg) 100%);
+      color:var(--ink);
+      line-height:1.7;
+    }
+    .container{width:min(1180px,92%);margin:0 auto;padding:28px 0 60px;}
+    .hero{
+      background:linear-gradient(135deg,#1e3a8a 0%, #2563eb 55%, #0ea5e9 100%);
+      color:#fff;border-radius:28px;padding:42px 32px;box-shadow:var(--shadow);margin-top:22px;
+    }
+    .hero h1{margin:0 0 10px;font-size:clamp(2rem,4vw,3rem);line-height:1.2;}
+    .hero h2{margin:0 0 14px;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:600;opacity:.96;}
+    .hero p{margin:10px 0 0;font-size:1.05rem;max-width:930px;}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+    .pill{
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);
+      padding:8px 14px;border-radius:999px;font-size:.95rem;
+    }
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:24px;}
+    .card{
+      grid-column:span 12;background:var(--card);border-radius:var(--radius);
+      padding:26px;box-shadow:var(--shadow);
+    }
+    .card h3{margin-top:0;font-size:1.55rem;color:#0f172a;}
+    .card h4{margin:22px 0 10px;font-size:1.18rem;color:#0b3b8f;}
+    .two-col{grid-column:span 6;}
+    @media (max-width:900px){
+      .two-col{grid-column:span 12;}
+      .hero{padding:30px 22px;}
+    }
+    p{margin:10px 0;}
+    ul,ol{padding-left:22px;}
+    li{margin:8px 0;}
+    .note{
+      border-left:6px solid var(--brand);background:var(--brand-soft);
+      padding:16px 18px;border-radius:12px;margin:16px 0;
+    }
+    .note.tip{border-left-color:var(--tip);background:var(--tip-bg);}
+    .note.warn{border-left-color:var(--warn);background:var(--warn-bg);}
+    .note.danger{border-left-color:var(--danger);background:var(--danger-bg);}
+    code{font-family:Consolas,"Courier New",monospace;font-size:.96rem;}
+    pre{
+      background:#0f172a;color:#e5eefc;padding:18px;border-radius:16px;
+      overflow:auto;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+    }
+    .output{
+      background:#f8fafc;border:1px solid #dbe3ef;padding:14px 16px;border-radius:14px;
+      margin:12px 0 18px;font-family:Consolas,"Courier New",monospace;white-space:pre-wrap;
+    }
+    table{width:100%;border-collapse:collapse;margin:14px 0;}
+    th,td{border:1px solid #dbe3ef;padding:12px 14px;text-align:left;vertical-align:top;}
+    th{background:#e8f0ff;color:#0b3b8f;}
+    .qa,.mcq{
+      border:1px solid #d9e3f3;background:#fcfdff;border-radius:16px;padding:18px;margin:14px 0;
+    }
+    .qa h5,.mcq h5{margin:0 0 8px;font-size:1.02rem;color:#0f172a;}
+    .label{
+      display:inline-block;font-size:.82rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
+      color:#0b3b8f;background:#e8f0ff;padding:6px 10px;border-radius:999px;margin-bottom:10px;
+    }
+    .checklist li{
+      list-style:none;margin:10px 0;padding-left:34px;position:relative;
+    }
+    .checklist li::before{
+      content:"✓";position:absolute;left:0;top:0;color:#0f766e;font-weight:700;font-size:1.1rem;
+    }
+    .footer{text-align:center;color:var(--muted);margin-top:24px;font-size:.95rem;}
+    .mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+    @media (max-width:800px){.mini-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Python for Beginners – Professional Training Notes</h1>
+      <h2>Setting Up IDE / VS Code / IDLE</h2>
+      <p>Professional beginner notes that explain how to choose, install, and use a Python coding environment. Includes classroom guidance, setup steps, beginner-friendly examples, interview questions, and MCQs.</p>
+      <div class="pill-row">
+        <span class="pill">Beginner Setup Guide</span>
+        <span class="pill">VS Code + IDLE</span>
+        <span class="pill">Hands-on Practice</span>
+        <span class="pill">Interview Ready</span>
+        <span class="pill">MCQs + Exercises</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card two-col">
+        <h3>1. Introduction</h3>
+        <p>After installing Python, the next important step is setting up an environment where you can write, save, run, and manage Python programs comfortably. This is where tools like <strong>IDE</strong>, <strong>VS Code</strong>, and <strong>IDLE</strong> come into the picture.</p>
+        <p>An IDE or editor helps you write code in an organized way. It gives you useful features like syntax highlighting, file management, suggestions, and easier execution. Without a proper coding environment, learning can become messy and frustrating, especially for beginners.</p>
+        <p>This topic matters because many new learners do not know which tool to use. Some start with IDLE because it is simple and comes with Python. Others use VS Code because it is more modern and widely used in industry. Understanding both gives you a strong start.</p>
+        <div class="note">
+          <strong>Remember:</strong> Python installation helps your system run Python. IDE or editor setup helps you write Python code easily.
+        </div>
+      </section>
+
+      <section class="card two-col">
+        <h3>2. Learning Objectives</h3>
+        <ul>
+          <li>Understand what an IDE or code editor is.</li>
+          <li>Know the difference between VS Code and IDLE.</li>
+          <li>Learn how to set up VS Code for Python.</li>
+          <li>Understand how to use IDLE for beginner practice.</li>
+          <li>Run Python programs in different ways.</li>
+          <li>Know which setup is suitable for beginners and which is useful for jobs.</li>
+          <li>Avoid common setup mistakes.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>3. Why This Topic Matters</h3>
+        <div class="mini-grid">
+          <div>
+            <h4>Why this topic matters in programming</h4>
+            <p>A good coding setup improves learning speed, reduces confusion, and makes debugging easier. It helps learners focus on logic instead of fighting with files and execution issues.</p>
+          </div>
+          <div>
+            <h4>Why this topic matters in interviews</h4>
+            <p>Freshers are often asked simple practical questions such as: What tools have you used for Python? What is IDLE? Why do developers prefer VS Code? These are common setup-level questions.</p>
+          </div>
+        </div>
+        <div class="note tip">
+          <strong>Interview Tip:</strong> A good answer is: “I started with IDLE because it is simple, and I use VS Code for structured project-based work.”
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>4. Beginner-Friendly Explanation</h3>
+        <p>Let us think in a simple way. Suppose you want to write a letter. You need paper or a word processor. In the same way, when you want to write Python code, you need a place where you can type and run that code comfortably. That place is usually called an editor or IDE.</p>
+        <p><strong>IDLE</strong> is a simple Python tool that usually comes along with Python installation. It is lightweight and easy for first-time learners. You can quickly open it and run small programs.</p>
+        <p><strong>VS Code</strong> is a powerful editor that many students, trainers, and software developers use. It is more professional and offers many useful features such as extension support, debugging, project folders, terminal, and code formatting.</p>
+        <p>A simple analogy is this: IDLE is like a small notebook that is very easy to open and use. VS Code is like a professional work desk with more tools around you. Both are useful, but for different stages and needs.</p>
+        <div class="note warn">
+          <strong>Common Confusion:</strong> VS Code is not Python itself. It is an editor. Python must still be installed separately.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>5. Syntax Section</h3>
+        <p>Once your IDE or editor is ready, you usually test the setup with a small Python program:</p>
+        <pre><code>print("My Python environment is ready")</code></pre>
+        <h4>Syntax Explanation</h4>
+        <ul>
+          <li><code>print()</code> displays output on the screen.</li>
+          <li>The text inside quotes is the message you want to show.</li>
+          <li>This is often the first statement used to verify whether the setup is working.</li>
+        </ul>
+        <p>Whether you use VS Code or IDLE, this same Python syntax is used. The tool changes, but the Python code remains the same.</p>
+      </section>
+
+      <section class="card">
+        <h3>6. Setting Up IDLE</h3>
+        <ol>
+          <li>Install Python on your system.</li>
+          <li>Search for <strong>IDLE</strong> from the Start menu or applications list.</li>
+          <li>Open IDLE.</li>
+          <li>You will see the Python shell window.</li>
+          <li>Click <strong>File &gt; New File</strong> to open a script window.</li>
+          <li>Write your Python code.</li>
+          <li>Save the file with <code>.py</code> extension.</li>
+          <li>Run the file using <strong>Run &gt; Run Module</strong> or press <code>F5</code>.</li>
+        </ol>
+
+        <h3>7. Setting Up VS Code</h3>
+        <ol>
+          <li>Install Python first.</li>
+          <li>Install Visual Studio Code.</li>
+          <li>Open VS Code.</li>
+          <li>Install the Python extension from the Extensions section.</li>
+          <li>Create a new file and save it as <code>hello.py</code>.</li>
+          <li>Write Python code.</li>
+          <li>Use the Run option or integrated terminal to execute the file.</li>
+          <li>If needed, select the correct Python interpreter from the command palette or status bar.</li>
+        </ol>
+
+        <div class="note tip">
+          <strong>Tip:</strong> In VS Code, the Python extension is very important. Without it, the editor will not give you the full Python development experience.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>8. Detailed Examples Section</h3>
+
+        <h4>Example 1: Basic Example in IDLE</h4>
+        <pre><code>print("Hello from IDLE")</code></pre>
+        <div class="output">Hello from IDLE</div>
+        <p><strong>Explanation:</strong> This is a simple test to check whether IDLE is ready to run Python code.</p>
+
+        <h4>Example 2: Beginner-Friendly Example in VS Code</h4>
+        <pre><code>print("Hello from VS Code")</code></pre>
+        <div class="output">Hello from VS Code</div>
+        <p><strong>Explanation:</strong> Save the file as <code>.py</code> and run it from the terminal or Run button.</p>
+
+        <h4>Example 3: Real-World Style Example</h4>
+        <pre><code>print("Project setup successful")
+print("Ready for Python practice")</code></pre>
+        <div class="output">Project setup successful
+Ready for Python practice</div>
+        <p><strong>Why this matters:</strong> A real project setup always begins by verifying that the editor and interpreter are connected correctly.</p>
+
+        <h4>Example 4: Interview-Oriented Example</h4>
+        <pre><code># Save file as demo.py
+print("Environment ready")</code></pre>
+        <div class="output">Environment ready</div>
+        <p><strong>Explanation:</strong> This is the kind of simple demonstration you can mention when explaining how you test your Python setup.</p>
+
+        <h4>Example 5: Practical Scenario Example</h4>
+        <pre><code>name = "Riya"
+print("Welcome", name)</code></pre>
+        <div class="output">Welcome Riya</div>
+        <p><strong>Why this matters:</strong> Once the environment is ready, you can begin actual learning and hands-on coding immediately.</p>
+      </section>
+
+      <section class="card">
+        <h3>9. Code Output Section</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Tool</th>
+              <th>Action</th>
+              <th>Expected Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>IDLE</td>
+              <td>Run a script using F5</td>
+              <td>Output appears in the Python shell window.</td>
+            </tr>
+            <tr>
+              <td>VS Code</td>
+              <td>Run file using terminal</td>
+              <td>Output appears in integrated terminal.</td>
+            </tr>
+            <tr>
+              <td>VS Code</td>
+              <td>Select Python interpreter correctly</td>
+              <td>Execution works without interpreter-related error.</td>
+            </tr>
+            <tr>
+              <td>IDLE / VS Code</td>
+              <td>Execute <code>print("Ready")</code></td>
+              <td>Ready</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card two-col">
+        <h3>10. Key Points to Remember</h3>
+        <ul>
+          <li>IDLE is simple and beginner-friendly.</li>
+          <li>VS Code is more powerful and project-friendly.</li>
+          <li>Python must be installed before using VS Code for Python coding.</li>
+          <li>The Python extension is important in VS Code.</li>
+          <li>Code should be saved with a <code>.py</code> extension.</li>
+          <li>Always test the environment with a small program.</li>
+        </ul>
+      </section>
+
+      <section class="card two-col">
+        <h3>11. Common Beginner Mistakes</h3>
+        <ul>
+          <li><strong>Installing VS Code but not Python:</strong> The editor alone cannot run Python code.</li>
+          <li><strong>Not installing Python extension in VS Code:</strong> This reduces Python support and creates confusion.</li>
+          <li><strong>Saving files without <code>.py</code> extension:</strong> Python files should use the correct extension.</li>
+          <li><strong>Running code in the wrong interpreter:</strong> VS Code may need the correct interpreter selected.</li>
+          <li><strong>Thinking IDLE and interpreter are totally different:</strong> IDLE is a Python development environment that uses Python underneath.</li>
+        </ul>
+        <div class="note danger">
+          <strong>Common Mistake:</strong> Beginners often type code in VS Code and then wonder why it does not run. The missing step is usually Python installation, extension setup, or interpreter selection.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>12. Best Practices</h3>
+        <ul>
+          <li>Start with IDLE if you want a very simple learning beginning.</li>
+          <li>Move to VS Code for structured learning, projects, and professional practice.</li>
+          <li>Always save files before running them.</li>
+          <li>Keep one test file to verify environment changes.</li>
+          <li>Learn how to run code from both the Run button and the terminal.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>13. Real-World Use Cases</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Tool</th>
+              <th>Where It Is Useful</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>IDLE</td>
+              <td>Classroom basics, first practice, small programs, quick experiments.</td>
+            </tr>
+            <tr>
+              <td>VS Code</td>
+              <td>Project folders, industry practice, debugging, extensions, terminal-based execution.</td>
+            </tr>
+            <tr>
+              <td>Any IDE / Editor</td>
+              <td>Writing, saving, editing, and managing Python programs in a clean way.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>14. Comparison Table</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Point</th>
+              <th>IDLE</th>
+              <th>VS Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Difficulty Level</td>
+              <td>Very easy for beginners</td>
+              <td>Easy, but with more features</td>
+            </tr>
+            <tr>
+              <td>Comes with Python</td>
+              <td>Usually yes</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td>Project Support</td>
+              <td>Basic</td>
+              <td>Strong</td>
+            </tr>
+            <tr>
+              <td>Extensions</td>
+              <td>No major extension ecosystem</td>
+              <td>Very strong extension support</td>
+            </tr>
+            <tr>
+              <td>Industry Usage</td>
+              <td>Less common for big projects</td>
+              <td>Widely used</td>
+            </tr>
+            <tr>
+              <td>Best For</td>
+              <td>First steps and quick learning</td>
+              <td>Professional learning and real projects</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>15. Interview Questions and Answers</h3>
+
+        <div class="qa">
+          <span class="label">Q1</span>
+          <h5>What is an IDE?</h5>
+          <p>An IDE is an Integrated Development Environment. It is a tool that helps developers write, edit, run, and manage code more easily.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q2</span>
+          <h5>What is IDLE in Python?</h5>
+          <p>IDLE is Python’s basic integrated development environment. It is simple and suitable for beginners.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q3</span>
+          <h5>Why is VS Code popular for Python development?</h5>
+          <p>VS Code is popular because it is lightweight, modern, supports extensions, has an integrated terminal, and is widely used in industry.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q4</span>
+          <h5>Can VS Code run Python without Python being installed?</h5>
+          <p>No. VS Code is an editor. Python must be installed separately to run Python code locally.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q5</span>
+          <h5>What is the use of the Python extension in VS Code?</h5>
+          <p>The Python extension adds useful Python features such as syntax support, interpreter selection, running, linting, and debugging tools.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q6</span>
+          <h5>Which is better for beginners: IDLE or VS Code?</h5>
+          <p>IDLE is simpler for absolute beginners, while VS Code is better for learners who want a professional project-based environment.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q7</span>
+          <h5>Why should Python files be saved with a <code>.py</code> extension?</h5>
+          <p>The <code>.py</code> extension tells the system and tools that the file contains Python code.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q8</span>
+          <h5>What is interpreter selection in VS Code?</h5>
+          <p>It means choosing which Python installation or environment VS Code should use to run your code.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q9</span>
+          <h5>How do you run a Python script in IDLE?</h5>
+          <p>You create a new file, write the code, save it as <code>.py</code>, and run it using F5 or Run Module.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q10</span>
+          <h5>How do you verify that your coding environment is ready?</h5>
+          <p>You write a small Python statement such as <code>print("Environment ready")</code> and run it successfully.</p>
+        </div>
+
+        <div class="note tip">
+          <strong>Interview Tip:</strong> A balanced answer sounds good: “I know both IDLE and VS Code. IDLE is great for basics, and VS Code is better for structured development.”
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>16. MCQs for Practice</h3>
+
+        <div class="mcq">
+          <h5>1. What is the full form of IDE?</h5>
+          <p>A. Internal Data Engine<br>B. Integrated Development Environment<br>C. Intelligent Design Editor<br>D. Integrated Debug Element</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> IDE stands for Integrated Development Environment.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>2. Which tool usually comes with Python installation?</h5>
+          <p>A. VS Code<br>B. IDLE<br>C. PyCharm Professional<br>D. Git</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> IDLE is commonly included with Python installation.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>3. VS Code is mainly a:</h5>
+          <p>A. programming language<br>B. hardware device<br>C. code editor<br>D. database</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> VS Code is a code editor used for development.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>4. Which extension is important for Python coding in VS Code?</h5>
+          <p>A. Excel extension<br>B. Python extension<br>C. Drawing extension<br>D. Media extension</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> The Python extension adds Python support in VS Code.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>5. What extension should a Python script file use?</h5>
+          <p>A. .txt<br>B. .html<br>C. .py<br>D. .docx</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> Python files are normally saved with a .py extension.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>6. Which tool is more commonly used in industry projects?</h5>
+          <p>A. Only IDLE<br>B. VS Code<br>C. Notepad only<br>D. Calculator</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> VS Code is widely used in professional development environments.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>7. What does F5 commonly do in IDLE?</h5>
+          <p>A. Closes the file<br>B. Runs the module<br>C. Deletes Python<br>D. Creates hardware</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> In IDLE, F5 is used to run the current script.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>8. Which statement is true?</h5>
+          <p>A. VS Code itself is Python<br>B. IDLE cannot run Python code<br>C. Python must be installed separately for VS Code use<br>D. .py files are not needed</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> VS Code is an editor and still needs Python installed for execution.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>9. Why is interpreter selection important in VS Code?</h5>
+          <p>A. To change monitor brightness<br>B. To choose the Python runtime to execute code<br>C. To create images<br>D. To rename the keyboard</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> VS Code may need the correct Python interpreter selected to run scripts properly.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>10. Which is better for a very first small program?</h5>
+          <p>A. IDLE can be a simple starting point<br>B. Python should never use any editor<br>C. VS Code cannot run Python<br>D. .py files are not required</p>
+          <p><strong>Correct Answer:</strong> A</p>
+          <p><strong>Explanation:</strong> IDLE is often a very simple and beginner-friendly starting environment.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>17. Practice Exercise Section</h3>
+        <h4>Small Exercise</h4>
+        <p>Write the basic difference between IDLE and VS Code in your own words.</p>
+
+        <h4>Practical Task</h4>
+        <p>Open either IDLE or VS Code, create a file named <code>first_program.py</code>, write a simple <code>print()</code> statement, and run it.</p>
+
+        <h4>Mini Assignment</h4>
+        <p>Create a short note explaining which tool you would recommend for a complete beginner and which tool you would recommend for project practice, and why.</p>
+      </section>
+
+      <section class="card">
+        <h3>18. Practice Exercise Solutions</h3>
+        <h4>Solution Idea for Small Exercise</h4>
+        <p>IDLE is a simple built-in Python environment that is easy for beginners. VS Code is a more powerful editor with professional features and extension support.</p>
+
+        <h4>Solution Idea for Practical Task</h4>
+        <pre><code>print("My environment is ready")</code></pre>
+        <div class="output">My environment is ready</div>
+
+        <h4>Solution Idea for Mini Assignment</h4>
+        <p>For absolute beginners, IDLE is easy because it is simple and comes with Python. For project practice and job-oriented learning, VS Code is better because it supports folders, terminal, extensions, and a more professional workflow.</p>
+      </section>
+
+      <section class="card">
+        <h3>19. Revision Checklist</h3>
+        <ul class="checklist">
+          <li>I understand what an IDE or editor is.</li>
+          <li>I know what IDLE is and how to use it.</li>
+          <li>I know how to set up VS Code for Python.</li>
+          <li>I know why the Python extension matters in VS Code.</li>
+          <li>I can save Python files with the .py extension.</li>
+          <li>I can run a basic Python script in IDLE or VS Code.</li>
+          <li>I can explain the difference between IDLE and VS Code in interviews.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>20. Summary</h3>
+        <p>In this topic, we learned how to set up a Python coding environment using IDLE and VS Code. We understood that IDLE is simple and suitable for beginners, while VS Code is more feature-rich and useful for structured development and real projects.</p>
+        <p>The most important takeaway is that a comfortable coding environment makes learning easier. Once your editor is ready and connected to Python correctly, you can focus fully on writing and understanding Python programs.</p>
+        <div class="note tip">
+          <strong>Confidence Booster:</strong> If you can open IDLE or VS Code, write a Python file, save it correctly, and run it, you have already completed an important real-world beginner skill.
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">End of Notes – Setting Up IDE / VS Code / IDLE</div>
+  </div>
+</body>
+</html>

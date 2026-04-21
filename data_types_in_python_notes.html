@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Types in Python - Professional Training Notes</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --ink:#1f2937;
+      --muted:#5b6472;
+      --brand:#1d4ed8;
+      --brand-soft:#dbeafe;
+      --tip:#065f46;
+      --tip-bg:#ecfdf5;
+      --warn:#92400e;
+      --warn-bg:#fff7ed;
+      --danger:#991b1b;
+      --danger-bg:#fef2f2;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Segoe UI, Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#eef4ff 0%, var(--bg) 100%);
+      color:var(--ink);
+      line-height:1.7;
+    }
+    .container{width:min(1180px,92%);margin:0 auto;padding:28px 0 60px;}
+    .hero{
+      background:linear-gradient(135deg,#1e3a8a 0%, #2563eb 55%, #0ea5e9 100%);
+      color:#fff;border-radius:28px;padding:42px 32px;box-shadow:var(--shadow);margin-top:22px;
+    }
+    .hero h1{margin:0 0 10px;font-size:clamp(2rem,4vw,3rem);line-height:1.2;}
+    .hero h2{margin:0 0 14px;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:600;opacity:.96;}
+    .hero p{margin:10px 0 0;font-size:1.05rem;max-width:930px;}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+    .pill{
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);
+      padding:8px 14px;border-radius:999px;font-size:.95rem;
+    }
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:24px;}
+    .card{
+      grid-column:span 12;background:var(--card);border-radius:var(--radius);
+      padding:26px;box-shadow:var(--shadow);
+    }
+    .card h3{margin-top:0;font-size:1.55rem;color:#0f172a;}
+    .card h4{margin:22px 0 10px;font-size:1.18rem;color:#0b3b8f;}
+    .two-col{grid-column:span 6;}
+    @media (max-width:900px){
+      .two-col{grid-column:span 12;}
+      .hero{padding:30px 22px;}
+    }
+    p{margin:10px 0;}
+    ul,ol{padding-left:22px;}
+    li{margin:8px 0;}
+    .note{
+      border-left:6px solid var(--brand);background:var(--brand-soft);
+      padding:16px 18px;border-radius:12px;margin:16px 0;
+    }
+    .note.tip{border-left-color:var(--tip);background:var(--tip-bg);}
+    .note.warn{border-left-color:var(--warn);background:var(--warn-bg);}
+    .note.danger{border-left-color:var(--danger);background:var(--danger-bg);}
+    code{font-family:Consolas,"Courier New",monospace;font-size:.96rem;}
+    pre{
+      background:#0f172a;color:#e5eefc;padding:18px;border-radius:16px;
+      overflow:auto;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+    }
+    .output{
+      background:#f8fafc;border:1px solid #dbe3ef;padding:14px 16px;border-radius:14px;
+      margin:12px 0 18px;font-family:Consolas,"Courier New",monospace;white-space:pre-wrap;
+    }
+    table{width:100%;border-collapse:collapse;margin:14px 0;}
+    th,td{border:1px solid #dbe3ef;padding:12px 14px;text-align:left;vertical-align:top;}
+    th{background:#e8f0ff;color:#0b3b8f;}
+    .qa,.mcq{
+      border:1px solid #d9e3f3;background:#fcfdff;border-radius:16px;padding:18px;margin:14px 0;
+    }
+    .qa h5,.mcq h5{margin:0 0 8px;font-size:1.02rem;color:#0f172a;}
+    .label{
+      display:inline-block;font-size:.82rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
+      color:#0b3b8f;background:#e8f0ff;padding:6px 10px;border-radius:999px;margin-bottom:10px;
+    }
+    .checklist li{
+      list-style:none;margin:10px 0;padding-left:34px;position:relative;
+    }
+    .checklist li::before{
+      content:"✓";position:absolute;left:0;top:0;color:#0f766e;font-weight:700;font-size:1.1rem;
+    }
+    .footer{text-align:center;color:var(--muted);margin-top:24px;font-size:.95rem;}
+    .mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+    @media (max-width:800px){.mini-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Python for Beginners – Professional Training Notes</h1>
+      <h2>Data Types in Python</h2>
+      <p>Professional beginner notes to explain what data types are, why they matter, how Python identifies them, and how they are used in real programs, interviews, and practical coding.</p>
+      <div class="pill-row">
+        <span class="pill">Beginner-Friendly</span>
+        <span class="pill">Core Concept</span>
+        <span class="pill">Real Examples</span>
+        <span class="pill">Interview Ready</span>
+        <span class="pill">MCQs + Exercises</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card two-col">
+        <h3>1. Introduction</h3>
+        <p><strong>Data types in Python</strong> tell us what kind of value a variable is holding. For example, a name is text, age is a number, salary may be a decimal number, and login status may be true or false. Python uses data types to understand how values should be stored, displayed, and processed.</p>
+        <p>This topic is very important because programming always works with data. If the program does not know the type of data, it cannot handle it properly. For example, adding two numbers is different from joining two text values.</p>
+        <p>For beginners, data types are a foundation topic. Once learners understand data types, they can work more confidently with variables, input, operators, conditions, and collections. For job seekers, this topic is frequently asked in fresher interviews.</p>
+        <div class="note">
+          <strong>Remember:</strong> A data type tells Python what kind of value it is working with.
+        </div>
+      </section>
+
+      <section class="card two-col">
+        <h3>2. Learning Objectives</h3>
+        <ul>
+          <li>Understand what data types are in Python.</li>
+          <li>Learn the major built-in data types.</li>
+          <li>Know the difference between numbers, text, Boolean values, and collections.</li>
+          <li>Use the <code>type()</code> function to check data types.</li>
+          <li>Understand why data types matter in programming.</li>
+          <li>Avoid common beginner mistakes related to types.</li>
+          <li>Prepare for interview questions on Python data types.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>3. Why This Topic Matters</h3>
+        <div class="mini-grid">
+          <div>
+            <h4>Why this topic matters in programming</h4>
+            <p>Programs work with different kinds of data such as names, marks, prices, login status, and lists of values. Python needs to know the type of each value to process it correctly.</p>
+          </div>
+          <div>
+            <h4>Why this topic matters in interviews</h4>
+            <p>Interviewers often ask about common data types, differences between lists and tuples, what <code>type()</code> does, or whether Python is dynamically typed. This is a high-frequency beginner topic.</p>
+          </div>
+        </div>
+        <div class="note tip">
+          <strong>Interview Tip:</strong> When defining data types, add one example for each. That makes the answer clearer and easier to remember.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>4. Beginner-Friendly Explanation</h3>
+        <p>Let us think in a simple real-life way. In a kitchen, we keep rice, water, sugar, and oil. All are items, but they are not the same kind of item. Each one is used differently. In programming, values are also not all the same. Some are text, some are numbers, some are true/false, and some are groups of values.</p>
+        <p>Python uses data types to understand this difference. If Python sees <code>25</code>, it knows this is a number. If it sees <code>"Ravi"</code>, it knows this is text. If it sees <code>True</code>, it knows this is a Boolean value.</p>
+        <p>This matters because different types behave differently. You can add numbers mathematically, but if you “add” text values, Python joins them together. So knowing the data type helps us understand what operations are possible.</p>
+        <p>A simple analogy is this: data types are like labels on items in a store. One label says “liquid,” another says “solid,” another says “fragile.” The label tells us how to handle the item. In the same way, a data type tells Python how to handle the value.</p>
+        <div class="note warn">
+          <strong>Common Confusion:</strong> Beginners sometimes think everything in Python works the same way. But text, numbers, lists, and Boolean values behave differently because their data types are different.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>5. Syntax Section</h3>
+        <p>Python automatically identifies data types based on the assigned value.</p>
+        <pre><code>name = "Ravi"
+age = 25
+salary = 45000.75
+is_active = True
+
+print(type(name))
+print(type(age))
+print(type(salary))
+print(type(is_active))</code></pre>
+
+        <h4>Syntax Explanation</h4>
+        <ul>
+          <li><code>"Ravi"</code> is a string, so <code>name</code> becomes <code>str</code>.</li>
+          <li><code>25</code> is an integer, so <code>age</code> becomes <code>int</code>.</li>
+          <li><code>45000.75</code> is a decimal number, so <code>salary</code> becomes <code>float</code>.</li>
+          <li><code>True</code> is a Boolean value, so <code>is_active</code> becomes <code>bool</code>.</li>
+          <li><code>type()</code> is used to check the data type of a value or variable.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>6. Main Data Types in Python</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Data Type</th>
+              <th>Meaning</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>int</code></td><td>Whole number</td><td><code>10</code>, <code>250</code></td></tr>
+            <tr><td><code>float</code></td><td>Decimal number</td><td><code>10.5</code>, <code>99.99</code></td></tr>
+            <tr><td><code>str</code></td><td>Text / string</td><td><code>"Python"</code>, <code>"Ravi"</code></td></tr>
+            <tr><td><code>bool</code></td><td>True/False value</td><td><code>True</code>, <code>False</code></td></tr>
+            <tr><td><code>list</code></td><td>Ordered mutable collection</td><td><code>[1, 2, 3]</code></td></tr>
+            <tr><td><code>tuple</code></td><td>Ordered immutable collection</td><td><code>(1, 2, 3)</code></td></tr>
+            <tr><td><code>set</code></td><td>Unordered unique collection</td><td><code>{1, 2, 3}</code></td></tr>
+            <tr><td><code>dict</code></td><td>Key-value collection</td><td><code>{"name": "Ravi"}</code></td></tr>
+            <tr><td><code>NoneType</code></td><td>No value</td><td><code>None</code></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>7. Detailed Examples Section</h3>
+
+        <h4>Example 1: Basic Example</h4>
+        <pre><code>x = 10
+print(type(x))</code></pre>
+        <div class="output">&lt;class 'int'&gt;</div>
+        <p><strong>Explanation:</strong> Python identifies <code>10</code> as an integer.</p>
+
+        <h4>Example 2: Beginner-Friendly Example</h4>
+        <pre><code>name = "Anjali"
+print(type(name))</code></pre>
+        <div class="output">&lt;class 'str'&gt;</div>
+        <p><strong>Explanation:</strong> Text inside quotes becomes a string type.</p>
+
+        <h4>Example 3: Real-World Style Example</h4>
+        <pre><code>price = 199.99
+available = True
+print(type(price))
+print(type(available))</code></pre>
+        <div class="output">&lt;class 'float'&gt;
+&lt;class 'bool'&gt;</div>
+        <p><strong>Why this matters:</strong> Real applications use prices, statuses, names, lists, and many other types of data.</p>
+
+        <h4>Example 4: Interview-Oriented Example</h4>
+        <pre><code>marks = [85, 90, 95]
+print(type(marks))</code></pre>
+        <div class="output">&lt;class 'list'&gt;</div>
+        <p><strong>Explanation:</strong> A list stores multiple values in an ordered way.</p>
+
+        <h4>Example 5: Practical Scenario Example</h4>
+        <pre><code>student = {
+    "name": "Ravi",
+    "age": 21
+}
+print(type(student))</code></pre>
+        <div class="output">&lt;class 'dict'&gt;</div>
+        <p><strong>Why this matters:</strong> Dictionaries are used a lot in real programs to store structured data.</p>
+      </section>
+
+      <section class="card">
+        <h3>8. Code Output Section</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Output</th>
+              <th>What Learner Should Notice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>print(type(5))</code></td>
+              <td><code>&lt;class 'int'&gt;</code></td>
+              <td>Whole numbers are integers</td>
+            </tr>
+            <tr>
+              <td><code>print(type(5.5))</code></td>
+              <td><code>&lt;class 'float'&gt;</code></td>
+              <td>Decimal numbers are float</td>
+            </tr>
+            <tr>
+              <td><code>print(type("Hi"))</code></td>
+              <td><code>&lt;class 'str'&gt;</code></td>
+              <td>Quoted text becomes string</td>
+            </tr>
+            <tr>
+              <td><code>print(type(True))</code></td>
+              <td><code>&lt;class 'bool'&gt;</code></td>
+              <td>Boolean values are True/False types</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card two-col">
+        <h3>9. Key Points to Remember</h3>
+        <ul>
+          <li>Data types tell Python what kind of value it is handling.</li>
+          <li>Common types include <code>int</code>, <code>float</code>, <code>str</code>, and <code>bool</code>.</li>
+          <li>Python also supports collections like <code>list</code>, <code>tuple</code>, <code>set</code>, and <code>dict</code>.</li>
+          <li><code>type()</code> is used to check the type of a value.</li>
+          <li>Different data types support different operations.</li>
+          <li>Python identifies types automatically in most simple cases.</li>
+        </ul>
+      </section>
+
+      <section class="card two-col">
+        <h3>10. Common Beginner Mistakes</h3>
+        <ul>
+          <li><strong>Mixing text and number without understanding:</strong> <code>"10"</code> is not the same as <code>10</code>.</li>
+          <li><strong>Thinking everything inside quotes is numeric:</strong> <code>"25"</code> is string, not integer.</li>
+          <li><strong>Forgetting to check type:</strong> Using <code>type()</code> helps beginners verify assumptions.</li>
+          <li><strong>Confusing list, tuple, set, and dictionary:</strong> They all store groups of values, but behave differently.</li>
+          <li><strong>Ignoring Boolean type:</strong> <code>True</code> and <code>False</code> are also important data types.</li>
+        </ul>
+        <div class="note danger">
+          <strong>Common Mistake:</strong> Many beginners wonder why <code>"10" + "20"</code> gives <code>"1020"</code> instead of <code>30</code>. The reason is that both values are strings, not numbers.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>11. Best Practices</h3>
+        <ul>
+          <li>Know what kind of data your variable is storing.</li>
+          <li>Use <code>type()</code> during learning to confirm data types.</li>
+          <li>Use meaningful variable names that suggest the value type.</li>
+          <li>Do not mix different types without understanding the result.</li>
+          <li>Practice with small examples for each important data type.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>12. Real-World Use Cases</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Use Case</th>
+              <th>Data Type Examples</th>
+              <th>Why It Matters</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Student system</td>
+              <td>Name as string, age as int, marks as list</td>
+              <td>Different fields need different types</td>
+            </tr>
+            <tr>
+              <td>E-commerce</td>
+              <td>Price as float, stock as int, availability as bool</td>
+              <td>Correct calculations and status handling</td>
+            </tr>
+            <tr>
+              <td>Login system</td>
+              <td>Username as string, status as bool</td>
+              <td>Text and state values are handled differently</td>
+            </tr>
+            <tr>
+              <td>Configuration data</td>
+              <td>Dictionary and lists</td>
+              <td>Structured grouped data handling</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>13. Comparison Table</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Point</th>
+              <th><code>int</code></th>
+              <th><code>float</code></th>
+              <th><code>str</code></th>
+              <th><code>bool</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Meaning</td>
+              <td>Whole number</td>
+              <td>Decimal number</td>
+              <td>Text value</td>
+              <td>True/False value</td>
+            </tr>
+            <tr>
+              <td>Example</td>
+              <td><code>10</code></td>
+              <td><code>10.5</code></td>
+              <td><code>"Hello"</code></td>
+              <td><code>True</code></td>
+            </tr>
+            <tr>
+              <td>Used for</td>
+              <td>Count, age, quantity</td>
+              <td>Price, percentage</td>
+              <td>Name, city, message</td>
+              <td>Status, result, condition</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>14. Interview Questions and Answers</h3>
+
+        <div class="qa">
+          <span class="label">Q1</span>
+          <h5>What are data types in Python?</h5>
+          <p>Data types in Python define the kind of value a variable holds, such as integer, string, float, or Boolean.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q2</span>
+          <h5>Why are data types important in Python?</h5>
+          <p>They help Python understand how to store and process values correctly.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q3</span>
+          <h5>What is the use of the <code>type()</code> function?</h5>
+          <p>The <code>type()</code> function is used to check the data type of a value or variable.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q4</span>
+          <h5>What is the difference between <code>int</code> and <code>float</code>?</h5>
+          <p><code>int</code> stores whole numbers, while <code>float</code> stores decimal numbers.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q5</span>
+          <h5>What is a string in Python?</h5>
+          <p>A string is a text value written inside single quotes or double quotes.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q6</span>
+          <h5>What are Boolean values in Python?</h5>
+          <p>Boolean values are <code>True</code> and <code>False</code>, used to represent yes/no or condition states.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q7</span>
+          <h5>Does Python need explicit type declaration for variables?</h5>
+          <p>No. Python usually determines the type automatically from the assigned value.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q8</span>
+          <h5>What is the difference between a list and a tuple?</h5>
+          <p>A list is mutable, while a tuple is immutable.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q9</span>
+          <h5>What is a dictionary in Python?</h5>
+          <p>A dictionary is a collection that stores data in key-value pairs.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q10</span>
+          <h5>Why should beginners learn data types early?</h5>
+          <p>Because almost every Python statement involves data, and understanding data types prevents many coding mistakes.</p>
+        </div>
+
+        <div class="note tip">
+          <strong>Interview Tip:</strong> A complete answer sounds better when you define the type and give one example, such as “int is for whole numbers like 10.”
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>15. MCQs for Practice</h3>
+
+        <div class="mcq">
+          <h5>1. Which function is used to check the data type in Python?</h5>
+          <p>A. <code>data()</code><br>B. <code>check()</code><br>C. <code>type()</code><br>D. <code>dtype()</code></p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> <code>type()</code> returns the data type of the given value.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>2. Which of the following is an integer?</h5>
+          <p>A. <code>10.5</code><br>B. <code>"10"</code><br>C. <code>10</code><br>D. <code>True</code></p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> Whole numbers without quotes or decimal are integers.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>3. Which of the following is a string?</h5>
+          <p>A. <code>25</code><br>B. <code>"Python"</code><br>C. <code>False</code><br>D. <code>3.14</code></p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Text inside quotes is a string.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>4. What data type is <code>99.9</code>?</h5>
+          <p>A. int<br>B. str<br>C. float<br>D. bool</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> Decimal numbers are float type.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>5. Which of the following is a Boolean value?</h5>
+          <p>A. <code>"True"</code><br>B. <code>1</code><br>C. <code>True</code><br>D. <code>"False"</code></p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> <code>True</code> without quotes is a Boolean value.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>6. Which type stores multiple values in square brackets?</h5>
+          <p>A. tuple<br>B. list<br>C. dict<br>D. set</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Lists are written using square brackets.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>7. Which statement is true?</h5>
+          <p>A. <code>"10"</code> and <code>10</code> are the same type<br>B. Python does not support Boolean type<br>C. Data types tell Python how to handle values<br>D. Only strings can be stored in variables</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> Data types guide Python on how values should be processed.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>8. A dictionary stores data as:</h5>
+          <p>A. decimal pairs<br>B. key-value pairs<br>C. loop values only<br>D. Boolean blocks</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Dictionaries store values with keys.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>9. Which type is immutable?</h5>
+          <p>A. list<br>B. tuple<br>C. dict<br>D. set</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Tuples are immutable collections.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>10. Why should learners know data types?</h5>
+          <p>A. To decorate code<br>B. To understand how Python handles values<br>C. To replace variables<br>D. To avoid all internet issues</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Data types are essential for correct storage, operations, and understanding.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>16. Practice Exercise Section</h3>
+        <h4>Small Exercise</h4>
+        <p>Create variables for your name, age, salary, and login status. Then print their data types.</p>
+
+        <h4>Practical Task</h4>
+        <p>Create a student record using multiple data types such as string, integer, list, and Boolean, then print each value and its type.</p>
+
+        <h4>Mini Assignment</h4>
+        <p>Write a short note comparing <code>int</code>, <code>float</code>, <code>str</code>, and <code>bool</code> with one real-life example for each.</p>
+      </section>
+
+      <section class="card">
+        <h3>17. Practice Exercise Solutions</h3>
+
+        <h4>Solution for Small Exercise</h4>
+        <pre><code>name = "Ravi"
+age = 22
+salary = 35000.75
+is_logged_in = True
+
+print(type(name))
+print(type(age))
+print(type(salary))
+print(type(is_logged_in))</code></pre>
+        <div class="output">&lt;class 'str'&gt;
+&lt;class 'int'&gt;
+&lt;class 'float'&gt;
+&lt;class 'bool'&gt;</div>
+
+        <h4>Solution Idea for Practical Task</h4>
+        <pre><code>student_name = "Anjali"
+student_age = 20
+marks = [85, 90, 95]
+is_passed = True
+
+print(student_name, type(student_name))
+print(student_age, type(student_age))
+print(marks, type(marks))
+print(is_passed, type(is_passed))</code></pre>
+        <div class="output">Anjali &lt;class 'str'&gt;
+20 &lt;class 'int'&gt;
+[85, 90, 95] &lt;class 'list'&gt;
+True &lt;class 'bool'&gt;</div>
+
+        <h4>Solution Idea for Mini Assignment</h4>
+        <p><code>int</code> is used for whole numbers like age = 25. <code>float</code> is used for decimal values like price = 99.99. <code>str</code> is used for text like name = "Ravi". <code>bool</code> is used for true/false status like is_active = True.</p>
+      </section>
+
+      <section class="card">
+        <h3>18. Revision Checklist</h3>
+        <ul class="checklist">
+          <li>I understand what data types are in Python.</li>
+          <li>I can identify int, float, str, and bool values.</li>
+          <li>I know how to use the <code>type()</code> function.</li>
+          <li>I understand that text inside quotes becomes string.</li>
+          <li>I can explain the difference between list, tuple, set, and dict at a basic level.</li>
+          <li>I can answer beginner interview questions on data types.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>19. Summary</h3>
+        <p>In this topic, we learned that data types in Python define what kind of value a variable holds. We covered common types like <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>, and important collection types like <code>list</code>, <code>tuple</code>, <code>set</code>, and <code>dict</code>. We also saw how to use <code>type()</code> to check data types.</p>
+        <p>The biggest takeaway is this: once you understand data types, you understand how Python sees values. That makes future topics like operators, conditions, loops, input, and functions much easier to learn.</p>
+        <div class="note tip">
+          <strong>Confidence Booster:</strong> If you can identify the type of a value and explain why it matters, your Python basics are becoming solid.
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">End of Notes – Data Types in Python</div>
+  </div>
+</body>
+</html>

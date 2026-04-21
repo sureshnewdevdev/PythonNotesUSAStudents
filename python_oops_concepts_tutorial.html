@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python OOP Concepts Tutorial - ItTechGenie</title>
+    <style>
+        :root{
+            --bg:#f4f7fb;
+            --card:#ffffff;
+            --primary:#0d6efd;
+            --dark:#1f2937;
+            --muted:#6b7280;
+            --good:#1f9d55;
+            --bad:#dc3545;
+            --border:#dbe4f0;
+            --soft:#eef5ff;
+            --shadow:0 10px 30px rgba(0,0,0,0.08);
+        }
+        *{box-sizing:border-box}
+        body{
+            margin:0;
+            font-family:Segoe UI, Arial, sans-serif;
+            background:var(--bg);
+            color:var(--dark);
+            line-height:1.7;
+        }
+        header{
+            background:linear-gradient(135deg,#0d6efd,#5aa3ff);
+            color:#fff;
+            padding:30px 20px;
+            text-align:center;
+        }
+        header h1{margin:0;font-size:2.2rem}
+        header p{margin:10px auto 0;max-width:900px}
+        .container{
+            width:min(1200px,95%);
+            margin:20px auto 60px;
+        }
+        .project{
+            background:#fff8e6;
+            border:1px solid #f6d88a;
+            padding:12px 16px;
+            border-radius:12px;
+            margin-bottom:20px;
+            font-weight:600;
+        }
+        .toc,.section,.qa,.mcq{
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:18px;
+            padding:22px;
+            box-shadow:var(--shadow);
+            margin-bottom:22px;
+            transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+            position:relative;
+        }
+        .section:hover,.qa:hover,.mcq:hover,.toc:hover{
+            transform:translateY(-2px);
+            box-shadow:0 14px 34px rgba(13,110,253,.14);
+            background:#fbfdff;
+        }
+        h2{
+            color:var(--primary);
+            margin-top:0;
+            border-left:6px solid var(--primary);
+            padding-left:12px;
+        }
+        h3{color:#0b5ed7;margin-top:20px}
+        code{
+            background:#eef2f7;
+            padding:2px 6px;
+            border-radius:6px;
+            font-family:Consolas, monospace;
+        }
+        pre{
+            background:#0f172a;
+            color:#e5eefc;
+            padding:18px;
+            border-radius:14px;
+            overflow:auto;
+            border:1px solid #22304a;
+        }
+        ul li{margin:8px 0}
+        .diagram{
+            background:var(--soft);
+            border:1px dashed #8cb8ff;
+            padding:16px;
+            border-radius:12px;
+            font-family:Consolas, monospace;
+            white-space:pre-wrap;
+        }
+        details{
+            background:#f8fbff;
+            border:1px solid var(--border);
+            border-radius:12px;
+            padding:12px 14px;
+            margin:10px 0;
+        }
+        summary{
+            cursor:pointer;
+            font-weight:700;
+            color:#1349a2;
+        }
+        .note{
+            background:#eefaf2;
+            border-left:5px solid var(--good);
+            padding:14px;
+            border-radius:10px;
+            margin:12px 0;
+        }
+        .warn{
+            background:#fff1f2;
+            border-left:5px solid var(--bad);
+            padding:14px;
+            border-radius:10px;
+            margin:12px 0;
+        }
+        .btn{
+            border:none;
+            border-radius:10px;
+            padding:10px 14px;
+            margin:6px 6px 0 0;
+            cursor:pointer;
+            font-weight:600;
+        }
+        .option{background:#eef3ff}
+        .result{
+            display:none;
+            margin-top:10px;
+            padding:10px 12px;
+            border-radius:10px;
+            font-weight:700;
+        }
+        .correct{background:#e8f7ed;color:var(--good);display:block}
+        .wrong{background:#fdecef;color:var(--bad);display:block}
+        .toplink a{
+            text-decoration:none;
+            color:#0b5ed7;
+        }
+        .grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+            gap:16px;
+        }
+        footer{
+            text-align:center;
+            color:var(--muted);
+            padding:30px 10px;
+        }
+        .sparkle{
+            position:fixed;
+            width:8px;
+            height:8px;
+            border-radius:50%;
+            background:rgba(13,110,253,.7);
+            pointer-events:none;
+            animation:fade .8s linear forwards;
+            z-index:9999;
+        }
+        @keyframes fade{
+            0%{transform:scale(1);opacity:1}
+            100%{transform:scale(3);opacity:0}
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Python OOP Concepts with Detailed Explanations</h1>
+    <p>A classroom-style tutorial covering Object-Oriented Programming in Python with theory, diagrams, and coding examples.</p>
+</header>
+
+<div class="container">
+    <div class="project">Current Project: ItTechGenie Tutorials</div>
+
+    <section class="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#intro">What is OOP?</a></li>
+            <li><a href="#class-object">Class and Object</a></li>
+            <li><a href="#constructor">Constructor</a></li>
+            <li><a href="#instance-class-static">Instance, Class, and Static Methods</a></li>
+            <li><a href="#inheritance">Inheritance</a></li>
+            <li><a href="#polymorphism">Polymorphism</a></li>
+            <li><a href="#encapsulation">Encapsulation</a></li>
+            <li><a href="#abstraction">Abstraction</a></li>
+            <li><a href="#super">super() Keyword</a></li>
+            <li><a href="#special">Special Methods</a></li>
+            <li><a href="#mini-project">Mini Real-World Example</a></li>
+            <li><a href="#mcq">MCQs</a></li>
+            <li><a href="#interview">Interview Questions</a></li>
+        </ol>
+    </section>
+
+    <section class="section" id="intro">
+        <h2>1. What is OOP?</h2>
+        <p>OOP stands for <b>Object-Oriented Programming</b>. It is a programming style where we organize code using <b>classes</b> and <b>objects</b>. Instead of writing everything as loose functions and variables, we group related data and behavior together.</p>
+        <p>In Python, OOP helps us model real-world things such as students, cars, employees, bank accounts, orders, and products. Each real-world thing can be represented as an object, and each object can have its own data and actions.</p>
+
+        <div class="diagram">Real World Example
+-----------------
+Car
+  -> data  : brand, model, color, speed
+  -> action: start(), stop(), accelerate()
+
+In Python OOP:
+Class  -> Blueprint
+Object -> Real item created from the blueprint
+        </div>
+
+        <div class="note">
+            OOP makes code more reusable, easier to maintain, and closer to real-world thinking.
+        </div>
+    </section>
+
+    <section class="section" id="class-object">
+        <h2>2. Class and Object</h2>
+        <h3>What is a Class?</h3>
+        <p>A class is a blueprint or template. It defines what data and what behavior an object will have.</p>
+
+        <h3>What is an Object?</h3>
+        <p>An object is a real instance created from the class. If a class is a design of a house, the object is the actual built house.</p>
+
+<pre>class Student:
+    def display(self):
+        print("This is a student object")
+
+s1 = Student()   # object creation
+s1.display()</pre>
+
+        <h3>Explanation</h3>
+        <ul>
+            <li><code>class Student:</code> creates a class named Student.</li>
+            <li><code>display(self)</code> is an instance method.</li>
+            <li><code>s1 = Student()</code> creates an object.</li>
+            <li><code>s1.display()</code> calls the method using the object.</li>
+        </ul>
+
+        <h3>Example with Data</h3>
+<pre>class Employee:
+    def set_data(self, name, salary):
+        self.name = name
+        self.salary = salary
+
+    def show_data(self):
+        print("Name:", self.name)
+        print("Salary:", self.salary)
+
+e1 = Employee()
+e1.set_data("Gopi", 50000)
+e1.show_data()</pre>
+
+        <p>Here, <code>self.name</code> and <code>self.salary</code> are object-specific variables. Different objects can store different values.</p>
+    </section>
+
+    <section class="section" id="constructor">
+        <h2>3. Constructor</h2>
+        <p>A constructor is a special method that runs automatically when an object is created. In Python, the constructor method is <code>__init__()</code>.</p>
+
+<pre>class Laptop:
+    def __init__(self, brand, ram):
+        self.brand = brand
+        self.ram = ram
+
+    def show(self):
+        print("Brand:", self.brand)
+        print("RAM:", self.ram, "GB")
+
+l1 = Laptop("Dell", 16)
+l2 = Laptop("HP", 8)
+
+l1.show()
+l2.show()</pre>
+
+        <h3>Why use constructor?</h3>
+        <ul>
+            <li>To initialize values at the time of object creation</li>
+            <li>To avoid calling a separate setup method later</li>
+            <li>To make object creation clean and professional</li>
+        </ul>
+
+        <div class="diagram">Object Creation Flow
+--------------------
+Laptop("Dell", 16)
+     |
+     --> __init__(self, "Dell", 16)
+              |
+              --> self.brand = "Dell"
+              --> self.ram = 16
+        </div>
+    </section>
+
+    <section class="section" id="instance-class-static">
+        <h2>4. Instance, Class, and Static Methods</h2>
+
+        <h3>Instance Method</h3>
+        <p>Works with object data and uses <code>self</code>.</p>
+
+<pre>class Car:
+    def __init__(self, brand):
+        self.brand = brand
+
+    def show_brand(self):
+        print("Brand:", self.brand)
+
+c1 = Car("Toyota")
+c1.show_brand()</pre>
+
+        <h3>Class Variable and Class Method</h3>
+        <p>Class variables are shared by all objects. Class methods use <code>cls</code> and can access class-level data.</p>
+
+<pre>class School:
+    school_name = "ABC Public School"
+
+    @classmethod
+    def change_school_name(cls, new_name):
+        cls.school_name = new_name
+
+print(School.school_name)
+School.change_school_name("XYZ International School")
+print(School.school_name)</pre>
+
+        <h3>Static Method</h3>
+        <p>A static method does not use <code>self</code> or <code>cls</code>. It is used for utility logic related to the class.</p>
+
+<pre>class MathHelper:
+    @staticmethod
+    def add(a, b):
+        return a + b
+
+print(MathHelper.add(10, 20))</pre>
+    </section>
+
+    <section class="section" id="inheritance">
+        <h2>5. Inheritance</h2>
+        <p>Inheritance means one class can use the properties and methods of another class. The existing class is called the <b>parent/base class</b>, and the new class is called the <b>child/derived class</b>.</p>
+
+        <div class="diagram">Animal (Parent)
+   |
+   +---- Dog (Child)
+   |
+   +---- Cat (Child)</div>
+
+<pre>class Animal:
+    def eat(self):
+        print("Animal eats food")
+
+class Dog(Animal):
+    def bark(self):
+        print("Dog barks")
+
+d1 = Dog()
+d1.eat()
+d1.bark()</pre>
+
+        <h3>Types of Inheritance in Python</h3>
+        <ul>
+            <li>Single Inheritance</li>
+            <li>Multilevel Inheritance</li>
+            <li>Multiple Inheritance</li>
+            <li>Hierarchical Inheritance</li>
+        </ul>
+
+        <h3>Multilevel Inheritance Example</h3>
+<pre>class GrandParent:
+    def house(self):
+        print("Grandparent's house")
+
+class Parent(GrandParent):
+    def car(self):
+        print("Parent's car")
+
+class Child(Parent):
+    def bike(self):
+        print("Child's bike")
+
+c = Child()
+c.house()
+c.car()
+c.bike()</pre>
+
+        <h3>Multiple Inheritance Example</h3>
+<pre>class Father:
+    def skills(self):
+        print("Father: Gardening")
+
+class Mother:
+    def talents(self):
+        print("Mother: Painting")
+
+class Child(Father, Mother):
+    def own_skill(self):
+        print("Child: Coding")
+
+c1 = Child()
+c1.skills()
+c1.talents()
+c1.own_skill()</pre>
+    </section>
+
+    <section class="section" id="polymorphism">
+        <h2>6. Polymorphism</h2>
+        <p>Polymorphism means <b>one name, many forms</b>. The same method name can behave differently depending on the object.</p>
+
+        <h3>Method Overriding</h3>
+<pre>class Bird:
+    def sound(self):
+        print("Bird makes a sound")
+
+class Parrot(Bird):
+    def sound(self):
+        print("Parrot talks")
+
+class Crow(Bird):
+    def sound(self):
+        print("Crow caws")
+
+b1 = Parrot()
+b2 = Crow()
+
+b1.sound()
+b2.sound()</pre>
+
+        <p>Here, the child classes override the parent method.</p>
+
+        <h3>Duck Typing in Python</h3>
+        <p>Python also supports polymorphism through duck typing. If an object has the required method, Python can use it without checking its exact class type.</p>
+
+<pre>class PDFFile:
+    def open(self):
+        print("Opening PDF file")
+
+class WordFile:
+    def open(self):
+        print("Opening Word file")
+
+def start_file(file_obj):
+    file_obj.open()
+
+start_file(PDFFile())
+start_file(WordFile())</pre>
+    </section>
+
+    <section class="section" id="encapsulation">
+        <h2>7. Encapsulation</h2>
+        <p>Encapsulation means wrapping data and methods into a single unit and controlling direct access to data. In Python, we usually use naming conventions and getter/setter methods for this purpose.</p>
+
+<pre>class BankAccount:
+    def __init__(self, balance):
+        self.__balance = balance   # private variable
+
+    def deposit(self, amount):
+        self.__balance += amount
+
+    def get_balance(self):
+        return self.__balance
+
+acc = BankAccount(1000)
+acc.deposit(500)
+print("Balance:", acc.get_balance())</pre>
+
+        <div class="warn">
+            <code>__balance</code> is name-mangled. It should not be directly modified from outside the class in normal practice.
+        </div>
+
+        <h3>Why encapsulation?</h3>
+        <ul>
+            <li>Protects data from accidental misuse</li>
+            <li>Makes validation easier</li>
+            <li>Improves maintainability</li>
+        </ul>
+    </section>
+
+    <section class="section" id="abstraction">
+        <h2>8. Abstraction</h2>
+        <p>Abstraction means hiding implementation details and showing only the necessary functionality. In Python, abstraction is commonly implemented using the <code>abc</code> module.</p>
+
+<pre>from abc import ABC, abstractmethod
+
+class Vehicle(ABC):
+    @abstractmethod
+    def start(self):
+        pass
+
+class Bike(Vehicle):
+    def start(self):
+        print("Bike starts with self-start button")
+
+class Car(Vehicle):
+    def start(self):
+        print("Car starts with key or button")
+
+b = Bike()
+c = Car()
+
+b.start()
+c.start()</pre>
+
+        <p>The class <code>Vehicle</code> defines a common rule, but each child class gives its own implementation.</p>
+    </section>
+
+    <section class="section" id="super">
+        <h2>9. super() Keyword</h2>
+        <p>The <code>super()</code> function is used to call methods or constructors from the parent class.</p>
+
+<pre>class Person:
+    def __init__(self, name):
+        self.name = name
+
+class Teacher(Person):
+    def __init__(self, name, subject):
+        super().__init__(name)
+        self.subject = subject
+
+    def show(self):
+        print("Name:", self.name)
+        print("Subject:", self.subject)
+
+t1 = Teacher("Meena", "Python")
+t1.show()</pre>
+
+        <p>This helps avoid rewriting parent initialization logic.</p>
+    </section>
+
+    <section class="section" id="special">
+        <h2>10. Special Methods (Magic Methods)</h2>
+        <p>Python has special methods like <code>__str__</code>, <code>__len__</code>, and operator overloading methods. These help objects behave like built-in types.</p>
+
+<pre>class Book:
+    def __init__(self, title, pages):
+        self.title = title
+        self.pages = pages
+
+    def __str__(self):
+        return f"Book Title: {self.title}, Pages: {self.pages}"
+
+b1 = Book("Python Basics", 250)
+print(b1)</pre>
+
+        <h3>Operator Overloading Example</h3>
+<pre>class Box:
+    def __init__(self, value):
+        self.value = value
+
+    def __add__(self, other):
+        return self.value + other.value
+
+b1 = Box(10)
+b2 = Box(20)
+print(b1 + b2)</pre>
+    </section>
+
+    <section class="section" id="mini-project">
+        <h2>11. Mini Real-World Example: Employee Management</h2>
+        <p>This example combines multiple OOP concepts in one program.</p>
+
+<pre>from abc import ABC, abstractmethod
+
+class Person:
+    company = "ItTechGenie"
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def show_basic_info(self):
+        print(f"Name: {self.name}, Age: {self.age}")
+
+    @classmethod
+    def show_company(cls):
+        print("Company:", cls.company)
+
+    @staticmethod
+    def greet():
+        print("Welcome to the Employee Portal")
+
+class SalaryRule(ABC):
+    @abstractmethod
+    def calculate_salary(self):
+        pass
+
+class Employee(Person, SalaryRule):
+    def __init__(self, name, age, emp_id, basic_salary):
+        super().__init__(name, age)
+        self.emp_id = emp_id
+        self.__basic_salary = basic_salary
+
+    def calculate_salary(self):
+        hra = self.__basic_salary * 0.20
+        da = self.__basic_salary * 0.10
+        return self.__basic_salary + hra + da
+
+    def show_employee(self):
+        self.show_basic_info()
+        print("Employee ID:", self.emp_id)
+        print("Total Salary:", self.calculate_salary())
+
+emp1 = Employee("Arun", 28, "E101", 30000)
+
+Employee.greet()
+Employee.show_company()
+emp1.show_employee()</pre>
+
+        <h3>Concepts used here</h3>
+        <ul>
+            <li>Class and Object</li>
+            <li>Constructor</li>
+            <li>Inheritance</li>
+            <li>Abstraction</li>
+            <li>Encapsulation</li>
+            <li>Class Method</li>
+            <li>Static Method</li>
+        </ul>
+    </section>
+
+    <section class="section" id="mcq">
+        <h2>12. MCQs</h2>
+
+        <div class="mcq">
+            <p><b>Q1.</b> Which method works like a constructor in Python?</p>
+            <button class="btn option" onclick="checkAnswer(this, false)">__start__()</button>
+            <button class="btn option" onclick="checkAnswer(this, true)">__init__()</button>
+            <button class="btn option" onclick="checkAnswer(this, false)">__create__()</button>
+            <button class="btn option" onclick="checkAnswer(this, false)">__newobject__()</button>
+            <div class="result"></div>
+        </div>
+
+        <div class="mcq">
+            <p><b>Q2.</b> Which OOP concept allows one class to use the features of another class?</p>
+            <button class="btn option" onclick="checkAnswer(this, false)">Encapsulation</button>
+            <button class="btn option" onclick="checkAnswer(this, true)">Inheritance</button>
+            <button class="btn option" onclick="checkAnswer(this, false)">Abstraction</button>
+            <button class="btn option" onclick="checkAnswer(this, false)">Compilation</button>
+            <div class="result"></div>
+        </div>
+
+        <div class="mcq">
+            <p><b>Q3.</b> Which keyword is used to refer to the current object in Python instance methods?</p>
+            <button class="btn option" onclick="checkAnswer(this, true)">self</button>
+            <button class="btn option" onclick="checkAnswer(this, false)">this</button>
+            <button class="btn option" onclick="checkAnswer(this, false)">obj</button>
+            <button class="btn option" onclick="checkAnswer(this, false)">me</button>
+            <div class="result"></div>
+        </div>
+    </section>
+
+    <section class="section" id="interview">
+        <h2>13. Interview Questions and Answers</h2>
+
+        <div class="qa">
+            <details>
+                <summary>What is the difference between a class and an object?</summary>
+                <p>A class is a blueprint or template, while an object is a real instance created from that class. The class defines properties and methods, and the object holds actual values.</p>
+            </details>
+
+            <details>
+                <summary>What is the purpose of the __init__ method?</summary>
+                <p>The <code>__init__</code> method is used to initialize object data when an object is created. It acts like a constructor and helps assign initial values to instance variables.</p>
+            </details>
+
+            <details>
+                <summary>What is inheritance in Python?</summary>
+                <p>Inheritance allows a child class to acquire the methods and properties of a parent class. It promotes code reuse and supports hierarchical program design.</p>
+            </details>
+
+            <details>
+                <summary>What is polymorphism?</summary>
+                <p>Polymorphism means one method name can behave differently for different objects. In Python, this is commonly achieved through method overriding and duck typing.</p>
+            </details>
+
+            <details>
+                <summary>What is the difference between encapsulation and abstraction?</summary>
+                <p>Encapsulation focuses on protecting and wrapping data within a class. Abstraction focuses on hiding internal implementation and exposing only the essential behavior.</p>
+            </details>
+        </div>
+    </section>
+
+    <section class="section toplink">
+        <h2>14. Final Summary</h2>
+        <p>Python OOP is one of the most important topics for writing clean, reusable, and professional programs. The key concepts are:</p>
+        <ul>
+            <li><b>Class and Object</b> – blueprint and real instance</li>
+            <li><b>Constructor</b> – automatic initialization</li>
+            <li><b>Inheritance</b> – reuse parent features</li>
+            <li><b>Polymorphism</b> – same method, different behavior</li>
+            <li><b>Encapsulation</b> – protect data</li>
+            <li><b>Abstraction</b> – hide implementation details</li>
+        </ul>
+        <p><a href="#top">Go to top</a></p>
+    </section>
+</div>
+
+<footer>
+    Prepared for ItTechGenie | Python OOP Concepts Tutorial
+</footer>
+
+<script>
+function checkAnswer(button, isCorrect){
+    const result = button.parentElement.querySelector('.result');
+    if(isCorrect){
+        result.textContent = "Correct Answer";
+        result.className = "result correct";
+    } else {
+        result.textContent = "Wrong Answer";
+        result.className = "result wrong";
+    }
+}
+
+document.addEventListener("mousemove", function(e){
+    const s = document.createElement("span");
+    s.className = "sparkle";
+    s.style.left = e.clientX + "px";
+    s.style.top = e.clientY + "px";
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 700);
+});
+</script>
+</body>
+</html>

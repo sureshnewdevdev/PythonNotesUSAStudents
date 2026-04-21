@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keywords in Python - Professional Training Notes</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --ink:#1f2937;
+      --muted:#5b6472;
+      --brand:#1d4ed8;
+      --brand-soft:#dbeafe;
+      --tip:#065f46;
+      --tip-bg:#ecfdf5;
+      --warn:#92400e;
+      --warn-bg:#fff7ed;
+      --danger:#991b1b;
+      --danger-bg:#fef2f2;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Segoe UI, Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#eef4ff 0%, var(--bg) 100%);
+      color:var(--ink);
+      line-height:1.7;
+    }
+    .container{width:min(1180px,92%);margin:0 auto;padding:28px 0 60px;}
+    .hero{
+      background:linear-gradient(135deg,#1e3a8a 0%, #2563eb 55%, #0ea5e9 100%);
+      color:#fff;border-radius:28px;padding:42px 32px;box-shadow:var(--shadow);margin-top:22px;
+    }
+    .hero h1{margin:0 0 10px;font-size:clamp(2rem,4vw,3rem);line-height:1.2;}
+    .hero h2{margin:0 0 14px;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:600;opacity:.96;}
+    .hero p{margin:10px 0 0;font-size:1.05rem;max-width:930px;}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+    .pill{
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);
+      padding:8px 14px;border-radius:999px;font-size:.95rem;
+    }
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:24px;}
+    .card{
+      grid-column:span 12;background:var(--card);border-radius:var(--radius);
+      padding:26px;box-shadow:var(--shadow);
+    }
+    .card h3{margin-top:0;font-size:1.55rem;color:#0f172a;}
+    .card h4{margin:22px 0 10px;font-size:1.18rem;color:#0b3b8f;}
+    .two-col{grid-column:span 6;}
+    @media (max-width:900px){
+      .two-col{grid-column:span 12;}
+      .hero{padding:30px 22px;}
+    }
+    p{margin:10px 0;}
+    ul,ol{padding-left:22px;}
+    li{margin:8px 0;}
+    .note{
+      border-left:6px solid var(--brand);background:var(--brand-soft);
+      padding:16px 18px;border-radius:12px;margin:16px 0;
+    }
+    .note.tip{border-left-color:var(--tip);background:var(--tip-bg);}
+    .note.warn{border-left-color:var(--warn);background:var(--warn-bg);}
+    .note.danger{border-left-color:var(--danger);background:var(--danger-bg);}
+    code{font-family:Consolas,"Courier New",monospace;font-size:.96rem;}
+    pre{
+      background:#0f172a;color:#e5eefc;padding:18px;border-radius:16px;
+      overflow:auto;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+    }
+    .output{
+      background:#f8fafc;border:1px solid #dbe3ef;padding:14px 16px;border-radius:14px;
+      margin:12px 0 18px;font-family:Consolas,"Courier New",monospace;white-space:pre-wrap;
+    }
+    table{width:100%;border-collapse:collapse;margin:14px 0;}
+    th,td{border:1px solid #dbe3ef;padding:12px 14px;text-align:left;vertical-align:top;}
+    th{background:#e8f0ff;color:#0b3b8f;}
+    .qa,.mcq{
+      border:1px solid #d9e3f3;background:#fcfdff;border-radius:16px;padding:18px;margin:14px 0;
+    }
+    .qa h5,.mcq h5{margin:0 0 8px;font-size:1.02rem;color:#0f172a;}
+    .label{
+      display:inline-block;font-size:.82rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
+      color:#0b3b8f;background:#e8f0ff;padding:6px 10px;border-radius:999px;margin-bottom:10px;
+    }
+    .checklist li{
+      list-style:none;margin:10px 0;padding-left:34px;position:relative;
+    }
+    .checklist li::before{
+      content:"✓";position:absolute;left:0;top:0;color:#0f766e;font-weight:700;font-size:1.1rem;
+    }
+    .footer{text-align:center;color:var(--muted);margin-top:24px;font-size:.95rem;}
+    .mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+    @media (max-width:800px){.mini-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Python for Beginners – Professional Training Notes</h1>
+      <h2>Keywords in Python</h2>
+      <p>Professional beginner notes to explain what Python keywords are, why they are reserved, where they are used, and how they help build conditions, loops, functions, classes, exceptions, and logic in real programs.</p>
+      <div class="pill-row">
+        <span class="pill">Beginner-Friendly</span>
+        <span class="pill">Core Python Basics</span>
+        <span class="pill">Reserved Words</span>
+        <span class="pill">Interview Ready</span>
+        <span class="pill">MCQs + Exercises</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card two-col">
+        <h3>1. Introduction</h3>
+        <p><strong>Keywords in Python</strong> are special reserved words that already have a fixed meaning in the Python language. These words are used to perform specific tasks such as creating conditions, loops, functions, classes, logical operations, exception handling, and more.</p>
+        <p>Python does not allow us to use keywords as variable names, function names, or class names because those words already belong to the language. For example, words like <code>if</code>, <code>for</code>, <code>while</code>, <code>class</code>, and <code>return</code> have special meaning in Python syntax.</p>
+        <p>This topic is very important for beginners because keywords appear everywhere in Python code. If learners understand keywords early, they will understand Python statements and code structure much more easily.</p>
+        <div class="note">
+          <strong>Remember:</strong> Keywords are reserved words. They are not ordinary words, and they cannot be used as normal identifiers.
+        </div>
+      </section>
+
+      <section class="card two-col">
+        <h3>2. Learning Objectives</h3>
+        <ul>
+          <li>Understand what Python keywords are.</li>
+          <li>Learn why keywords are called reserved words.</li>
+          <li>Know that keywords cannot be used as variable names.</li>
+          <li>Recognize common Python keywords used in code.</li>
+          <li>Understand how keywords appear in conditions, loops, and functions.</li>
+          <li>Avoid beginner mistakes related to keyword usage.</li>
+          <li>Prepare for interview questions on Python keywords.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>3. Why This Topic Matters</h3>
+        <div class="mini-grid">
+          <div>
+            <h4>Why this topic matters in programming</h4>
+            <p>Keywords are the building blocks of Python syntax. Without understanding them, learners cannot properly read or write conditions, loops, functions, classes, or many important statements.</p>
+          </div>
+          <div>
+            <h4>Why this topic matters in interviews</h4>
+            <p>Interviewers often ask what keywords are, why they are reserved, or ask candidates to name a few important ones. This is a very common beginner-level theory question.</p>
+          </div>
+        </div>
+        <div class="note tip">
+          <strong>Interview Tip:</strong> Do not only define keywords. Also mention that they have special meaning and cannot be used as identifiers.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>4. Beginner-Friendly Explanation</h3>
+        <p>Let us understand this in a very simple way. Imagine you are in a classroom and the teacher says certain command words like “Start,” “Stop,” or “Listen.” These words already have fixed meaning in that classroom. Students cannot change the meaning of those words.</p>
+        <p>Python works in a similar way. Some words are already reserved by the language. When Python sees those words, it understands that a specific kind of action or structure is intended. That is why they are called keywords.</p>
+        <p>For example, when Python sees <code>if</code>, it knows a condition is being checked. When it sees <code>for</code>, it knows a loop is being created. When it sees <code>def</code>, it knows a function is being defined.</p>
+        <p>A simple analogy is this: keywords are like official traffic signs. Their meaning is fixed. You cannot decide that a “Stop” sign should mean “Go.” In the same way, Python keywords already have a fixed purpose.</p>
+        <div class="note warn">
+          <strong>Common Confusion:</strong> Beginners sometimes think keywords are just normal words. They are not. Their meaning is defined by Python itself.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>5. Syntax Section</h3>
+        <p>Keywords are not used alone as random words. They usually appear inside Python statements and structures. Look at these examples:</p>
+        <pre><code>if 5 &gt; 2:
+    print("Five is greater than two")
+
+for i in range(3):
+    print(i)
+
+def greet():
+    return "Hello"</code></pre>
+
+        <h4>Syntax Explanation</h4>
+        <ul>
+          <li><code>if</code> is a keyword used for conditions.</li>
+          <li><code>for</code> is a keyword used for looping.</li>
+          <li><code>in</code> is a keyword used to check membership or loop over items.</li>
+          <li><code>def</code> is a keyword used to define a function.</li>
+          <li><code>return</code> is a keyword used to send a value back from a function.</li>
+        </ul>
+
+        <p>These words are called keywords because they are part of Python’s language rules and have a special job.</p>
+      </section>
+
+      <section class="card">
+        <h3>6. Common Python Keywords</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Keyword</th>
+              <th>Use</th>
+              <th>Simple Meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>if</code></td><td>Condition</td><td>Check a condition</td></tr>
+            <tr><td><code>else</code></td><td>Condition</td><td>Alternative block</td></tr>
+            <tr><td><code>elif</code></td><td>Condition</td><td>Another condition</td></tr>
+            <tr><td><code>for</code></td><td>Loop</td><td>Repeat over items</td></tr>
+            <tr><td><code>while</code></td><td>Loop</td><td>Repeat while condition is true</td></tr>
+            <tr><td><code>break</code></td><td>Loop control</td><td>Stop loop early</td></tr>
+            <tr><td><code>continue</code></td><td>Loop control</td><td>Skip current iteration</td></tr>
+            <tr><td><code>def</code></td><td>Function</td><td>Define a function</td></tr>
+            <tr><td><code>return</code></td><td>Function</td><td>Send value back</td></tr>
+            <tr><td><code>class</code></td><td>OOP</td><td>Define a class</td></tr>
+            <tr><td><code>try</code></td><td>Exception handling</td><td>Test risky code</td></tr>
+            <tr><td><code>except</code></td><td>Exception handling</td><td>Handle error</td></tr>
+            <tr><td><code>True</code></td><td>Boolean</td><td>Boolean true value</td></tr>
+            <tr><td><code>False</code></td><td>Boolean</td><td>Boolean false value</td></tr>
+            <tr><td><code>None</code></td><td>Special value</td><td>No value / empty value</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>7. Detailed Examples Section</h3>
+
+        <h4>Example 1: Basic Example</h4>
+        <pre><code>if 10 &gt; 5:
+    print("Condition is true")</code></pre>
+        <div class="output">Condition is true</div>
+        <p><strong>Explanation:</strong> The keyword <code>if</code> tells Python to check a condition.</p>
+
+        <h4>Example 2: Beginner-Friendly Example</h4>
+        <pre><code>for i in range(3):
+    print(i)</code></pre>
+        <div class="output">0
+1
+2</div>
+        <p><strong>Explanation:</strong> The keywords <code>for</code> and <code>in</code> are used to create a loop.</p>
+
+        <h4>Example 3: Real-World Style Example</h4>
+        <pre><code>def login_message():
+    return "Login Successful"
+
+print(login_message())</code></pre>
+        <div class="output">Login Successful</div>
+        <p><strong>Why this matters:</strong> The keywords <code>def</code> and <code>return</code> are widely used in real applications.</p>
+
+        <h4>Example 4: Interview-Oriented Example</h4>
+        <pre><code>status = True
+if status:
+    print("Account is active")</code></pre>
+        <div class="output">Account is active</div>
+        <p><strong>Explanation:</strong> <code>True</code> is also a Python keyword with fixed meaning.</p>
+
+        <h4>Example 5: Practical Scenario Example</h4>
+        <pre><code>try:
+    print(10 / 2)
+except:
+    print("Some error occurred")</code></pre>
+        <div class="output">5.0</div>
+        <p><strong>Why this matters:</strong> <code>try</code> and <code>except</code> are important keywords used in error handling.</p>
+      </section>
+
+      <section class="card">
+        <h3>8. Code Output Section</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Output</th>
+              <th>Keyword Used</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>if 2 &lt; 3:<br>&nbsp;&nbsp;&nbsp;&nbsp;print("Yes")</code></td>
+              <td>Yes</td>
+              <td><code>if</code></td>
+            </tr>
+            <tr>
+              <td><code>for i in range(2):<br>&nbsp;&nbsp;&nbsp;&nbsp;print(i)</code></td>
+              <td>0<br>1</td>
+              <td><code>for</code>, <code>in</code></td>
+            </tr>
+            <tr>
+              <td><code>def show():<br>&nbsp;&nbsp;&nbsp;&nbsp;return "Hi"<br>print(show())</code></td>
+              <td>Hi</td>
+              <td><code>def</code>, <code>return</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card two-col">
+        <h3>9. Key Points to Remember</h3>
+        <ul>
+          <li>Keywords are reserved words in Python.</li>
+          <li>They already have special meaning in the language.</li>
+          <li>Keywords cannot be used as variable names or function names.</li>
+          <li>Keywords are used in conditions, loops, functions, classes, and more.</li>
+          <li>Examples include <code>if</code>, <code>for</code>, <code>def</code>, <code>return</code>, <code>True</code>, and <code>None</code>.</li>
+        </ul>
+      </section>
+
+      <section class="card two-col">
+        <h3>10. Common Beginner Mistakes</h3>
+        <ul>
+          <li><strong>Using a keyword as a variable name:</strong> Example: <code>if = 10</code> is invalid.</li>
+          <li><strong>Thinking keywords are normal words:</strong> They are language-reserved words.</li>
+          <li><strong>Not learning the meaning of common keywords:</strong> This makes Python code look confusing.</li>
+          <li><strong>Mixing identifiers and keywords:</strong> Variable names can be chosen by us, keywords cannot.</li>
+          <li><strong>Ignoring case:</strong> Python keywords like <code>True</code>, <code>False</code>, and <code>None</code> must be written correctly.</li>
+        </ul>
+        <div class="note danger">
+          <strong>Common Mistake:</strong> Many beginners try names like <code>class</code>, <code>for</code>, or <code>return</code> as identifiers and then wonder why errors appear.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>11. Best Practices</h3>
+        <ul>
+          <li>Learn the meaning of important keywords one by one.</li>
+          <li>Never use keywords as identifiers.</li>
+          <li>Write small examples using each keyword to understand its purpose.</li>
+          <li>Focus first on commonly used keywords like <code>if</code>, <code>else</code>, <code>for</code>, <code>while</code>, <code>def</code>, and <code>return</code>.</li>
+          <li>Read code examples and notice how keywords structure the program.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>12. Real-World Use Cases</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Use Case</th>
+              <th>Keyword Examples</th>
+              <th>Why They Matter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Checking conditions</td>
+              <td><code>if</code>, <code>else</code>, <code>elif</code></td>
+              <td>Used in login checks, validations, decisions</td>
+            </tr>
+            <tr>
+              <td>Repeating tasks</td>
+              <td><code>for</code>, <code>while</code></td>
+              <td>Used in loops, reports, data processing</td>
+            </tr>
+            <tr>
+              <td>Creating reusable logic</td>
+              <td><code>def</code>, <code>return</code></td>
+              <td>Used in functions throughout real applications</td>
+            </tr>
+            <tr>
+              <td>Handling errors</td>
+              <td><code>try</code>, <code>except</code></td>
+              <td>Used in safe program execution</td>
+            </tr>
+            <tr>
+              <td>Object-oriented design</td>
+              <td><code>class</code></td>
+              <td>Used in structured application development</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>13. Comparison Table</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Point</th>
+              <th>Keyword</th>
+              <th>Identifier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Meaning</td>
+              <td>Predefined special word in Python</td>
+              <td>Name created by programmer</td>
+            </tr>
+            <tr>
+              <td>Can we choose it?</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>Can it be used as variable name?</td>
+              <td>No</td>
+              <td>Yes, if valid naming rules are followed</td>
+            </tr>
+            <tr>
+              <td>Examples</td>
+              <td><code>if</code>, <code>for</code>, <code>return</code></td>
+              <td><code>name</code>, <code>salary</code>, <code>total_marks</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>14. Interview Questions and Answers</h3>
+
+        <div class="qa">
+          <span class="label">Q1</span>
+          <h5>What are keywords in Python?</h5>
+          <p>Keywords are reserved words in Python that have special predefined meaning in the language.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q2</span>
+          <h5>Why are keywords called reserved words?</h5>
+          <p>They are called reserved because Python already uses them for specific purposes, so programmers cannot use them as identifiers.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q3</span>
+          <h5>Can a keyword be used as a variable name?</h5>
+          <p>No. A keyword cannot be used as a variable name, function name, or class name.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q4</span>
+          <h5>Give a few examples of Python keywords.</h5>
+          <p>Examples include <code>if</code>, <code>else</code>, <code>for</code>, <code>while</code>, <code>def</code>, <code>return</code>, <code>class</code>, and <code>try</code>.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q5</span>
+          <h5>What is the difference between a keyword and an identifier?</h5>
+          <p>A keyword has predefined meaning in Python, while an identifier is a name created by the programmer.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q6</span>
+          <h5>Why is <code>if</code> a keyword?</h5>
+          <p>Because Python uses <code>if</code> specifically to create conditional statements.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q7</span>
+          <h5>Are <code>True</code> and <code>False</code> keywords in Python?</h5>
+          <p>Yes. They are special Boolean keywords.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q8</span>
+          <h5>What is the use of the <code>def</code> keyword?</h5>
+          <p>The <code>def</code> keyword is used to define a function in Python.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q9</span>
+          <h5>What is the use of the <code>return</code> keyword?</h5>
+          <p>The <code>return</code> keyword is used to send a value back from a function.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q10</span>
+          <h5>Why should beginners learn keywords early?</h5>
+          <p>Because keywords appear in many important Python statements and help learners understand program structure quickly.</p>
+        </div>
+
+        <div class="note tip">
+          <strong>Interview Tip:</strong> A clean answer is: “Keywords are reserved words with fixed meaning in Python, and they cannot be used as identifiers.”
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>15. MCQs for Practice</h3>
+
+        <div class="mcq">
+          <h5>1. What are keywords in Python?</h5>
+          <p>A. Random variable names<br>B. Reserved words with special meaning<br>C. Comments only<br>D. File names only</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Keywords are special reserved words used by Python language itself.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>2. Can we use a keyword as a variable name?</h5>
+          <p>A. Yes, always<br>B. Yes, only in loops<br>C. No<br>D. Only in comments</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> Keywords are reserved and cannot be used as identifiers.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>3. Which of the following is a Python keyword?</h5>
+          <p>A. amount<br>B. total<br>C. if<br>D. marks</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> <code>if</code> is a reserved word used for conditions.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>4. Which keyword is used to define a function?</h5>
+          <p>A. func<br>B. define<br>C. def<br>D. function</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> Python uses <code>def</code> to define a function.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>5. Which keyword is used to return a value from a function?</h5>
+          <p>A. back<br>B. return<br>C. send<br>D. output</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> <code>return</code> sends a value back from a function.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>6. Which keyword is used for looping over items?</h5>
+          <p>A. if<br>B. for<br>C. class<br>D. def</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> <code>for</code> is a loop keyword.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>7. Which of the following is not a valid identifier because it is a keyword?</h5>
+          <p>A. salary<br>B. student_name<br>C. for<br>D. marks1</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> <code>for</code> is reserved, so it cannot be used as an identifier.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>8. <code>True</code> and <code>False</code> are:</h5>
+          <p>A. comments<br>B. keywords<br>C. variables created by user<br>D. numbers</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> They are special Boolean keywords in Python.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>9. The keyword <code>class</code> is used to:</h5>
+          <p>A. define a class<br>B. print output<br>C. create comments<br>D. read input only</p>
+          <p><strong>Correct Answer:</strong> A</p>
+          <p><strong>Explanation:</strong> <code>class</code> is used in object-oriented programming to define a class.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>10. Why should keywords be learned early?</h5>
+          <p>A. They are only decorative words<br>B. They help understand Python syntax and structure<br>C. They replace all variables<br>D. They are used only in advanced AI</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Keywords are part of core Python syntax and appear in many important statements.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>16. Practice Exercise Section</h3>
+        <h4>Small Exercise</h4>
+        <p>Write any five Python keywords and mention one line about what each keyword is used for.</p>
+
+        <h4>Practical Task</h4>
+        <p>Create a small Python file that uses at least three keywords, such as <code>if</code>, <code>for</code>, and <code>def</code>.</p>
+
+        <h4>Mini Assignment</h4>
+        <p>Prepare a short note explaining the difference between keywords and identifiers, with at least five examples of each.</p>
+      </section>
+
+      <section class="card">
+        <h3>17. Practice Exercise Solutions</h3>
+
+        <h4>Solution Idea for Small Exercise</h4>
+        <ul>
+          <li><code>if</code> – used for conditions</li>
+          <li><code>for</code> – used for looping</li>
+          <li><code>while</code> – used for repeating while a condition is true</li>
+          <li><code>def</code> – used to define a function</li>
+          <li><code>return</code> – used to send a value back from a function</li>
+        </ul>
+
+        <h4>Solution Idea for Practical Task</h4>
+        <pre><code>def greet():
+    return "Hello"
+
+for i in range(2):
+    if i &lt; 2:
+        print(greet())</code></pre>
+        <div class="output">Hello
+Hello</div>
+
+        <h4>Solution Idea for Mini Assignment</h4>
+        <p>Keywords are reserved words such as <code>if</code>, <code>for</code>, <code>def</code>, <code>class</code>, and <code>return</code>. Identifiers are programmer-created names such as <code>student_name</code>, <code>salary</code>, <code>total_marks</code>, <code>count</code>, and <code>message</code>.</p>
+      </section>
+
+      <section class="card">
+        <h3>18. Revision Checklist</h3>
+        <ul class="checklist">
+          <li>I understand what Python keywords are.</li>
+          <li>I know that keywords are reserved words.</li>
+          <li>I know that keywords cannot be used as identifiers.</li>
+          <li>I can name common keywords like <code>if</code>, <code>for</code>, <code>def</code>, and <code>return</code>.</li>
+          <li>I understand the difference between keywords and identifiers.</li>
+          <li>I can answer basic interview questions on Python keywords.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>19. Summary</h3>
+        <p>In this topic, we learned that keywords in Python are reserved words with special meaning. They are part of Python syntax and are used in conditions, loops, functions, classes, exceptions, and other important structures. We also understood that keywords cannot be used as identifiers.</p>
+        <p>The most important takeaway is this: keywords are not just words to memorize—they are the language tools that shape Python programs. Once you understand them, reading and writing Python code becomes much easier.</p>
+        <div class="note tip">
+          <strong>Confidence Booster:</strong> If you can recognize common Python keywords and explain what they do, your Python foundation is becoming much stronger.
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">End of Notes – Keywords in Python</div>
+  </div>
+</body>
+</html>

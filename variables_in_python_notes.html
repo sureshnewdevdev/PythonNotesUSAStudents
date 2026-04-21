@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Variables in Python - Professional Training Notes</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --ink:#1f2937;
+      --muted:#5b6472;
+      --brand:#1d4ed8;
+      --brand-soft:#dbeafe;
+      --tip:#065f46;
+      --tip-bg:#ecfdf5;
+      --warn:#92400e;
+      --warn-bg:#fff7ed;
+      --danger:#991b1b;
+      --danger-bg:#fef2f2;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Segoe UI, Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#eef4ff 0%, var(--bg) 100%);
+      color:var(--ink);
+      line-height:1.7;
+    }
+    .container{width:min(1180px,92%);margin:0 auto;padding:28px 0 60px;}
+    .hero{
+      background:linear-gradient(135deg,#1e3a8a 0%, #2563eb 55%, #0ea5e9 100%);
+      color:#fff;border-radius:28px;padding:42px 32px;box-shadow:var(--shadow);margin-top:22px;
+    }
+    .hero h1{margin:0 0 10px;font-size:clamp(2rem,4vw,3rem);line-height:1.2;}
+    .hero h2{margin:0 0 14px;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:600;opacity:.96;}
+    .hero p{margin:10px 0 0;font-size:1.05rem;max-width:930px;}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+    .pill{
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);
+      padding:8px 14px;border-radius:999px;font-size:.95rem;
+    }
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:24px;}
+    .card{
+      grid-column:span 12;background:var(--card);border-radius:var(--radius);
+      padding:26px;box-shadow:var(--shadow);
+    }
+    .card h3{margin-top:0;font-size:1.55rem;color:#0f172a;}
+    .card h4{margin:22px 0 10px;font-size:1.18rem;color:#0b3b8f;}
+    .two-col{grid-column:span 6;}
+    @media (max-width:900px){
+      .two-col{grid-column:span 12;}
+      .hero{padding:30px 22px;}
+    }
+    p{margin:10px 0;}
+    ul,ol{padding-left:22px;}
+    li{margin:8px 0;}
+    .note{
+      border-left:6px solid var(--brand);background:var(--brand-soft);
+      padding:16px 18px;border-radius:12px;margin:16px 0;
+    }
+    .note.tip{border-left-color:var(--tip);background:var(--tip-bg);}
+    .note.warn{border-left-color:var(--warn);background:var(--warn-bg);}
+    .note.danger{border-left-color:var(--danger);background:var(--danger-bg);}
+    code{font-family:Consolas,"Courier New",monospace;font-size:.96rem;}
+    pre{
+      background:#0f172a;color:#e5eefc;padding:18px;border-radius:16px;
+      overflow:auto;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+    }
+    .output{
+      background:#f8fafc;border:1px solid #dbe3ef;padding:14px 16px;border-radius:14px;
+      margin:12px 0 18px;font-family:Consolas,"Courier New",monospace;white-space:pre-wrap;
+    }
+    table{width:100%;border-collapse:collapse;margin:14px 0;}
+    th,td{border:1px solid #dbe3ef;padding:12px 14px;text-align:left;vertical-align:top;}
+    th{background:#e8f0ff;color:#0b3b8f;}
+    .qa,.mcq{
+      border:1px solid #d9e3f3;background:#fcfdff;border-radius:16px;padding:18px;margin:14px 0;
+    }
+    .qa h5,.mcq h5{margin:0 0 8px;font-size:1.02rem;color:#0f172a;}
+    .label{
+      display:inline-block;font-size:.82rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
+      color:#0b3b8f;background:#e8f0ff;padding:6px 10px;border-radius:999px;margin-bottom:10px;
+    }
+    .checklist li{
+      list-style:none;margin:10px 0;padding-left:34px;position:relative;
+    }
+    .checklist li::before{
+      content:"✓";position:absolute;left:0;top:0;color:#0f766e;font-weight:700;font-size:1.1rem;
+    }
+    .footer{text-align:center;color:var(--muted);margin-top:24px;font-size:.95rem;}
+    .mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+    @media (max-width:800px){.mini-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Python for Beginners – Professional Training Notes</h1>
+      <h2>Variables in Python</h2>
+      <p>Professional beginner notes to explain what variables are, why they are used, how values are stored, and how variables help build real Python programs for learners, freshers, and job seekers.</p>
+      <div class="pill-row">
+        <span class="pill">Beginner-Friendly</span>
+        <span class="pill">Core Python Topic</span>
+        <span class="pill">Real Examples</span>
+        <span class="pill">Interview Ready</span>
+        <span class="pill">MCQs + Exercises</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card two-col">
+        <h3>1. Introduction</h3>
+        <p><strong>Variables in Python</strong> are names used to store values. These values can be numbers, text, true/false values, lists, or many other types of data. In simple words, a variable acts like a container or label that helps us keep data in memory and use it whenever needed.</p>
+        <p>Variables are one of the most important concepts in programming. Without variables, programs would not be able to store user information, calculate totals, track status, manage data, or perform meaningful work.</p>
+        <p>For beginners, variables are the first real step from fixed output to dynamic programming. Instead of printing the same message every time, you can store values and use them in smarter ways. For job seekers, understanding variables is absolutely necessary because variables appear in almost every Python program.</p>
+        <div class="note">
+          <strong>Remember:</strong> A variable is a name that refers to a value. It helps the program remember and use data.
+        </div>
+      </section>
+
+      <section class="card two-col">
+        <h3>2. Learning Objectives</h3>
+        <ul>
+          <li>Understand what a variable is in Python.</li>
+          <li>Learn how to create and use variables.</li>
+          <li>Know how values are assigned to variables.</li>
+          <li>Understand basic naming rules for variables.</li>
+          <li>See how variables are used in real programs.</li>
+          <li>Avoid common beginner mistakes in variable usage.</li>
+          <li>Prepare for beginner interview questions on variables.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>3. Why This Topic Matters</h3>
+        <div class="mini-grid">
+          <div>
+            <h4>Why this topic matters in programming</h4>
+            <p>Variables help programs store, update, and reuse data. Without variables, coding would be very limited because every value would have to be hardcoded again and again.</p>
+          </div>
+          <div>
+            <h4>Why this topic matters in interviews</h4>
+            <p>Interviewers often ask what a variable is, how Python creates variables, whether Python needs data type declaration, and what good naming practice looks like. These are very common beginner-level questions.</p>
+          </div>
+        </div>
+        <div class="note tip">
+          <strong>Interview Tip:</strong> A good answer is: “A variable is a name used to store data in memory so it can be used and changed in a program.”
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>4. Beginner-Friendly Explanation</h3>
+        <p>Let us understand variables with a simple real-life idea. Imagine you have labeled boxes in your home. One box is labeled “Books,” another is labeled “Bills,” and another is labeled “Photos.” The label helps you know what is stored in each box.</p>
+        <p>In Python, variables work in a similar way. The variable name is like the label, and the value is like the item inside the box. For example, if you write <code>name = "Ravi"</code>, the label is <code>name</code> and the value stored is <code>"Ravi"</code>.</p>
+        <p>Variables make code flexible. Instead of repeating actual values everywhere, we can store them once and reuse them many times. If the value changes, we only update the variable.</p>
+        <p>A simple analogy is this: a variable is like a name sticker on a water bottle. The sticker tells you what bottle you are referring to, and the bottle holds the content.</p>
+        <div class="note warn">
+          <strong>Common Confusion:</strong> Beginners often think a variable is the value itself. Actually, the variable is the name, and the value is what is stored or referred to by that name.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>5. Syntax Section</h3>
+        <p>In Python, a variable is created by assigning a value using the <code>=</code> operator.</p>
+        <pre><code>name = "Ravi"
+age = 25
+salary = 45000.50
+is_active = True</code></pre>
+
+        <h4>Syntax Explanation</h4>
+        <ul>
+          <li><code>name</code>, <code>age</code>, <code>salary</code>, and <code>is_active</code> are variable names.</li>
+          <li><code>=</code> is the assignment operator.</li>
+          <li><code>"Ravi"</code>, <code>25</code>, <code>45000.50</code>, and <code>True</code> are values assigned to variables.</li>
+        </ul>
+
+        <p>Python does not require you to declare the data type separately before creating the variable. It understands the type automatically from the assigned value.</p>
+
+        <div class="note tip">
+          <strong>Tip:</strong> This feature is called dynamic typing. Python figures out the variable type automatically based on the value.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>6. Variable Naming Rules</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Rule</th>
+              <th>Explanation</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Must start with a letter or underscore</td>
+              <td>Cannot start with a number</td>
+              <td><code>name</code>, <code>_count</code> valid; <code>1name</code> invalid</td>
+            </tr>
+            <tr>
+              <td>No spaces allowed</td>
+              <td>Use underscore instead of space</td>
+              <td><code>student_name</code> valid; <code>student name</code> invalid</td>
+            </tr>
+            <tr>
+              <td>Can contain letters, digits, underscores</td>
+              <td>Special symbols like @, #, $ not allowed</td>
+              <td><code>marks1</code> valid; <code>marks$</code> invalid</td>
+            </tr>
+            <tr>
+              <td>Cannot use Python keywords</td>
+              <td>Reserved words are not allowed as variable names</td>
+              <td><code>for = 10</code> invalid</td>
+            </tr>
+            <tr>
+              <td>Case-sensitive</td>
+              <td><code>name</code> and <code>Name</code> are different</td>
+              <td>Both are treated separately</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>7. Detailed Examples Section</h3>
+
+        <h4>Example 1: Basic Example</h4>
+        <pre><code>name = "Riya"
+print(name)</code></pre>
+        <div class="output">Riya</div>
+        <p><strong>Explanation:</strong> A text value is stored in the variable <code>name</code> and then printed.</p>
+
+        <h4>Example 2: Beginner-Friendly Example</h4>
+        <pre><code>age = 21
+print(age)</code></pre>
+        <div class="output">21</div>
+        <p><strong>Explanation:</strong> A numeric value is stored in the variable <code>age</code>.</p>
+
+        <h4>Example 3: Real-World Style Example</h4>
+        <pre><code>employee_name = "Arjun"
+salary = 50000
+print(employee_name)
+print(salary)</code></pre>
+        <div class="output">Arjun
+50000</div>
+        <p><strong>Why this matters:</strong> Real systems store employee data, customer data, product values, and many other details using variables.</p>
+
+        <h4>Example 4: Interview-Oriented Example</h4>
+        <pre><code>x = 10
+x = 25
+print(x)</code></pre>
+        <div class="output">25</div>
+        <p><strong>Explanation:</strong> Variables can be reassigned. The latest assigned value is the current value.</p>
+
+        <h4>Example 5: Practical Scenario Example</h4>
+        <pre><code>price = 100
+quantity = 3
+total = price * quantity
+print(total)</code></pre>
+        <div class="output">300</div>
+        <p><strong>Why this matters:</strong> Variables are used in calculations like totals, bills, salaries, interest, and marks.</p>
+      </section>
+
+      <section class="card">
+        <h3>8. Code Output Section</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Output</th>
+              <th>What Learner Should Notice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>name = "Aman"<br>print(name)</code></td>
+              <td>Aman</td>
+              <td>Variable stores and displays text value</td>
+            </tr>
+            <tr>
+              <td><code>num = 10<br>print(num)</code></td>
+              <td>10</td>
+              <td>Variable can store numeric value</td>
+            </tr>
+            <tr>
+              <td><code>x = 5<br>x = 8<br>print(x)</code></td>
+              <td>8</td>
+              <td>Variable value can be changed</td>
+            </tr>
+            <tr>
+              <td><code>a = 2<br>b = 3<br>print(a + b)</code></td>
+              <td>5</td>
+              <td>Variables can be used in expressions</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card two-col">
+        <h3>9. Key Points to Remember</h3>
+        <ul>
+          <li>A variable is a name used to store data.</li>
+          <li>Variables are created using the assignment operator <code>=</code>.</li>
+          <li>Python does not require separate type declaration before assignment.</li>
+          <li>Variable names must follow naming rules.</li>
+          <li>Variable values can be changed during program execution.</li>
+          <li>Variables are used in almost every real program.</li>
+        </ul>
+      </section>
+
+      <section class="card two-col">
+        <h3>10. Common Beginner Mistakes</h3>
+        <ul>
+          <li><strong>Using invalid names:</strong> Example: <code>1name = "A"</code> is invalid.</li>
+          <li><strong>Using spaces in variable names:</strong> <code>student name</code> is invalid.</li>
+          <li><strong>Using keywords as variable names:</strong> Example: <code>for = 5</code> is invalid.</li>
+          <li><strong>Confusing <code>=</code> with equality check:</strong> <code>=</code> assigns value; <code>==</code> compares values.</li>
+          <li><strong>Forgetting case sensitivity:</strong> <code>name</code> and <code>Name</code> are different.</li>
+        </ul>
+        <div class="note danger">
+          <strong>Common Mistake:</strong> Many freshers lose marks because of poor naming or invalid variable names, not because the concept is hard.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>11. Best Practices</h3>
+        <ul>
+          <li>Use meaningful variable names like <code>student_name</code> instead of <code>x</code> when possible.</li>
+          <li>Follow lowercase with underscore style for readability.</li>
+          <li>Keep names short but clear.</li>
+          <li>Avoid reusing confusing names unnecessarily.</li>
+          <li>Use variables to make code reusable and easy to update.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>12. Real-World Use Cases</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Use Case</th>
+              <th>Example Variables</th>
+              <th>Why Variables Matter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Student system</td>
+              <td><code>student_name</code>, <code>marks</code>, <code>grade</code></td>
+              <td>Store student-related values</td>
+            </tr>
+            <tr>
+              <td>Employee system</td>
+              <td><code>employee_id</code>, <code>salary</code>, <code>department</code></td>
+              <td>Manage employee information</td>
+            </tr>
+            <tr>
+              <td>Billing system</td>
+              <td><code>price</code>, <code>quantity</code>, <code>total</code></td>
+              <td>Calculate totals and amounts</td>
+            </tr>
+            <tr>
+              <td>Login system</td>
+              <td><code>username</code>, <code>password</code>, <code>is_logged_in</code></td>
+              <td>Track user information and status</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>13. Comparison Table</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Point</th>
+              <th>Variable</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Meaning</td>
+              <td>Name used to refer to data</td>
+              <td>The actual data stored</td>
+            </tr>
+            <tr>
+              <td>Example</td>
+              <td><code>name</code></td>
+              <td><code>"Ravi"</code></td>
+            </tr>
+            <tr>
+              <td>Can it change?</td>
+              <td>The variable name usually stays same in that context</td>
+              <td>The stored value can change</td>
+            </tr>
+            <tr>
+              <td>Role</td>
+              <td>Label / reference</td>
+              <td>Content / information</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>14. Interview Questions and Answers</h3>
+
+        <div class="qa">
+          <span class="label">Q1</span>
+          <h5>What is a variable in Python?</h5>
+          <p>A variable in Python is a name used to store a value in memory so the program can use it later.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q2</span>
+          <h5>How do you create a variable in Python?</h5>
+          <p>You create a variable by assigning a value using the <code>=</code> operator, such as <code>age = 25</code>.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q3</span>
+          <h5>Does Python require data type declaration before creating a variable?</h5>
+          <p>No. Python automatically determines the data type based on the assigned value.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q4</span>
+          <h5>Can a variable value be changed in Python?</h5>
+          <p>Yes. Variables can be reassigned with new values during execution.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q5</span>
+          <h5>Can Python variable names start with a number?</h5>
+          <p>No. Variable names cannot start with a number.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q6</span>
+          <h5>Can we use keywords as variable names?</h5>
+          <p>No. Keywords are reserved words and cannot be used as variable names.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q7</span>
+          <h5>Are Python variable names case-sensitive?</h5>
+          <p>Yes. <code>name</code> and <code>Name</code> are treated as different variable names.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q8</span>
+          <h5>What is the difference between <code>=</code> and <code>==</code>?</h5>
+          <p><code>=</code> is used for assignment, while <code>==</code> is used to compare two values.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q9</span>
+          <h5>Why are variables important in programming?</h5>
+          <p>Variables make programs dynamic by allowing them to store, update, and reuse data.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q10</span>
+          <h5>What is a good variable name?</h5>
+          <p>A good variable name is meaningful, readable, and follows Python naming rules, such as <code>student_name</code> or <code>total_marks</code>.</p>
+        </div>
+
+        <div class="note tip">
+          <strong>Interview Tip:</strong> If asked about variables, mention three things: storage, naming, and reusability. That makes your answer stronger.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>15. MCQs for Practice</h3>
+
+        <div class="mcq">
+          <h5>1. What is a variable in Python?</h5>
+          <p>A. A comment<br>B. A name used to store data<br>C. A bracket<br>D. A loop only</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> A variable is a name used to store or refer to a value.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>2. Which operator is used to assign a value to a variable?</h5>
+          <p>A. ==<br>B. =<br>C. !=<br>D. &gt;=</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> The assignment operator <code>=</code> is used to store a value in a variable.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>3. Which of the following is a valid variable name?</h5>
+          <p>A. 1name<br>B. student name<br>C. student_name<br>D. for</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> <code>student_name</code> follows Python naming rules.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>4. Python variable names are:</h5>
+          <p>A. not case-sensitive<br>B. case-sensitive<br>C. only uppercase<br>D. only numeric</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Python treats uppercase and lowercase letters differently.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>5. What will be printed?</h5>
+          <p><code>x = 5<br>x = 10<br>print(x)</code></p>
+          <p>A. 5<br>B. 10<br>C. x<br>D. Error</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> The variable gets updated to the latest assigned value.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>6. Can Python automatically detect the type of a variable value?</h5>
+          <p>A. No, never<br>B. Yes<br>C. Only for strings<br>D. Only for numbers</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Python automatically determines the type from the value assigned.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>7. Which of the following is invalid because it is a keyword?</h5>
+          <p>A. salary<br>B. total_marks<br>C. class<br>D. student1</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> <code>class</code> is a reserved keyword and cannot be used as a variable name.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>8. What is a good naming choice?</h5>
+          <p>A. x1x1x1 for salary<br>B. salary_amount for salary<br>C. 1salary<br>D. salary amount</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Meaningful and readable variable names are best.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>9. Variables are used to:</h5>
+          <p>A. only create comments<br>B. store and use data<br>C. only close loops<br>D. replace Python keywords</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Variables help store values and reuse them in a program.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>10. Which statement is true?</h5>
+          <p>A. Variables cannot change value<br>B. Variables make programs dynamic<br>C. Variables are only for experts<br>D. Variables are not needed in Python</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Variables are essential because they let programs work with changing data.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>16. Practice Exercise Section</h3>
+        <h4>Small Exercise</h4>
+        <p>Create three variables to store your name, age, and city, then print them.</p>
+
+        <h4>Practical Task</h4>
+        <p>Create a small bill program using variables like <code>price</code>, <code>quantity</code>, and <code>total</code>, then display the final total.</p>
+
+        <h4>Mini Assignment</h4>
+        <p>Write a short note comparing valid and invalid variable names with at least five examples.</p>
+      </section>
+
+      <section class="card">
+        <h3>17. Practice Exercise Solutions</h3>
+
+        <h4>Solution for Small Exercise</h4>
+        <pre><code>name = "Kiran"
+age = 22
+city = "Hyderabad"
+
+print(name)
+print(age)
+print(city)</code></pre>
+        <div class="output">Kiran
+22
+Hyderabad</div>
+
+        <h4>Solution Idea for Practical Task</h4>
+        <pre><code>price = 250
+quantity = 4
+total = price * quantity
+
+print(total)</code></pre>
+        <div class="output">1000</div>
+
+        <h4>Solution Idea for Mini Assignment</h4>
+        <p>Valid variable names include <code>name</code>, <code>student_age</code>, <code>marks1</code>, <code>total_amount</code>, and <code>_count</code>. Invalid names include <code>1name</code>, <code>student name</code>, <code>for</code>, <code>total-amount</code>, and <code>@value</code>.</p>
+      </section>
+
+      <section class="card">
+        <h3>18. Revision Checklist</h3>
+        <ul class="checklist">
+          <li>I understand what a variable is in Python.</li>
+          <li>I know how to assign a value using <code>=</code>.</li>
+          <li>I know the basic naming rules for variables.</li>
+          <li>I understand that Python detects type automatically.</li>
+          <li>I can use variables in print statements and calculations.</li>
+          <li>I can identify valid and invalid variable names.</li>
+          <li>I can answer fresher interview questions on variables.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>19. Summary</h3>
+        <p>In this topic, we learned that variables in Python are names used to store and manage data. We saw how to create variables, how Python assigns values, how variable names should be written, and how variables are used in real examples and calculations.</p>
+        <p>The biggest takeaway is this: variables make programming flexible and powerful. Once you understand variables properly, you are ready to build more meaningful Python programs using conditions, loops, functions, and data structures.</p>
+        <div class="note tip">
+          <strong>Confidence Booster:</strong> If you can create variables, name them properly, and use them in simple programs, your Python foundation is moving in the right direction.
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">End of Notes – Variables in Python</div>
+  </div>
+</body>
+</html>

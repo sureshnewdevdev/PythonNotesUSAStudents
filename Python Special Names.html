@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Special Names Tutorial - __init__, __name__ and Other Dunder Names</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --primary:#0d6efd;
+      --primary-soft:#eaf2ff;
+      --success:#198754;
+      --danger:#dc3545;
+      --border:#d7e2f0;
+      --code:#0f172a;
+      --shadow:0 12px 28px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Segoe UI, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.7;
+    }
+    header{
+      background:linear-gradient(135deg,#0d6efd,#4f9cff);
+      color:white;
+      padding:34px 20px;
+      text-align:center;
+    }
+    header h1{margin:0;font-size:2.1rem}
+    header p{max-width:980px;margin:10px auto 0}
+    .wrap{width:min(1180px,95%);margin:24px auto 60px}
+    .project{
+      background:#fff7db;
+      border:1px solid #f1d47b;
+      border-radius:14px;
+      padding:12px 16px;
+      font-weight:700;
+      margin-bottom:20px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      margin-bottom:20px;
+      transition:.25s ease;
+      position:relative;
+    }
+    .card:hover{
+      transform:translateY(-2px);
+      background:#fbfdff;
+      box-shadow:0 16px 34px rgba(13,110,253,.12);
+    }
+    h2{
+      margin-top:0;
+      color:var(--primary);
+      border-left:6px solid var(--primary);
+      padding-left:12px;
+    }
+    h3{color:#0b5ed7}
+    p{margin:10px 0}
+    .toc a{
+      text-decoration:none;
+      color:#0b5ed7;
+      font-weight:600;
+    }
+    .toc li{margin:8px 0}
+    .note{
+      background:#eef6ff;
+      border-left:5px solid var(--primary);
+      padding:14px;
+      border-radius:12px;
+      margin:14px 0;
+    }
+    .good{
+      background:#edf9f1;
+      border-left:5px solid var(--success);
+      padding:14px;
+      border-radius:12px;
+      margin:14px 0;
+    }
+    .warn{
+      background:#fff0f1;
+      border-left:5px solid var(--danger);
+      padding:14px;
+      border-radius:12px;
+      margin:14px 0;
+    }
+    .diagram{
+      background:var(--primary-soft);
+      border:1px dashed #8cb4ff;
+      border-radius:14px;
+      padding:16px;
+      font-family:Consolas, monospace;
+      white-space:pre-wrap;
+      overflow:auto;
+    }
+    pre{
+      background:var(--code);
+      color:#e5eefc;
+      padding:18px;
+      border-radius:14px;
+      overflow:auto;
+      border:1px solid #24324d;
+      margin:14px 0;
+    }
+    code{
+      background:#eef2f7;
+      border-radius:6px;
+      padding:2px 6px;
+      font-family:Consolas, monospace;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:14px;
+      overflow:hidden;
+      border-radius:14px;
+    }
+    th,td{
+      border:1px solid var(--border);
+      padding:12px;
+      text-align:left;
+      vertical-align:top;
+    }
+    th{background:#eef5ff}
+    details{
+      border:1px solid var(--border);
+      background:#fafcff;
+      border-radius:12px;
+      padding:12px 14px;
+      margin:10px 0;
+    }
+    summary{
+      cursor:pointer;
+      font-weight:700;
+      color:#1647a2;
+    }
+    .btn{
+      border:none;
+      background:#eef3ff;
+      padding:10px 14px;
+      margin:6px 6px 0 0;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .result{
+      display:none;
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:10px;
+      font-weight:700;
+    }
+    .correct{display:block;background:#e8f7ed;color:var(--success)}
+    .wrong{display:block;background:#fdecef;color:var(--danger)}
+    .sparkle{
+      position:fixed;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:rgba(13,110,253,.7);
+      pointer-events:none;
+      animation:fade .8s linear forwards;
+      z-index:9999;
+    }
+    @keyframes fade{
+      0%{transform:scale(1);opacity:1}
+      100%{transform:scale(3);opacity:0}
+    }
+    footer{
+      text-align:center;
+      color:var(--muted);
+      padding:30px 10px 50px;
+    }
+  </style>
+</head>
+<body>
+  <header id="top">
+    <h1>Python Special Names Tutorial</h1>
+    <p>Detailed classroom-style notes on <code>__init__</code>, <code>__name__</code>, <code>__main__</code>, and other important Python dunder names with examples, tables, MCQs, and interview questions.</p>
+  </header>
+
+  <div class="wrap">
+    <div class="project">Current Project: ItTechGenie Tutorials</div>
+
+    <section class="card toc">
+      <h2>Table of Contents</h2>
+      <ol>
+        <li><a href="#intro">What are special names or dunder names?</a></li>
+        <li><a href="#init-name">Meaning of <code>__init__</code> and <code>__name__</code></a></li>
+        <li><a href="#main">What is <code>__main__</code>?</a></li>
+        <li><a href="#important">Other important special names with explanations</a></li>
+        <li><a href="#categories">Classification table</a></li>
+        <li><a href="#examples">Practical combined examples</a></li>
+        <li><a href="#mcq">MCQs</a></li>
+        <li><a href="#interview">Interview questions and answers</a></li>
+      </ol>
+    </section>
+
+    <section class="card" id="intro">
+      <h2>1. What are special names or dunder names?</h2>
+      <p>In Python, names such as <code>__init__</code>, <code>__name__</code>, <code>__str__</code>, and <code>__len__</code> are called <b>special names</b> or <b>dunder names</b>.</p>
+      <p><b>Dunder</b> means <b>double underscore</b>. These names begin and end with two underscores.</p>
+
+      <div class="diagram">Examples of dunder names
+------------------------
+__init__
+__name__
+__main__
+__str__
+__repr__
+__len__
+__add__
+__eq__
+__iter__
+__next__</div>
+
+      <div class="note">
+        Python uses these names internally for special behavior. When we define some of them in our classes, we are telling Python how our object should behave.
+      </div>
+
+      <p>For example, by defining:</p>
+      <ul>
+        <li><code>__init__</code> → we tell Python how to initialize an object</li>
+        <li><code>__str__</code> → we tell Python how to print an object</li>
+        <li><code>__len__</code> → we tell Python what to return for <code>len(object)</code></li>
+        <li><code>__add__</code> → we tell Python how <code>+</code> should work for our objects</li>
+      </ul>
+    </section>
+
+    <section class="card" id="init-name">
+      <h2>2. Meaning of <code>__init__</code> and <code>__name__</code></h2>
+
+      <h3>2.1 What is <code>__init__</code>?</h3>
+      <p><code>__init__</code> is a special method used in a class. It runs automatically when an object is created.</p>
+
+<pre>class Student:
+    def __init__(self, name):
+        self.name = name
+        print("Object created successfully")
+
+s1 = Student("Gopi")
+print(s1.name)</pre>
+
+      <div class="good">
+        <b>Meaning:</b> <code>__init__</code> initializes the object. It is commonly called the constructor in Python.
+      </div>
+
+      <p>When you write <code>s1 = Student("Gopi")</code>, Python automatically calls the <code>__init__()</code> method.</p>
+
+      <div class="diagram">Object Creation Flow
+--------------------
+Student("Gopi")
+   |
+   ---> __init__(self, "Gopi")
+            |
+            ---> self.name = "Gopi"</div>
+
+      <h3>2.2 What is <code>__name__</code>?</h3>
+      <p><code>__name__</code> is a special built-in variable in Python. It tells you how the current Python file is being executed.</p>
+
+<pre>print(__name__)</pre>
+
+      <p>It can have two common situations:</p>
+      <ul>
+        <li>If the file runs directly, <code>__name__</code> becomes <code>"__main__"</code></li>
+        <li>If the file is imported into another file, <code>__name__</code> becomes the module name</li>
+      </ul>
+
+<pre>if __name__ == "__main__":
+    print("This file is running directly")
+else:
+    print("This file is imported from another file")</pre>
+
+      <div class="good">
+        <b>Meaning:</b> <code>__name__</code> helps Python identify the execution mode of the file.
+      </div>
+
+      <h3>2.3 Difference between <code>__init__</code> and <code>__name__</code></h3>
+      <table>
+        <tr>
+          <th>Feature</th>
+          <th><code>__init__</code></th>
+          <th><code>__name__</code></th>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>Special method</td>
+          <td>Built-in variable</td>
+        </tr>
+        <tr>
+          <td>Used in</td>
+          <td>Inside a class</td>
+          <td>In a Python file/module</td>
+        </tr>
+        <tr>
+          <td>Purpose</td>
+          <td>Initialize object data</td>
+          <td>Tell how file is executed</td>
+        </tr>
+        <tr>
+          <td>Runs when</td>
+          <td>Object is created</td>
+          <td>Available automatically during execution</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="card" id="main">
+      <h2>3. What is <code>__main__</code>?</h2>
+      <p><code>__main__</code> is not a function. It is a special string value that Python assigns to <code>__name__</code> when the file is run directly.</p>
+
+<pre>if __name__ == "__main__":
+    print("Program started directly")</pre>
+
+      <div class="note">
+        This is very useful when you want some code to run only when the file is executed directly, not when it is imported into another file.
+      </div>
+
+      <h3>Example</h3>
+<pre>class Demo:
+    def __init__(self):
+        print("Demo object created")
+
+def test():
+    print("This is a test function")
+
+if __name__ == "__main__":
+    d = Demo()
+    test()</pre>
+
+      <p>If this file is imported into another Python file, the object creation and test call inside the <code>if</code> block will not run automatically.</p>
+    </section>
+
+    <section class="card" id="important">
+      <h2>4. Other important special names with explanations</h2>
+
+      <h3>4.1 <code>__str__</code></h3>
+      <p>Used to define how an object should look when printed in a user-friendly way.</p>
+
+<pre>class Book:
+    def __init__(self, title):
+        self.title = title
+
+    def __str__(self):
+        return f"Book Title: {self.title}"
+
+b1 = Book("Python Basics")
+print(b1)</pre>
+
+      <p>Without <code>__str__</code>, Python prints an object in a default memory-style format.</p>
+
+      <h3>4.2 <code>__repr__</code></h3>
+      <p>Used to define the developer-friendly or debugging representation of an object.</p>
+
+<pre>class Car:
+    def __init__(self, brand):
+        self.brand = brand
+
+    def __repr__(self):
+        return f"Car('{self.brand}')"
+
+c1 = Car("Toyota")
+print(c1)</pre>
+
+      <h3>4.3 <code>__len__</code></h3>
+      <p>Used when <code>len()</code> is called on an object.</p>
+
+<pre>class Team:
+    def __init__(self, members):
+        self.members = members
+
+    def __len__(self):
+        return len(self.members)
+
+t = Team(["A", "B", "C"])
+print(len(t))</pre>
+
+      <h3>4.4 <code>__del__</code></h3>
+      <p>Called when an object is about to be destroyed.</p>
+
+<pre>class Demo:
+    def __del__(self):
+        print("Object is destroyed")
+
+d = Demo()
+del d</pre>
+
+      <div class="warn">
+        Do not depend heavily on <code>__del__</code> for critical work because object cleanup timing may vary.
+      </div>
+
+      <h3>4.5 <code>__doc__</code></h3>
+      <p>Stores the documentation string of a class, function, or module.</p>
+
+<pre>class Employee:
+    """This class stores employee details."""
+    pass
+
+print(Employee.__doc__)</pre>
+
+      <h3>4.6 <code>__dict__</code></h3>
+      <p>Stores the object’s attributes in dictionary form.</p>
+
+<pre>class User:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+u1 = User("Gopi", 25)
+print(u1.__dict__)</pre>
+
+      <h3>4.7 <code>__class__</code></h3>
+      <p>Tells which class the object belongs to.</p>
+
+<pre>class Animal:
+    pass
+
+a = Animal()
+print(a.__class__)</pre>
+
+      <h3>4.8 <code>__module__</code></h3>
+      <p>Shows the module name in which the class was defined.</p>
+
+<pre>class Sample:
+    pass
+
+s = Sample()
+print(s.__module__)</pre>
+
+      <h3>4.9 <code>__bases__</code></h3>
+      <p>Shows the parent classes of a class.</p>
+
+<pre>class A:
+    pass
+
+class B(A):
+    pass
+
+print(B.__bases__)</pre>
+
+      <h3>4.10 <code>__add__</code></h3>
+      <p>Used when the <code>+</code> operator is applied to objects. This is operator overloading.</p>
+
+<pre>class Number:
+    def __init__(self, value):
+        self.value = value
+
+    def __add__(self, other):
+        return self.value + other.value
+
+n1 = Number(10)
+n2 = Number(20)
+print(n1 + n2)</pre>
+
+      <h3>4.11 <code>__sub__</code>, <code>__mul__</code>, <code>__truediv__</code></h3>
+      <p>Used for <code>-</code>, <code>*</code>, and <code>/</code> operators.</p>
+
+<pre>class Number:
+    def __init__(self, value):
+        self.value = value
+
+    def __sub__(self, other):
+        return self.value - other.value
+
+    def __mul__(self, other):
+        return self.value * other.value
+
+    def __truediv__(self, other):
+        return self.value / other.value
+
+n1 = Number(20)
+n2 = Number(5)
+
+print(n1 - n2)
+print(n1 * n2)
+print(n1 / n2)</pre>
+
+      <h3>4.12 <code>__eq__</code>, <code>__lt__</code>, <code>__gt__</code></h3>
+      <p>Used for comparison operations like <code>==</code>, <code>&lt;</code>, and <code>&gt;</code>.</p>
+
+<pre>class Product:
+    def __init__(self, price):
+        self.price = price
+
+    def __eq__(self, other):
+        return self.price == other.price
+
+    def __lt__(self, other):
+        return self.price < other.price
+
+    def __gt__(self, other):
+        return self.price > other.price
+
+p1 = Product(500)
+p2 = Product(700)
+
+print(p1 == p2)
+print(p1 < p2)
+print(p2 > p1)</pre>
+
+      <h3>4.13 <code>__getitem__</code> and <code>__setitem__</code></h3>
+      <p>These are used when accessing and assigning values using square brackets.</p>
+
+<pre>class MyList:
+    def __init__(self, data):
+        self.data = data
+
+    def __getitem__(self, index):
+        return self.data[index]
+
+    def __setitem__(self, index, value):
+        self.data[index] = value
+
+obj = MyList([10, 20, 30])
+print(obj[1])
+
+obj[1] = 99
+print(obj.data)</pre>
+
+      <h3>4.14 <code>__contains__</code></h3>
+      <p>Used for the <code>in</code> keyword.</p>
+
+<pre>class MyCollection:
+    def __init__(self, items):
+        self.items = items
+
+    def __contains__(self, item):
+        return item in self.items
+
+c = MyCollection([1, 2, 3, 4])
+print(3 in c)</pre>
+
+      <h3>4.15 <code>__call__</code></h3>
+      <p>Makes an object callable like a function.</p>
+
+<pre>class Greeting:
+    def __call__(self, name):
+        print("Hello", name)
+
+g = Greeting()
+g("Gopi")</pre>
+
+      <h3>4.16 <code>__iter__</code> and <code>__next__</code></h3>
+      <p>Used for iteration and loops.</p>
+
+<pre>class Counter:
+    def __init__(self, limit):
+        self.current = 1
+        self.limit = limit
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.current <= self.limit:
+            value = self.current
+            self.current += 1
+            return value
+        else:
+            raise StopIteration
+
+c = Counter(3)
+
+for i in c:
+    print(i)</pre>
+    </section>
+
+    <section class="card" id="categories">
+      <h2>5. Classification table</h2>
+      <table>
+        <tr>
+          <th>Category</th>
+          <th>Special Names</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td>Object creation</td>
+          <td><code>__init__</code>, <code>__del__</code></td>
+          <td>Create and destroy object-related behavior</td>
+        </tr>
+        <tr>
+          <td>Program/module info</td>
+          <td><code>__name__</code>, <code>__main__</code>, <code>__module__</code>, <code>__doc__</code></td>
+          <td>Give information about the file or class definition</td>
+        </tr>
+        <tr>
+          <td>Object information</td>
+          <td><code>__dict__</code>, <code>__class__</code>, <code>__bases__</code></td>
+          <td>Inspect object or class structure</td>
+        </tr>
+        <tr>
+          <td>Display</td>
+          <td><code>__str__</code>, <code>__repr__</code></td>
+          <td>Control text display of objects</td>
+        </tr>
+        <tr>
+          <td>Length and collections</td>
+          <td><code>__len__</code>, <code>__getitem__</code>, <code>__setitem__</code>, <code>__contains__</code></td>
+          <td>Make objects behave like collections</td>
+        </tr>
+        <tr>
+          <td>Operators</td>
+          <td><code>__add__</code>, <code>__sub__</code>, <code>__mul__</code>, <code>__truediv__</code>, <code>__eq__</code>, <code>__lt__</code>, <code>__gt__</code></td>
+          <td>Operator overloading and comparisons</td>
+        </tr>
+        <tr>
+          <td>Advanced behavior</td>
+          <td><code>__call__</code>, <code>__iter__</code>, <code>__next__</code></td>
+          <td>Callable objects and loop support</td>
+        </tr>
+      </table>
+    </section>
+
+    <section class="card" id="examples">
+      <h2>6. Practical combined examples</h2>
+
+      <h3>6.1 Combining <code>__init__</code>, <code>__str__</code>, and <code>__len__</code></h3>
+<pre>class Course:
+    def __init__(self, title, students):
+        self.title = title
+        self.students = students
+
+    def __str__(self):
+        return f"Course: {self.title}"
+
+    def __len__(self):
+        return len(self.students)
+
+c1 = Course("Python OOP", ["Arun", "Meena", "Rahul"])
+print(c1)
+print(len(c1))</pre>
+
+      <h3>6.2 Using <code>__name__ == "__main__"</code></h3>
+<pre>class Employee:
+    def __init__(self, name):
+        self.name = name
+
+    def show(self):
+        print("Employee Name:", self.name)
+
+def run_demo():
+    e1 = Employee("Gopi")
+    e1.show()
+
+if __name__ == "__main__":
+    run_demo()</pre>
+
+      <div class="good">
+        In this example, <code>__init__</code> initializes the object and <code>__name__ == "__main__"</code> controls when the demo should run.
+      </div>
+    </section>
+
+    <section class="card" id="mcq">
+      <h2>7. MCQs</h2>
+
+      <div class="card" style="box-shadow:none;margin:0 0 16px 0">
+        <p><b>Q1.</b> Which special method is used to initialize an object?</p>
+        <button class="btn" onclick="checkAnswer(this, false)">__name__</button>
+        <button class="btn" onclick="checkAnswer(this, true)">__init__</button>
+        <button class="btn" onclick="checkAnswer(this, false)">__main__</button>
+        <button class="btn" onclick="checkAnswer(this, false)">__str__</button>
+        <div class="result"></div>
+      </div>
+
+      <div class="card" style="box-shadow:none;margin:0 0 16px 0">
+        <p><b>Q2.</b> What does <code>__name__</code> become when a file is run directly?</p>
+        <button class="btn" onclick="checkAnswer(this, false)">"module"</button>
+        <button class="btn" onclick="checkAnswer(this, false)">"init"</button>
+        <button class="btn" onclick="checkAnswer(this, true)">"__main__"</button>
+        <button class="btn" onclick="checkAnswer(this, false)">"python"</button>
+        <div class="result"></div>
+      </div>
+
+      <div class="card" style="box-shadow:none;margin:0 0 16px 0">
+        <p><b>Q3.</b> Which method is used to control how an object is printed for users?</p>
+        <button class="btn" onclick="checkAnswer(this, true)">__str__</button>
+        <button class="btn" onclick="checkAnswer(this, false)">__dict__</button>
+        <button class="btn" onclick="checkAnswer(this, false)">__bases__</button>
+        <button class="btn" onclick="checkAnswer(this, false)">__contains__</button>
+        <div class="result"></div>
+      </div>
+
+      <div class="card" style="box-shadow:none;margin:0">
+        <p><b>Q4.</b> Which special method is used when <code>len(obj)</code> is called?</p>
+        <button class="btn" onclick="checkAnswer(this, false)">__call__</button>
+        <button class="btn" onclick="checkAnswer(this, false)">__repr__</button>
+        <button class="btn" onclick="checkAnswer(this, true)">__len__</button>
+        <button class="btn" onclick="checkAnswer(this, false)">__next__</button>
+        <div class="result"></div>
+      </div>
+    </section>
+
+    <section class="card" id="interview">
+      <h2>8. Interview questions and answers</h2>
+
+      <details>
+        <summary>What is the difference between <code>__init__</code> and <code>__name__</code>?</summary>
+        <p><code>__init__</code> is a special method inside a class and is used to initialize object data when an object is created. <code>__name__</code> is a built-in variable that tells how the current Python file is being executed.</p>
+      </details>
+
+      <details>
+        <summary>Why do we use <code>if __name__ == "__main__":</code> in Python?</summary>
+        <p>We use it to make sure that a block of code runs only when the file is executed directly. If the file is imported into another program, that block will not run automatically.</p>
+      </details>
+
+      <details>
+        <summary>What is the use of <code>__str__</code> in Python?</summary>
+        <p><code>__str__</code> is used to return a readable string representation of an object. It improves the output when the object is printed.</p>
+      </details>
+
+      <details>
+        <summary>What is operator overloading in Python?</summary>
+        <p>Operator overloading means defining how operators such as <code>+</code>, <code>-</code>, or <code>==</code> should behave for user-defined objects. This is done using methods such as <code>__add__</code> and <code>__eq__</code>.</p>
+      </details>
+
+      <details>
+        <summary>What are dunder methods?</summary>
+        <p>Dunder methods are special methods that start and end with double underscores. Python calls them automatically in specific situations to provide built-in behavior to objects.</p>
+      </details>
+    </section>
+
+    <section class="card">
+      <h2>9. Final summary</h2>
+      <p>The two most important special names you asked about are:</p>
+      <ul>
+        <li><code>__init__</code> → initialize object</li>
+        <li><code>__name__</code> → tell how the file is executed</li>
+      </ul>
+
+      <p>Closely related important names are:</p>
+      <ul>
+        <li><code>__main__</code></li>
+        <li><code>__str__</code></li>
+        <li><code>__repr__</code></li>
+        <li><code>__len__</code></li>
+        <li><code>__dict__</code></li>
+        <li><code>__class__</code></li>
+        <li><code>__add__</code>, <code>__eq__</code></li>
+        <li><code>__iter__</code>, <code>__next__</code></li>
+      </ul>
+
+      <div class="note">
+        Easy memory trick: <br />
+        <b>__init__</b> = initialize object <br />
+        <b>__name__</b> = name of current module/file execution mode
+      </div>
+
+      <p><a href="#top">Go to top</a></p>
+    </section>
+  </div>
+
+  <footer>
+    Prepared for ItTechGenie | Python Special Names Tutorial
+  </footer>
+
+  <script>
+    function checkAnswer(button, isCorrect){
+      const result = button.parentElement.querySelector('.result');
+      if(isCorrect){
+        result.textContent = "Correct Answer";
+        result.className = "result correct";
+      } else {
+        result.textContent = "Wrong Answer";
+        result.className = "result wrong";
+      }
+    }
+
+    document.addEventListener("mousemove", function(e){
+      const s = document.createElement("span");
+      s.className = "sparkle";
+      s.style.left = e.clientX + "px";
+      s.style.top = e.clientY + "px";
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 700);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comments in Python - Professional Training Notes</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --ink:#1f2937;
+      --muted:#5b6472;
+      --brand:#1d4ed8;
+      --brand-soft:#dbeafe;
+      --tip:#065f46;
+      --tip-bg:#ecfdf5;
+      --warn:#92400e;
+      --warn-bg:#fff7ed;
+      --danger:#991b1b;
+      --danger-bg:#fef2f2;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Segoe UI, Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#eef4ff 0%, var(--bg) 100%);
+      color:var(--ink);
+      line-height:1.7;
+    }
+    .container{width:min(1180px,92%);margin:0 auto;padding:28px 0 60px;}
+    .hero{
+      background:linear-gradient(135deg,#1e3a8a 0%, #2563eb 55%, #0ea5e9 100%);
+      color:#fff;border-radius:28px;padding:42px 32px;box-shadow:var(--shadow);margin-top:22px;
+    }
+    .hero h1{margin:0 0 10px;font-size:clamp(2rem,4vw,3rem);line-height:1.2;}
+    .hero h2{margin:0 0 14px;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:600;opacity:.96;}
+    .hero p{margin:10px 0 0;font-size:1.05rem;max-width:930px;}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+    .pill{
+      background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);
+      padding:8px 14px;border-radius:999px;font-size:.95rem;
+    }
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:24px;}
+    .card{
+      grid-column:span 12;background:var(--card);border-radius:var(--radius);
+      padding:26px;box-shadow:var(--shadow);
+    }
+    .card h3{margin-top:0;font-size:1.55rem;color:#0f172a;}
+    .card h4{margin:22px 0 10px;font-size:1.18rem;color:#0b3b8f;}
+    .two-col{grid-column:span 6;}
+    @media (max-width:900px){
+      .two-col{grid-column:span 12;}
+      .hero{padding:30px 22px;}
+    }
+    p{margin:10px 0;}
+    ul,ol{padding-left:22px;}
+    li{margin:8px 0;}
+    .note{
+      border-left:6px solid var(--brand);background:var(--brand-soft);
+      padding:16px 18px;border-radius:12px;margin:16px 0;
+    }
+    .note.tip{border-left-color:var(--tip);background:var(--tip-bg);}
+    .note.warn{border-left-color:var(--warn);background:var(--warn-bg);}
+    .note.danger{border-left-color:var(--danger);background:var(--danger-bg);}
+    code{font-family:Consolas,"Courier New",monospace;font-size:.96rem;}
+    pre{
+      background:#0f172a;color:#e5eefc;padding:18px;border-radius:16px;
+      overflow:auto;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+    }
+    .output{
+      background:#f8fafc;border:1px solid #dbe3ef;padding:14px 16px;border-radius:14px;
+      margin:12px 0 18px;font-family:Consolas,"Courier New",monospace;white-space:pre-wrap;
+    }
+    table{width:100%;border-collapse:collapse;margin:14px 0;}
+    th,td{border:1px solid #dbe3ef;padding:12px 14px;text-align:left;vertical-align:top;}
+    th{background:#e8f0ff;color:#0b3b8f;}
+    .qa,.mcq{
+      border:1px solid #d9e3f3;background:#fcfdff;border-radius:16px;padding:18px;margin:14px 0;
+    }
+    .qa h5,.mcq h5{margin:0 0 8px;font-size:1.02rem;color:#0f172a;}
+    .label{
+      display:inline-block;font-size:.82rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
+      color:#0b3b8f;background:#e8f0ff;padding:6px 10px;border-radius:999px;margin-bottom:10px;
+    }
+    .checklist li{
+      list-style:none;margin:10px 0;padding-left:34px;position:relative;
+    }
+    .checklist li::before{
+      content:"✓";position:absolute;left:0;top:0;color:#0f766e;font-weight:700;font-size:1.1rem;
+    }
+    .footer{text-align:center;color:var(--muted);margin-top:24px;font-size:.95rem;}
+    .mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+    @media (max-width:800px){.mini-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Python for Beginners – Professional Training Notes</h1>
+      <h2>Comments in Python</h2>
+      <p>Professional beginner notes to explain what comments are, why developers use them, how to write them correctly, and how comments help in learning, teamwork, maintenance, and interview preparation.</p>
+      <div class="pill-row">
+        <span class="pill">Beginner-Friendly</span>
+        <span class="pill">Code Readability</span>
+        <span class="pill">Best Practices</span>
+        <span class="pill">Interview Ready</span>
+        <span class="pill">MCQs + Exercises</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card two-col">
+        <h3>1. Introduction</h3>
+        <p><strong>Comments in Python</strong> are notes written inside the code to explain what the code is doing. These notes are mainly for humans, not for the computer. Python usually ignores comments while running the program.</p>
+        <p>Comments are very important because they make code easier to understand. When code becomes longer, comments help the developer remember why a line or block was written. They are also very useful when other people read the same code.</p>
+        <p>For beginners, comments are especially helpful because they act like small reminders inside the program. For job seekers and professionals, comments improve communication, teamwork, and maintenance of software projects.</p>
+        <div class="note">
+          <strong>Remember:</strong> Comments are written for humans to understand the code better. Python normally does not execute comment text as code.
+        </div>
+      </section>
+
+      <section class="card two-col">
+        <h3>2. Learning Objectives</h3>
+        <ul>
+          <li>Understand what comments are in Python.</li>
+          <li>Learn why comments are useful in programming.</li>
+          <li>Know how to write single-line comments.</li>
+          <li>Understand how multi-line explanation is usually handled in Python.</li>
+          <li>Learn when comments should and should not be used.</li>
+          <li>Avoid common beginner mistakes related to comments.</li>
+          <li>Prepare for interview questions on comments and code readability.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>3. Why This Topic Matters</h3>
+        <div class="mini-grid">
+          <div>
+            <h4>Why this topic matters in programming</h4>
+            <p>Programming is not only about making code run. Good programming also means making code understandable. Comments help explain logic, decisions, and important notes inside the code.</p>
+          </div>
+          <div>
+            <h4>Why this topic matters in interviews</h4>
+            <p>Interviewers may ask what comments are, why they are used, or whether too many comments are good. These questions check whether the candidate understands code readability and clean coding practices.</p>
+          </div>
+        </div>
+        <div class="note tip">
+          <strong>Interview Tip:</strong> A strong answer is: “Comments improve readability, understanding, and maintenance, but they should be meaningful and not excessive.”
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>4. Beginner-Friendly Explanation</h3>
+        <p>Suppose you write notes in the margin of a textbook to remind yourself what an important paragraph means. Those notes are not part of the textbook content, but they help you understand it better. Comments in Python are very similar.</p>
+        <p>When you write code, you may understand it today. But after a week, a month, or a year, you may forget why a certain line was written. A small comment can save time by reminding you of the purpose of the code.</p>
+        <p>Comments are also useful when working in a team. Another developer may read your code later. If the logic is not obvious, a short comment can explain it clearly.</p>
+        <p>A simple analogy is this: comments are like signboards on a road. The road is the code. The signboard is the explanation that helps people understand where they are going.</p>
+        <div class="note warn">
+          <strong>Common Confusion:</strong> Comments are not used to replace good code. First write clear code, then add comments where explanation is really needed.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>5. Syntax Section</h3>
+        <p>In Python, a single-line comment is written using the <code>#</code> symbol.</p>
+        <pre><code># This is a comment
+print("Hello")
+
+# This comment explains the next line
+name = "Ravi"</code></pre>
+
+        <h4>Syntax Explanation</h4>
+        <ul>
+          <li><code>#</code> tells Python that the rest of that line is a comment.</li>
+          <li>Python ignores the comment while running the code.</li>
+          <li>Comments can be placed on a separate line or sometimes at the end of a code line if used carefully.</li>
+        </ul>
+
+        <h4>About Multi-Line Comments</h4>
+        <p>Python does not have a separate special symbol just for true multi-line comments like some other languages. Usually, developers use:</p>
+        <ul>
+          <li>Multiple single-line comments using <code>#</code></li>
+          <li>Triple-quoted strings in some situations for documentation-style text</li>
+        </ul>
+
+        <pre><code># This is line 1 of comment
+# This is line 2 of comment
+# This is line 3 of comment</code></pre>
+
+        <div class="note tip">
+          <strong>Tip:</strong> For normal code comments, using multiple lines with <code>#</code> is the cleanest beginner-friendly approach.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>6. Detailed Examples Section</h3>
+
+        <h4>Example 1: Basic Example</h4>
+        <pre><code># This program prints a welcome message
+print("Welcome to Python")</code></pre>
+        <div class="output">Welcome to Python</div>
+        <p><strong>Explanation:</strong> The comment explains what the next line does. Python runs only the print statement.</p>
+
+        <h4>Example 2: Beginner-Friendly Example</h4>
+        <pre><code>name = "Riya"   # storing the user's name
+print(name)</code></pre>
+        <div class="output">Riya</div>
+        <p><strong>Explanation:</strong> The comment explains the purpose of the variable assignment.</p>
+
+        <h4>Example 3: Real-World Style Example</h4>
+        <pre><code># Check whether login is successful
+status = "Login Success"
+print(status)</code></pre>
+        <div class="output">Login Success</div>
+        <p><strong>Why this matters:</strong> Real applications often use comments to explain steps like login, validation, calculation, or report generation.</p>
+
+        <h4>Example 4: Interview-Oriented Example</h4>
+        <pre><code># Python ignores this line while executing
+print("Comments improve readability")</code></pre>
+        <div class="output">Comments improve readability</div>
+        <p><strong>Explanation:</strong> This clearly shows that the comment is not part of the program execution.</p>
+
+        <h4>Example 5: Practical Scenario Example</h4>
+        <pre><code># Calculate total amount
+price = 100
+tax = 20
+print(price + tax)</code></pre>
+        <div class="output">120</div>
+        <p><strong>Why this matters:</strong> In practical business code, comments can explain why a calculation or rule is being applied.</p>
+      </section>
+
+      <section class="card">
+        <h3>7. Code Output Section</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Output</th>
+              <th>What Learner Should Notice</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code># This is a comment<br>print("Hello")</code></td>
+              <td>Hello</td>
+              <td>The comment is ignored by Python.</td>
+            </tr>
+            <tr>
+              <td><code>age = 25  # age of user<br>print(age)</code></td>
+              <td>25</td>
+              <td>Python runs the code and ignores the end-line comment.</td>
+            </tr>
+            <tr>
+              <td><code># print("This will not run")</code></td>
+              <td>No output</td>
+              <td>Commented code is not executed.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card two-col">
+        <h3>8. Key Points to Remember</h3>
+        <ul>
+          <li>Comments explain code for humans.</li>
+          <li>Python usually ignores comments during execution.</li>
+          <li>Single-line comments start with <code>#</code>.</li>
+          <li>Multiple <code>#</code> lines are commonly used for longer explanations.</li>
+          <li>Comments improve readability and maintenance.</li>
+          <li>Comments should be meaningful, not unnecessary.</li>
+        </ul>
+      </section>
+
+      <section class="card two-col">
+        <h3>9. Common Beginner Mistakes</h3>
+        <ul>
+          <li><strong>Writing comments instead of code:</strong> Comments explain logic, but they do not execute tasks.</li>
+          <li><strong>Using too many comments:</strong> Over-commenting can make code look crowded and confusing.</li>
+          <li><strong>Writing unclear comments:</strong> A comment like “do work” is not helpful.</li>
+          <li><strong>Leaving old or wrong comments:</strong> Outdated comments can confuse future readers.</li>
+          <li><strong>Thinking triple quotes are always normal comments:</strong> They are often used for docstrings or string blocks, not just ordinary comments.</li>
+        </ul>
+        <div class="note danger">
+          <strong>Common Mistake:</strong> Some beginners comment out code and then forget why they did it. Always keep comments clear and purposeful.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>10. Best Practices</h3>
+        <ul>
+          <li>Write comments only where they add real value.</li>
+          <li>Keep comments short, clear, and meaningful.</li>
+          <li>Use comments to explain “why,” not only “what.”</li>
+          <li>Update comments when code changes.</li>
+          <li>Do not replace readable code with too many comments—try to write clear code first.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>11. Real-World Use Cases</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Use Case</th>
+              <th>How Comments Help</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Team Projects</td>
+              <td>Comments help teammates understand the purpose of code blocks.</td>
+            </tr>
+            <tr>
+              <td>Long Calculations</td>
+              <td>Comments explain formulas or business logic.</td>
+            </tr>
+            <tr>
+              <td>Debugging</td>
+              <td>Developers sometimes temporarily comment out code while testing.</td>
+            </tr>
+            <tr>
+              <td>Beginner Learning</td>
+              <td>Comments help learners remember concepts inside the program.</td>
+            </tr>
+            <tr>
+              <td>Maintenance</td>
+              <td>Comments help future developers understand difficult parts quickly.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>12. Comparison Table</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Point</th>
+              <th>Good Comment</th>
+              <th>Weak Comment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Clarity</td>
+              <td>Explains purpose clearly</td>
+              <td>Too vague or confusing</td>
+            </tr>
+            <tr>
+              <td>Length</td>
+              <td>Short and meaningful</td>
+              <td>Too long without need</td>
+            </tr>
+            <tr>
+              <td>Usefulness</td>
+              <td>Adds real understanding</td>
+              <td>Repeats obvious code</td>
+            </tr>
+            <tr>
+              <td>Maintenance</td>
+              <td>Updated when code changes</td>
+              <td>Left outdated and misleading</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h3>13. Interview Questions and Answers</h3>
+
+        <div class="qa">
+          <span class="label">Q1</span>
+          <h5>What are comments in Python?</h5>
+          <p>Comments are notes written in the code to explain logic or purpose. Python usually ignores them during execution.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q2</span>
+          <h5>How do you write a single-line comment in Python?</h5>
+          <p>You write a single-line comment using the <code>#</code> symbol.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q3</span>
+          <h5>Why are comments important?</h5>
+          <p>Comments improve readability, understanding, teamwork, and maintenance of code.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q4</span>
+          <h5>Does Python execute comments?</h5>
+          <p>No. Python normally ignores comments during program execution.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q5</span>
+          <h5>Can comments be written at the end of a code line?</h5>
+          <p>Yes, comments can be written after code on the same line, but they should remain clear and not make the line too crowded.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q6</span>
+          <h5>How do developers write longer comments in Python?</h5>
+          <p>They often use multiple lines with <code>#</code>, and in some documentation situations, triple-quoted strings may also be used.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q7</span>
+          <h5>Should every line of code have a comment?</h5>
+          <p>No. Only the parts that need explanation should be commented. Too many comments can reduce readability.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q8</span>
+          <h5>What is the difference between code and comment?</h5>
+          <p>Code is executed by Python, while comments are written for humans to understand the code.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q9</span>
+          <h5>What is a bad comment?</h5>
+          <p>A bad comment is unclear, unnecessary, too obvious, or outdated.</p>
+        </div>
+
+        <div class="qa">
+          <span class="label">Q10</span>
+          <h5>Why do beginners find comments useful?</h5>
+          <p>Comments help beginners remember what each part of the code is doing and make learning easier.</p>
+        </div>
+
+        <div class="note tip">
+          <strong>Interview Tip:</strong> A practical answer sounds better than a textbook answer. Say that comments are useful for readability and maintenance, but should be meaningful and updated.
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>14. MCQs for Practice</h3>
+
+        <div class="mcq">
+          <h5>1. What is the symbol used for a single-line comment in Python?</h5>
+          <p>A. //<br>B. #<br>C. /*<br>D. --</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Python uses <code>#</code> for single-line comments.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>2. Comments in Python are mainly written for:</h5>
+          <p>A. keyboard only<br>B. humans<br>C. compiler memory only<br>D. hardware settings</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Comments help humans understand the code.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>3. Does Python usually execute comments?</h5>
+          <p>A. Always<br>B. Sometimes as numbers<br>C. No<br>D. Only on weekends</p>
+          <p><strong>Correct Answer:</strong> C</p>
+          <p><strong>Explanation:</strong> Comments are normally ignored during execution.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>4. Which of the following is a valid comment?</h5>
+          <p>A. <code># This is a comment</code><br>B. <code>// This is a comment</code><br>C. <code>-- This is a comment</code><br>D. <code>** This is a comment</code></p>
+          <p><strong>Correct Answer:</strong> A</p>
+          <p><strong>Explanation:</strong> Python uses <code>#</code> for comments.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>5. A good comment should be:</h5>
+          <p>A. long and confusing<br>B. clear and meaningful<br>C. unrelated to code<br>D. written on every line</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Useful comments are short, clear, and meaningful.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>6. Why do developers use comments?</h5>
+          <p>A. To increase file size<br>B. To improve readability and understanding<br>C. To break code<br>D. To change hardware</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Comments help explain code and logic.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>7. Which is better?</h5>
+          <p>A. Outdated comments<br>B. Meaningful updated comments<br>C. No code, only comments<br>D. Wrong comments</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Comments should stay accurate and helpful.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>8. What can happen if comments are outdated?</h5>
+          <p>A. They can confuse readers<br>B. They make code faster<br>C. They improve memory automatically<br>D. They become variables</p>
+          <p><strong>Correct Answer:</strong> A</p>
+          <p><strong>Explanation:</strong> Old comments can mislead developers.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>9. Comments are useful in:</h5>
+          <p>A. team projects<br>B. learning code<br>C. maintenance<br>D. all of these</p>
+          <p><strong>Correct Answer:</strong> D</p>
+          <p><strong>Explanation:</strong> Comments are useful in many coding situations.</p>
+        </div>
+
+        <div class="mcq">
+          <h5>10. Which statement is true?</h5>
+          <p>A. Comments always run before code<br>B. Comments help explain code<br>C. Comments replace logic<br>D. Comments are only for experts</p>
+          <p><strong>Correct Answer:</strong> B</p>
+          <p><strong>Explanation:</strong> Comments are mainly used to explain and improve understanding.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>15. Practice Exercise Section</h3>
+        <h4>Small Exercise</h4>
+        <p>Write a short Python program with two meaningful comments and one print statement.</p>
+
+        <h4>Practical Task</h4>
+        <p>Create a Python file that stores your name in a variable, prints it, and uses comments to explain each step.</p>
+
+        <h4>Mini Assignment</h4>
+        <p>Write a small note explaining the difference between a good comment and a poor comment, with one example each.</p>
+      </section>
+
+      <section class="card">
+        <h3>16. Practice Exercise Solutions</h3>
+
+        <h4>Solution for Small Exercise</h4>
+        <pre><code># This program shows a simple welcome message
+# The next line prints the output
+print("Welcome to Python")</code></pre>
+        <div class="output">Welcome to Python</div>
+
+        <h4>Solution Idea for Practical Task</h4>
+        <pre><code># Store user name
+name = "Anjali"
+
+# Print user name
+print(name)</code></pre>
+        <div class="output">Anjali</div>
+
+        <h4>Solution Idea for Mini Assignment</h4>
+        <p>A good comment is clear and useful, such as “# Calculate total salary after bonus.” A poor comment is vague, such as “# do something.” Good comments help understanding, while poor comments add confusion.</p>
+      </section>
+
+      <section class="card">
+        <h3>17. Revision Checklist</h3>
+        <ul class="checklist">
+          <li>I understand what comments are in Python.</li>
+          <li>I know how to write a single-line comment using <code>#</code>.</li>
+          <li>I know that Python normally ignores comments during execution.</li>
+          <li>I understand why comments improve readability.</li>
+          <li>I can identify a good comment and a weak comment.</li>
+          <li>I know that too many comments can also reduce clarity.</li>
+          <li>I can answer interview questions on comments in Python.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h3>18. Summary</h3>
+        <p>In this topic, we learned that comments in Python are written to explain code for humans. We saw how single-line comments use the <code>#</code> symbol, how comments improve readability, and why meaningful comments are better than too many or unclear comments.</p>
+        <p>The biggest takeaway is simple: comments are helpful tools for learning, teamwork, and maintenance, but they should be clear, relevant, and updated whenever the code changes.</p>
+        <div class="note tip">
+          <strong>Confidence Booster:</strong> If you can write clean code and add smart comments only where needed, your code already starts looking more professional.
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">End of Notes – Comments in Python</div>
+  </div>
+</body>
+</html>
